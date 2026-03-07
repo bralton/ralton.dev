@@ -1,5 +1,4 @@
 import { withPayload } from '@payloadcms/next/withPayload'
-import { withAxiom } from 'next-axiom'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -62,4 +61,4 @@ const nextConfig = {
   },
 }
 
-export default withAxiom(withPayload(nextConfig, { devBundleServerPackages: false }))
+export default withPayload(nextConfig, { devBundleServerPackages: false })
