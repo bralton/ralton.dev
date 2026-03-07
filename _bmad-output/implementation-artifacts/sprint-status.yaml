@@ -41,12 +41,12 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # Epic 1: Project Foundation & Infrastructure
-  epic-1: in-progress
+  epic-1: done
   1-1-initialize-project-with-payload-and-shadcn: done
   1-2-configure-project-structure-and-development-environment: done
   1-3-deploy-to-vercel-with-database: done
-  1-4-set-up-observability: review
-  epic-1-retrospective: optional
+  1-4-set-up-observability: done
+  epic-1-retrospective: done
 
   # Epic 2: Core Portfolio Content
   epic-2: backlog

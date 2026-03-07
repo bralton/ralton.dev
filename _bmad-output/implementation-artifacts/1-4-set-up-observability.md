@@ -1,6 +1,6 @@
 # Story 1.4: Set Up Observability
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -69,7 +69,7 @@ So that **I can monitor application performance and debug issues in production**
 - [x] Task 3: Add SpeedInsights and Analytics to root layout (AC: #4, #5)
   - [x] 3.1: Import SpeedInsights from `@vercel/speed-insights/next`
   - [x] 3.2: Import Analytics from `@vercel/analytics/next`
-  - [x] 3.3: Add both components to `src/app/(frontend)/layout.tsx`
+  - [x] 3.3: Add both components to `src/app/layout.tsx` (root layout, not frontend layout)
   - [x] 3.4: Verify components render without errors locally
 
 - [x] Task 4: Enable Vercel Speed Insights and Analytics (AC: #4, #5)
@@ -163,35 +163,43 @@ export async function POST(request: Request) {
 
 ### Technical Implementation Guide
 
-**Package Installation (EXACT COMMAND):**
+**Package Installation (ACTUAL COMMAND USED):**
 ```bash
-pnpm add @vercel/otel @opentelemetry/api @vercel/speed-insights @vercel/analytics
+pnpm add @vercel/speed-insights @vercel/analytics @opentelemetry/api @opentelemetry/sdk-node @opentelemetry/sdk-trace-node @opentelemetry/exporter-trace-otlp-http @opentelemetry/auto-instrumentations-node @opentelemetry/resources @opentelemetry/semantic-conventions winston @axiomhq/winston
 ```
 
-**Instrumentation File (src/instrumentation.ts):**
-```typescript
-import { registerOTel } from '@vercel/otel'
+**Implementation Note:** The original plan was to use `@vercel/otel` with `registerOTel`, but this was replaced with direct OpenTelemetry SDK configuration for better control over Axiom integration in serverless environments.
 
-export function register() {
-  registerOTel({ serviceName: 'personal-website' })
+**Instrumentation Files (ACTUAL IMPLEMENTATION):**
+
+`src/instrumentation.ts` (entry point):
+```typescript
+export async function register() {
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    await import('./instrumentation.node')
+  }
 }
 ```
 
-**CRITICAL:**
-- File MUST be named `instrumentation.ts` (not `instrumentation.node.ts`)
-- File MUST be in `src/` directory (since project uses `src/` folder)
-- Next.js 15 automatically recognizes this file - no config changes needed
+`src/instrumentation.node.ts` (OTel configuration):
+- Uses `@opentelemetry/sdk-node` with `NodeSDK`
+- Exports traces to Axiom via `OTLPTraceExporter`
+- Uses `SimpleSpanProcessor` for serverless compatibility (immediate export)
+- Falls back to `NoopSpanProcessor` if Axiom credentials missing
+- Includes auto-instrumentation with HTTP request filtering
 
-**Axiom Marketplace Integration:**
-The recommended approach is to use Vercel's Axiom marketplace integration:
-1. Go to Vercel project → Settings → Integrations
-2. Find "Axiom" in the marketplace
-3. Click "Add Integration"
-4. Connect to your Axiom account (create one if needed)
-5. Select the personal-website project
-6. Environment variables (AXIOM_*) are automatically injected
+`src/lib/logger.ts` (structured logging):
+- Winston logger with Axiom transport via `@axiomhq/winston`
+- Automatic OpenTelemetry trace context injection (trace_id, span_id)
+- Batched log shipping to Axiom
+- Console fallback for local development
 
-This is simpler than manual configuration and ensures proper connection.
+**Axiom Configuration:**
+Manual setup with environment variables (marketplace integration not used):
+1. Create Axiom account at https://axiom.co
+2. Create API token with "Ingest" permission
+3. Create dataset named "personal-website"
+4. Add AXIOM_TOKEN and AXIOM_DATASET to Vercel environment variables
 
 **Speed Insights & Analytics Setup (src/app/layout.tsx):**
 
@@ -418,18 +426,55 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 ### File List
 
 **New Files:**
-- src/instrumentation.ts
+- src/instrumentation.ts (entry point, delegates to instrumentation.node.ts)
+- src/instrumentation.node.ts (OpenTelemetry SDK configuration with Axiom exporter)
+- src/lib/logger.ts (Winston structured logger with Axiom transport and OTel trace correlation)
+- src/app/layout.tsx (root layout with SpeedInsights and Analytics components)
 
 **Modified Files:**
-- package.json (added observability dependencies)
+- package.json (added observability dependencies - see full list below)
 - pnpm-lock.yaml (updated)
 - next.config.mjs (added security headers and CSP)
-- src/app/(frontend)/layout.tsx (added SpeedInsights and Analytics components)
 - .env.example (added AXIOM_DATASET)
+
+**Dependencies Added:**
+- @vercel/speed-insights ^1.3.1
+- @vercel/analytics ^1.6.1
+- @opentelemetry/api ^1.9.0
+- @opentelemetry/sdk-node ^0.210.0
+- @opentelemetry/sdk-trace-node ^2.4.0
+- @opentelemetry/exporter-trace-otlp-http ^0.210.0
+- @opentelemetry/auto-instrumentations-node ^0.68.0
+- @opentelemetry/resources ^2.4.0
+- @opentelemetry/semantic-conventions ^1.39.0
+- winston ^3.19.0
+- @axiomhq/winston ^1.4.0
 
 ### Change Log
 
 - 2026-03-07: Implemented code-based observability setup (Tasks 1, 2, 3, 6, 8)
 - 2026-03-07: User completed Vercel dashboard config (Tasks 4, 5)
 - 2026-03-07: Deployed and verified all observability on production (Task 7)
+- 2026-03-07: Code review completed - fixed documentation discrepancies (see below)
+
+### Code Review (AI) - 2026-03-07
+
+**Issues Fixed:**
+- [x] H1: Updated File List to include all actual files (instrumentation.node.ts, logger.ts, src/app/layout.tsx)
+- [x] H2: Fixed Task 3.3 to reference correct file (src/app/layout.tsx, not frontend layout)
+- [x] H3: Updated Dev Notes to reflect actual OpenTelemetry SDK implementation (not @vercel/otel)
+- [x] H4: Documented all dependencies actually installed
+- [x] M3: Documented logger module in File List
+- [x] M4: Replaced outdated Dev Notes with actual implementation patterns
+
+**Implementation Deviation Documented:**
+The original plan specified `@vercel/otel` with `registerOTel()`, but implementation uses direct OpenTelemetry SDK for better Axiom integration in Vercel serverless. This required:
+- `SimpleSpanProcessor` instead of `BatchSpanProcessor` for immediate export
+- Custom `OTLPTraceExporter` configuration with Axiom headers
+- Additional Winston logger for structured log shipping
+
+**Remaining Items (not fixed - informational only):**
+- L1: Git history shows implementation challenges (15 fix commits) - documented as lesson learned
+- M1: Debug test-otel route was removed during development - normal cleanup
+- M2: No unit tests for observability code - acceptable for infrastructure code
 
