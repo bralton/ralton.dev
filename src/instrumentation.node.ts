@@ -1,3 +1,11 @@
+/**
+ * OpenTelemetry Node.js Instrumentation
+ *
+ * Configures distributed tracing with Axiom as the backend.
+ * Falls back to noop processor if Axiom credentials are not configured.
+ * This file is loaded only on the server runtime.
+ */
+
 import { NodeSDK } from '@opentelemetry/sdk-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
 import {
@@ -8,17 +16,13 @@ import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentation
 import { BatchSpanProcessor, NoopSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 
-console.log('[OTel] instrumentation.node.ts loading...')
-
 const axiomToken = process.env.AXIOM_TOKEN
 const axiomDataset = process.env.AXIOM_DATASET
 const axiomDomain = process.env.AXIOM_DOMAIN || 'api.axiom.co'
 
-console.log('[OTel] AXIOM_TOKEN set:', !!axiomToken)
-console.log('[OTel] AXIOM_DATASET set:', !!axiomDataset)
-
 const useAxiom = axiomToken && axiomDataset
 
+// Configure span processor based on available credentials
 const spanProcessor = useAxiom
   ? new BatchSpanProcessor(
       new OTLPTraceExporter({
@@ -40,11 +44,14 @@ const sdk = new NodeSDK({
   spanProcessor,
   instrumentations: [
     getNodeAutoInstrumentations({
+      // Disable fs instrumentation to reduce noise
       '@opentelemetry/instrumentation-fs': {
         enabled: false,
       },
+      // Configure HTTP instrumentation
       '@opentelemetry/instrumentation-http': {
         ignoreIncomingRequestHook: (request) => {
+          // Ignore health check and static asset requests
           const url = request.url || ''
           return (
             url.includes('/_next/') ||
@@ -60,6 +67,17 @@ const sdk = new NodeSDK({
 
 sdk.start()
 
+// Graceful shutdown
+process.on('SIGTERM', async () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('OpenTelemetry SDK shut down successfully'))
+    .catch((error) => console.error('Error shutting down OpenTelemetry SDK', error))
+    .finally(() => process.exit(0))
+})
+
 if (useAxiom) {
-  console.log('✓ OpenTelemetry initialized with Axiom')
+  console.log('OpenTelemetry instrumentation initialized with Axiom exporter')
+} else {
+  console.log('OpenTelemetry instrumentation disabled (AXIOM_TOKEN not configured)')
 }
