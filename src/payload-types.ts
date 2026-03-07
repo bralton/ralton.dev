@@ -89,9 +89,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     hero: Hero;
+    about: About;
   };
   globalsSelect: {
     hero: HeroSelect<false> | HeroSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: null;
   widgets: {
@@ -341,6 +343,37 @@ export interface Hero {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  bio: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photo?: (number | null) | Media;
+  highlights?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "hero_select".
  */
 export interface HeroSelect<T extends boolean = true> {
@@ -353,6 +386,23 @@ export interface HeroSelect<T extends boolean = true> {
         label?: T;
         url?: T;
         variant?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  bio?: T;
+  photo?: T;
+  highlights?:
+    | T
+    | {
+        text?: T;
         id?: T;
       };
   updatedAt?: T;
