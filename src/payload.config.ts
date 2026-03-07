@@ -25,11 +25,8 @@ const getDbAdapter = async (): Promise<DatabaseAdapterObj> => {
     })
   } else {
     const { vercelPostgresAdapter } = await import('@payloadcms/db-vercel-postgres')
-    return vercelPostgresAdapter({
-      pool: {
-        connectionString: databaseUrl,
-      },
-    })
+    // Let adapter auto-detect Vercel's POSTGRES_* env vars
+    return vercelPostgresAdapter({})
   }
 }
 
