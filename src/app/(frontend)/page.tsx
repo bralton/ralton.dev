@@ -26,8 +26,16 @@ export default async function HomePage() {
             width={65}
           />
         </picture>
-        {!user && <h1 className="my-10 text-center text-4xl font-bold md:text-6xl">Welcome to your new project.</h1>}
-        {user && <h1 className="my-10 text-center text-4xl font-bold md:text-6xl">Welcome back, {user.email}</h1>}
+        {!user && (
+          <h1 className="my-10 text-center text-4xl font-bold md:text-6xl">
+            Welcome to your new project.
+          </h1>
+        )}
+        {user && (
+          <h1 className="my-10 text-center text-4xl font-bold md:text-6xl">
+            Welcome back, {user.email}
+          </h1>
+        )}
         <div className="flex items-center gap-3">
           <a
             className="rounded bg-foreground px-3 py-1 text-background no-underline hover:opacity-80"

@@ -1,0 +1,12 @@
+node_modules
+.next
+dist
+build
+pnpm-lock.yaml
+*.db
+.env*
+_bmad
+_bmad-output
+
+# Auto-generated files
+src/payload-types.ts
