@@ -1,6 +1,6 @@
 # Story 1.3: Deploy to Vercel with Database
 
-Status: in-progress
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -82,15 +82,15 @@ So that **I have a live environment for testing and the deployment pipeline is e
   - [x] 5.2: Monitor Vercel build logs for errors
   - [x] 5.3: If build fails, debug and fix issues
   - [x] 5.4: Verify deployment completes successfully
-  - [ ] 5.5: Note the production URL for verification
+  - [x] 5.5: Note the production URL for verification (www.ralton.dev)
 
-- [ ] Task 6: Verify Production Deployment (AC: #5)
-  - [ ] 6.1: Visit production URL and verify site loads
-  - [ ] 6.2: Verify HTTPS is enforced (no http access)
-  - [ ] 6.3: Navigate to `/admin` and verify Payload admin loads
-  - [ ] 6.4: Create initial admin user account
-  - [ ] 6.5: Log in to admin panel and verify access
-  - [ ] 6.6: Verify database connection is working (admin panel functional)
+- [x] Task 6: Verify Production Deployment (AC: #5)
+  - [x] 6.1: Visit production URL and verify site loads
+  - [x] 6.2: Verify HTTPS is enforced (no http access)
+  - [x] 6.3: Navigate to `/admin` and verify Payload admin loads
+  - [x] 6.4: Create initial admin user account
+  - [x] 6.5: Log in to admin panel and verify access
+  - [x] 6.6: Verify database connection is working (admin panel functional)
 
 ## Dev Notes
 
@@ -135,52 +135,33 @@ Architecture mentions both Vercel Postgres and Neon as options. Vercel Postgres 
 
 ### Payload Database Configuration
 
-**Current State (Story 1.1/1.2):**
+**Decision: Postgres Everywhere**
+
+During implementation, the team decided to use Postgres for both local development and production. This simplifies the setup by:
+- Using a single database adapter (`@payloadcms/db-postgres`)
+- Avoiding migration compatibility issues between SQLite and Postgres
+- Ensuring local development matches production exactly
+
+**Implementation:**
 ```typescript
-// src/payload.config.ts - Current SQLite configuration
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 
 export default buildConfig({
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || 'file:./data.db',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL,
     },
   }),
   // ...
 })
 ```
 
-**Required Change for Production:**
+**Local Development Setup:**
+Use a Neon free-tier database for local development, or run Postgres locally via Docker.
 
-Payload needs different database adapters for SQLite (local) vs Postgres (production). Two approaches:
-
-**Option A: Conditional Adapter (Recommended)**
-```typescript
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
-
-const isDevelopment = process.env.DATABASE_URL?.startsWith('file:')
-
-export default buildConfig({
-  db: isDevelopment
-    ? sqliteAdapter({
-        client: { url: process.env.DATABASE_URL || 'file:./data.db' },
-      })
-    : vercelPostgresAdapter({
-        pool: { connectionString: process.env.DATABASE_URL },
-      }),
-  // ...
-})
-```
-
-**Option B: Postgres Only**
-Use Postgres for both local and production (requires local Postgres or Docker).
-
-**Recommended:** Option A - maintains easy local development with SQLite while using Vercel Postgres in production.
-
-**Package to Install:**
+**Package Installed:**
 ```bash
-pnpm add @payloadcms/db-vercel-postgres
+pnpm add @payloadcms/db-postgres
 ```
 
 ### Environment Variables Setup
@@ -289,17 +270,25 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 - **Task 2 Complete (2026-03-07):** Provisioned Neon Postgres via Vercel Storage marketplace. POSTGRES_* env vars auto-injected.
 - **Task 3 Complete (2026-03-07):** Configured conditional database adapters - SQLite for local development (`file:` URLs), Vercel Postgres for production. Installed `@payloadcms/db-vercel-postgres`. Build and lint pass.
 - **Task 4 Complete (2026-03-07):** Added PAYLOAD_SECRET, CRON_SECRET, and placeholder env vars for all environments.
-- **Task 5 In Progress (2026-03-07):** Pushed to main, deployment triggered. Awaiting build completion.
+- **Task 5 Complete (2026-03-07):** Multiple iterations to fix database adapter issues. Final solution: Postgres everywhere (no SQLite split), proper migrations.
+- **Task 6 Complete (2026-03-07):** Production verified at www.ralton.dev. Admin panel accessible, user creation and login working.
 
 ### Change Log
 
 - 2026-03-07: Connected repo to Vercel, provisioned Neon Postgres, configured env vars
-- 2026-03-07: Added Vercel Postgres adapter with conditional database configuration
-- 2026-03-07: Pushed deployment to main branch
+- 2026-03-07: Initial attempts with SQLite/Postgres split failed due to migration incompatibility
+- 2026-03-07: Switched to Postgres-only approach with @payloadcms/db-postgres
+- 2026-03-07: Added migrations, updated build script to run `payload migrate`
+- 2026-03-07: Deployment successful, admin panel working
+- 2026-03-07: [Code Review] Updated Dev Notes to reflect Postgres-everywhere decision, synced architecture.md
+- 2026-03-07: [Code Review] Added PAYLOAD_SECRET validation to fail explicitly if missing
 
 ### File List
 
-- `src/payload.config.ts` - Modified: Added conditional SQLite/Vercel Postgres adapter
-- `package.json` - Modified: Added @payloadcms/db-vercel-postgres dependency
-- `pnpm-lock.yaml` - Modified: Updated lockfile with new dependency
+- `src/payload.config.ts` - Modified: Simplified to use postgresAdapter only
+- `src/migrations/20260307_152231.ts` - Created: Initial Postgres schema migration
+- `src/migrations/index.ts` - Created: Migration index
+- `package.json` - Modified: Added @payloadcms/db-postgres, updated build script
+- `pnpm-lock.yaml` - Modified: Updated dependencies
+- `.env.example` - Modified: Updated DATABASE_URL to Postgres format
 

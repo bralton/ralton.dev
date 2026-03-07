@@ -145,7 +145,7 @@ npx shadcn@latest add button card input textarea toast navigation-menu badge ske
 
 - Hot reload for both frontend and CMS changes
 - TypeScript autocompletion for Payload collections
-- Local SQLite for development (auto-migrates to Postgres for production)
+- Postgres for both local development and production (Neon free-tier recommended for local)
 
 **Deployment Architecture:**
 
@@ -190,7 +190,7 @@ npx shadcn@latest add button card input textarea toast navigation-menu badge ske
 | `socialLinks`        | Collection | platform, url, icon, visible                                      | LinkedIn, GitHub, etc.     |
 | `contactSubmissions` | Collection | name, email, message, ip, submittedAt                             | Auto-delete after 90 days  |
 
-**Database:** Vercel Postgres (production) / SQLite (local development)
+**Database:** Postgres everywhere (Vercel Postgres for production, Neon for local development)
 
 **Caching:** GitHub contribution data cached in database, refreshed via Vercel Cron daily
 
