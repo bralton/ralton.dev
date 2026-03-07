@@ -8,9 +8,14 @@ import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentation
 import { BatchSpanProcessor, NoopSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 
+console.log('[OTel] instrumentation.node.ts loading...')
+
 const axiomToken = process.env.AXIOM_TOKEN
 const axiomDataset = process.env.AXIOM_DATASET
 const axiomDomain = process.env.AXIOM_DOMAIN || 'api.axiom.co'
+
+console.log('[OTel] AXIOM_TOKEN set:', !!axiomToken)
+console.log('[OTel] AXIOM_DATASET set:', !!axiomDataset)
 
 const useAxiom = axiomToken && axiomDataset
 
