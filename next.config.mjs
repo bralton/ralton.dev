@@ -2,8 +2,6 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Skip during build - run separately in CI if needed
-  eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: false },
 
   webpack: (webpackConfig) => {
