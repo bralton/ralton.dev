@@ -10,13 +10,14 @@ import { resourceFromAttributes } from '@opentelemetry/resources'
 
 const axiomToken = process.env.AXIOM_TOKEN
 const axiomDataset = process.env.AXIOM_DATASET
+const axiomDomain = process.env.AXIOM_DOMAIN || 'api.axiom.co'
 
 const useAxiom = axiomToken && axiomDataset
 
 const spanProcessor = useAxiom
   ? new BatchSpanProcessor(
       new OTLPTraceExporter({
-        url: 'https://api.axiom.co/v1/traces',
+        url: `https://${axiomDomain}/v1/traces`,
         headers: {
           Authorization: `Bearer ${axiomToken}`,
           'X-Axiom-Dataset': axiomDataset,
