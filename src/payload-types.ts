@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     experiences: Experience;
+    education: Education;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
+    education: EducationSelect<false> | EducationSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -203,6 +205,38 @@ export interface Experience {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education".
+ */
+export interface Education {
+  id: number;
+  institution: string;
+  degree: string;
+  startDate: string;
+  endDate?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Toggle to show/hide this education entry on the site
+   */
+  isVisible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -236,6 +270,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'experiences';
         value: number | Experience;
+      } | null)
+    | ({
+        relationTo: 'education';
+        value: number | Education;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -326,6 +364,20 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ExperiencesSelect<T extends boolean = true> {
   title?: T;
   company?: T;
+  startDate?: T;
+  endDate?: T;
+  description?: T;
+  isVisible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education_select".
+ */
+export interface EducationSelect<T extends boolean = true> {
+  institution?: T;
+  degree?: T;
   startDate?: T;
   endDate?: T;
   description?: T;
