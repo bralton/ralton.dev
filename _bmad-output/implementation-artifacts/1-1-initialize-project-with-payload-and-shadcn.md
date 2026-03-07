@@ -81,6 +81,7 @@ npx shadcn@latest add button card input textarea toast navigation-menu badge ske
 ```
 
 **Key Architecture Decisions:**
+
 - **Starter Template:** Payload Blank Template + shadcn/ui (NOT Website Template - that's overkill)
 - **Database:** SQLite for local development (Payload auto-configures)
 - **Runtime:** Node.js via Vercel serverless functions
@@ -111,16 +112,16 @@ personal_website/
 
 **Primary Palette - MUST USE THESE EXACT VALUES:**
 
-| Role | Hex Code | Usage |
-|------|----------|-------|
-| Background | `#09090b` | Page background |
-| Surface | `#18181b` | Cards, elevated elements |
-| Border | `#27272a` | Dividers, card borders |
-| Primary | `#0d9488` | Accent, CTAs, links |
-| Primary Hover | `#14b8a6` | Hover states |
-| Text Primary | `#fafafa` | Headings, important text |
-| Text Secondary | `#a1a1aa` | Body text, descriptions |
-| Text Muted | `#71717a` | Captions, metadata |
+| Role           | Hex Code  | Usage                    |
+| -------------- | --------- | ------------------------ |
+| Background     | `#09090b` | Page background          |
+| Surface        | `#18181b` | Cards, elevated elements |
+| Border         | `#27272a` | Dividers, card borders   |
+| Primary        | `#0d9488` | Accent, CTAs, links      |
+| Primary Hover  | `#14b8a6` | Hover states             |
+| Text Primary   | `#fafafa` | Headings, important text |
+| Text Secondary | `#a1a1aa` | Body text, descriptions  |
+| Text Muted     | `#71717a` | Captions, metadata       |
 
 **Semantic Colors:**
 | State | Hex Code |
@@ -132,6 +133,7 @@ personal_website/
 ### shadcn/ui Configuration
 
 When running `npx shadcn@latest init`, use these settings:
+
 - **Style:** Default (dark mode will be configured manually)
 - **Base color:** Slate (will be overridden with brand colors)
 - **CSS variables:** Yes
@@ -142,6 +144,7 @@ When running `npx shadcn@latest init`, use these settings:
 ### Font Configuration
 
 From UX Specification:
+
 - **Primary font:** Inter (with system fonts fallback)
 - **Monospace font:** JetBrains Mono (for code, tech badges)
 
@@ -150,6 +153,7 @@ Next.js handles font loading optimization automatically with `next/font`.
 ### Testing This Story
 
 After completion, verify:
+
 1. `pnpm dev` starts without errors
 2. Visit `http://localhost:3000` - should see Payload welcome page
 3. Visit `http://localhost:3000/admin` - should see Payload admin login
@@ -159,6 +163,7 @@ After completion, verify:
 ### CRITICAL WARNINGS
 
 **DO NOT:**
+
 - Use the Payload Website Template (includes blog, search, redirects plugins we don't need)
 - Install unnecessary dependencies
 - Create complex folder hierarchies in components/ (flat structure required)
@@ -166,6 +171,7 @@ After completion, verify:
 - Skip verifying the build works after initialization
 
 **DO:**
+
 - Follow the exact initialization commands from Architecture document
 - Use the exact color hex values from UX specification
 - Verify everything builds before marking complete
@@ -202,6 +208,7 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 ### File List
 
 **New Files:**
+
 - package.json - Project manifest with dependencies
 - tsconfig.json - TypeScript configuration
 - tailwind.config.ts - Tailwind CSS configuration with brand colors
@@ -247,4 +254,3 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
   - Removed boilerplate my-route endpoint
   - Fixed toast auto-dismiss delay (1000s → 5s per UX spec)
   - Updated architecture.md to include skeleton in shadcn command
-

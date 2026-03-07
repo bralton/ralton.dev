@@ -14,6 +14,7 @@ Establish the technical foundation that enables all future development. After th
 **FRs covered:** Foundation enables all FRs (Architecture requirements)
 
 **Implementation Notes:**
+
 - Initialize Payload Blank Template + shadcn/ui
 - Project structure per Architecture spec
 - Vercel deployment with Postgres
@@ -29,6 +30,7 @@ Visitors can view Ben's professional profile and navigate the complete site. Rec
 **FRs covered:** FR1, FR2, FR3, FR4, FR5, FR6, FR7, FR32, FR33, FR34, FR35, FR36, FR37, FR38
 
 **Implementation Notes:**
+
 - All 7 content display sections (Hero, About, Experience, Education, Projects, Skills, Navigation)
 - Payload collections: Hero, About, Experiences, Education, Projects, Skills
 - Responsive design (mobile-first)
@@ -44,6 +46,7 @@ Ben can manage all site content via Payload CMS admin panel. Add, edit, delete, 
 **FRs covered:** FR16, FR17, FR18, FR19, FR20, FR21, FR22, FR23, FR24
 
 **Implementation Notes:**
+
 - Payload admin at `/admin`
 - CRUD for all content collections
 - `isVisible` toggles on all content types
@@ -58,6 +61,7 @@ Visitors can see Ben's authentic coding activity and credibility. The commit gra
 **FRs covered:** FR8, FR9, FR10
 
 **Implementation Notes:**
+
 - GitHub GraphQL API integration
 - Vercel Cron job (daily refresh at 2:00 AM UTC)
 - GitHubData collection for caching
@@ -72,6 +76,7 @@ Visitors can reach out to Ben easily. Contact form submissions are stored, Ben r
 **FRs covered:** FR11, FR12, FR13, FR14, FR15
 
 **Implementation Notes:**
+
 - Contact form with validation
 - Resend email integration
 - SocialLinks collection
@@ -87,6 +92,7 @@ Site is discoverable via search engines and social sharing. Site ranks well in s
 **FRs covered:** FR27, FR28, FR29, FR30, FR31
 
 **Implementation Notes:**
+
 - Meta tags and Open Graph
 - Sitemap.xml generation
 - Person schema structured data
@@ -101,6 +107,7 @@ Site meets legal requirements for data collection disclosure. Visitors can under
 **FRs covered:** FR25, FR26
 
 **Implementation Notes:**
+
 - Privacy policy page at `/privacy`
 - Data practices disclosure (collection, usage, 90-day retention, no third-party sharing)
 

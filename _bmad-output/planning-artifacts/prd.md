@@ -1,5 +1,20 @@
 ---
-stepsCompleted: [step-01-init, step-02-discovery, step-02b-vision, step-02c-executive-summary, step-03-success, step-04-journeys, step-05-domain, step-06-innovation, step-07-project-type, step-08-scoping, step-09-functional, step-10-nonfunctional, step-11-polish]
+stepsCompleted:
+  [
+    step-01-init,
+    step-02-discovery,
+    step-02b-vision,
+    step-02c-executive-summary,
+    step-03-success,
+    step-04-journeys,
+    step-05-domain,
+    step-06-innovation,
+    step-07-project-type,
+    step-08-scoping,
+    step-09-functional,
+    step-10-nonfunctional,
+    step-11-polish,
+  ]
 inputDocuments:
   - product-brief-personal_website-2026-03-06.md
 workflowType: 'prd'
@@ -37,13 +52,13 @@ The core insight: most portfolio solutions force a choice between "fully automat
 
 ## Project Classification
 
-| Attribute | Value |
-|-----------|-------|
-| **Project Type** | Web Application (Next.js SSR/SSG) |
-| **Domain** | General / Personal Portfolio |
-| **Complexity** | Low |
-| **Project Context** | Greenfield (new project) |
-| **Tech Stack** | Next.js, shadcn, Payload CMS, Vercel, OpenTelemetry, Axiom |
+| Attribute           | Value                                                      |
+| ------------------- | ---------------------------------------------------------- |
+| **Project Type**    | Web Application (Next.js SSR/SSG)                          |
+| **Domain**          | General / Personal Portfolio                               |
+| **Complexity**      | Low                                                        |
+| **Project Context** | Greenfield (new project)                                   |
+| **Tech Stack**      | Next.js, shadcn, Payload CMS, Vercel, OpenTelemetry, Axiom |
 
 ## Success Criteria
 
@@ -69,12 +84,12 @@ The core insight: most portfolio solutions force a choice between "fully automat
 
 ### Measurable Outcomes
 
-| Metric | Target |
-|--------|--------|
-| Site launch | Complete and polished |
-| Contact form submissions | Any increase from zero baseline |
-| Core Web Vitals | All passing |
-| Payload admin | Functional with visibility toggles working |
+| Metric                   | Target                                     |
+| ------------------------ | ------------------------------------------ |
+| Site launch              | Complete and polished                      |
+| Contact form submissions | Any increase from zero baseline            |
+| Core Web Vitals          | All passing                                |
+| Payload admin            | Functional with visibility toggles working |
 
 ## Product Scope
 
@@ -165,19 +180,19 @@ The core insight: most portfolio solutions force a choice between "fully automat
 
 ### Journey Requirements Summary
 
-| Capability | Revealed By |
-|------------|-------------|
-| Clear hero/intro section | Sarah, Marcus |
-| Scannable work experience | Sarah |
+| Capability                       | Revealed By        |
+| -------------------------------- | ------------------ |
+| Clear hero/intro section         | Sarah, Marcus      |
+| Scannable work experience        | Sarah              |
 | Projects with tech stack details | Sarah, Marcus, Dev |
-| GitHub commit graph integration | Sarah, Dev |
-| Functional contact form | Sarah, Marcus |
-| About section with specialties | Marcus |
-| Social links (LinkedIn, GitHub) | Sarah, Dev |
-| Mobile-responsive design | Sarah |
-| Payload CMS admin panel | Ben |
-| Visibility toggles on content | Ben |
-| Preview capability | Ben |
+| GitHub commit graph integration  | Sarah, Dev         |
+| Functional contact form          | Sarah, Marcus      |
+| About section with specialties   | Marcus             |
+| Social links (LinkedIn, GitHub)  | Sarah, Dev         |
+| Mobile-responsive design         | Sarah              |
+| Payload CMS admin panel          | Ben                |
+| Visibility toggles on content    | Ben                |
+| Preview capability               | Ben                |
 
 ## Domain-Specific Requirements
 
@@ -214,15 +229,15 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 
 ### Browser Support
 
-| Browser | Support Level |
-|---------|---------------|
-| Chrome (latest 2 versions) | Full support |
-| Firefox (latest 2 versions) | Full support |
-| Safari (latest 2 versions) | Full support |
-| Edge (latest 2 versions) | Full support |
-| Mobile Safari (iOS) | Full support |
-| Chrome Mobile (Android) | Full support |
-| IE11 / Legacy browsers | Not supported |
+| Browser                     | Support Level |
+| --------------------------- | ------------- |
+| Chrome (latest 2 versions)  | Full support  |
+| Firefox (latest 2 versions) | Full support  |
+| Safari (latest 2 versions)  | Full support  |
+| Edge (latest 2 versions)    | Full support  |
+| Mobile Safari (iOS)         | Full support  |
+| Chrome Mobile (Android)     | Full support  |
+| IE11 / Legacy browsers      | Not supported |
 
 ### Responsive Design
 
@@ -236,13 +251,13 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 
 ### Performance Targets
 
-| Metric | Target |
-|--------|--------|
-| Largest Contentful Paint (LCP) | < 2.5s |
-| First Input Delay (FID) | < 100ms |
-| Cumulative Layout Shift (CLS) | < 0.1 |
-| Time to First Byte (TTFB) | < 600ms |
-| Lighthouse Performance Score | > 90 |
+| Metric                         | Target  |
+| ------------------------------ | ------- |
+| Largest Contentful Paint (LCP) | < 2.5s  |
+| First Input Delay (FID)        | < 100ms |
+| Cumulative Layout Shift (CLS)  | < 0.1   |
+| Time to First Byte (TTFB)      | < 600ms |
+| Lighthouse Performance Score   | > 90    |
 
 ### SEO Strategy
 
@@ -279,12 +294,14 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 ### MVP Feature Set (Phase 1)
 
 **Core User Journeys Supported:**
+
 - Sarah the Recruiter — can assess experience, projects, and reach out
 - Marcus the Client — can evaluate fit and make contact
 - Dev the Peer — can explore projects and GitHub activity
 - Ben the Admin — can manage content via Payload CMS
 
 **Must-Have Capabilities:**
+
 - Hero/intro section with name, tagline, headline
 - About section with background and specialties
 - Work experience with visibility toggles
@@ -305,17 +322,20 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 ### Security Considerations
 
 **CI/CD Security:**
+
 - Dependency vulnerability scanning (e.g., npm audit, Dependabot)
 - Secret scanning in CI pipeline
 - Automated security checks on PR
 
 **Application Security:**
+
 - Environment variables for secrets (no hardcoded credentials)
 - HTTPS enforced (Vercel default)
 - Content Security Policy (CSP) headers
 - Rate limiting on contact form (prevent spam/abuse)
 
 **Testing Strategy:**
+
 - Unit tests for critical components
 - Integration tests for contact form flow
 - Accessibility testing (axe-core or similar)
@@ -324,11 +344,13 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 ### Post-MVP Features
 
 **Phase 2 (Growth):**
+
 - Blog/articles section for thought leadership and SEO
 - Testimonials from clients/colleagues
 - Expanded project case studies with detailed write-ups
 
 **Phase 3 (Vision):**
+
 - Services page for consulting offerings
 - Downloadable resume/CV
 - Newsletter signup

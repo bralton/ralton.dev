@@ -1,10 +1,10 @@
 ---
 epic: 6
-title: "SEO & Discovery"
+title: 'SEO & Discovery'
 status: backlog
 storyCount: 5
-stories: ["6.1", "6.2", "6.3", "6.4", "6.5"]
-frs: ["FR27", "FR28", "FR29", "FR30", "FR31"]
+stories: ['6.1', '6.2', '6.3', '6.4', '6.5']
+frs: ['FR27', 'FR28', 'FR29', 'FR30', 'FR31']
 nfrs: []
 shardedFrom: epics.md
 date: 2026-03-07

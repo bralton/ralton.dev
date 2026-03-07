@@ -43,8 +43,8 @@ development_status:
   # Epic 1: Project Foundation & Infrastructure
   epic-1: in-progress
   1-1-initialize-project-with-payload-and-shadcn: done
-  1-2-configure-project-structure-and-development-environment: backlog
-  1-3-deploy-to-vercel-with-database: backlog
+  1-2-configure-project-structure-and-development-environment: done
+  1-3-deploy-to-vercel-with-database: in-progress
   1-4-set-up-observability: backlog
   epic-1-retrospective: optional
 

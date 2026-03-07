@@ -1,11 +1,11 @@
 ---
 epic: 4
-title: "GitHub Integration"
+title: 'GitHub Integration'
 status: backlog
 storyCount: 4
-stories: ["4.1", "4.2", "4.3", "4.4"]
-frs: ["FR8", "FR9", "FR10"]
-nfrs: ["NFR22", "NFR23", "NFR27"]
+stories: ['4.1', '4.2', '4.3', '4.4']
+frs: ['FR8', 'FR9', 'FR10']
+nfrs: ['NFR22', 'NFR23', 'NFR27']
 shardedFrom: epics.md
 date: 2026-03-07
 ---

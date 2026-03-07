@@ -3,7 +3,7 @@ documentType: epics-index
 project_name: personal_website
 epicCount: 7
 storyCount: 34
-frCoverage: "38/38"
+frCoverage: '38/38'
 shardedFrom: epics.md
 date: 2026-03-07
 status: complete

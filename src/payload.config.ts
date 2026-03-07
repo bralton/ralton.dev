@@ -25,8 +25,10 @@ const getDbAdapter = async (): Promise<DatabaseAdapterObj> => {
     })
   } else {
     const { vercelPostgresAdapter } = await import('@payloadcms/db-vercel-postgres')
-    // Let adapter auto-detect Vercel's POSTGRES_* env vars
-    return vercelPostgresAdapter({})
+    // Auto-create tables on startup (push mode)
+    return vercelPostgresAdapter({
+      push: true,
+    })
   }
 }
 

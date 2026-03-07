@@ -1,11 +1,27 @@
 ---
 epic: 2
-title: "Core Portfolio Content"
+title: 'Core Portfolio Content'
 status: backlog
 storyCount: 7
-stories: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"]
-frs: ["FR1", "FR2", "FR3", "FR4", "FR5", "FR6", "FR7", "FR32", "FR33", "FR34", "FR35", "FR36", "FR37", "FR38"]
-nfrs: ["NFR7", "NFR15", "NFR16", "NFR17", "NFR18", "NFR19", "NFR20", "NFR21"]
+stories: ['2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7']
+frs:
+  [
+    'FR1',
+    'FR2',
+    'FR3',
+    'FR4',
+    'FR5',
+    'FR6',
+    'FR7',
+    'FR32',
+    'FR33',
+    'FR34',
+    'FR35',
+    'FR36',
+    'FR37',
+    'FR38',
+  ]
+nfrs: ['NFR7', 'NFR15', 'NFR16', 'NFR17', 'NFR18', 'NFR19', 'NFR20', 'NFR21']
 shardedFrom: epics.md
 date: 2026-03-07
 ---

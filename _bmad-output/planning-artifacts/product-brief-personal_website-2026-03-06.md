@@ -54,12 +54,14 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 ### Primary Users
 
 **Hiring Managers & Recruiters**
+
 - Evaluating Ben for full-time roles or contract positions
 - Want to quickly assess experience, technical skills, and credibility
 - Looking for evidence of real work: projects, contributions, professional history
 - Desired actions: Connect on LinkedIn, reach out via contact form
 
 **Potential Clients**
+
 - Seeking freelance development or consulting help
 - Need to assess expertise and see examples of past work
 - Want to understand specialties and whether Ben is the right fit for their project
@@ -68,12 +70,14 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 ### Secondary Users
 
 **Peer Developers**
+
 - Curious about Ben's work, tech stack, or open source contributions
 - Browsing projects, checking out GitHub activity
 - May become collaborators or referral sources
 - Desired actions: Follow on GitHub, explore projects
 
 **Potential Collaborators**
+
 - Exploring partnership opportunities on projects or ventures
 - Assessing skills, working style, and areas of focus
 - Desired actions: Reach out via contact form, connect on GitHub
@@ -93,6 +97,7 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 ### Primary Success Criteria
 
 **Qualitative: A Polished Professional Presence**
+
 - A site Ben is proud to share and direct people to
 - Clean, professional aesthetic that accurately represents his brand
 - Easy to maintain and update via Payload CMS admin
@@ -100,12 +105,14 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 ### Tracking & Analytics
 
 **Visitor Analytics**
+
 - Page views and unique visitors
 - Time on site / engagement
 - Traffic sources (LinkedIn, GitHub, direct, search)
 - Contact form submissions
 
 **Technical Observability**
+
 - OpenTelemetry integration for tracing and metrics
 - Axiom for centralized logging
 - Performance monitoring (Core Web Vitals, load times)
@@ -118,12 +125,12 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 
 ### Key Performance Indicators
 
-| KPI | Target |
-|-----|--------|
-| Site live and polished | Launch complete |
+| KPI                      | Target                            |
+| ------------------------ | --------------------------------- |
+| Site live and polished   | Launch complete                   |
 | Contact form submissions | Any increase from zero (baseline) |
-| Uptime | 99.9% (Vercel managed) |
-| Performance | Core Web Vitals passing |
+| Uptime                   | 99.9% (Vercel managed)            |
+| Performance              | Core Web Vitals passing           |
 
 ---
 
@@ -132,6 +139,7 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 ### Core Features
 
 **Content Sections**
+
 - Hero/intro section with name, tagline, and brief introduction
 - About/bio section
 - Work experience (mirrored from LinkedIn, with visibility toggles)
@@ -143,12 +151,14 @@ A custom personal website built with Next.js and shadcn, using Payload CMS for c
 - Social links (LinkedIn, GitHub)
 
 **Design & UX**
+
 - Minimalist dark-mode design
 - Dark green as primary accent color
 - Responsive layout (mobile, tablet, desktop)
 - Clean, professional typography
 
 **Technical Infrastructure**
+
 - Next.js + shadcn UI
 - Payload CMS with admin interface
 - Visibility toggle fields on experience/education/projects

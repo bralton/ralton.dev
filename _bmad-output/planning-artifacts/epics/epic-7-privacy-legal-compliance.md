@@ -1,10 +1,10 @@
 ---
 epic: 7
-title: "Privacy & Legal Compliance"
+title: 'Privacy & Legal Compliance'
 status: backlog
 storyCount: 2
-stories: ["7.1", "7.2"]
-frs: ["FR25", "FR26"]
+stories: ['7.1', '7.2']
+frs: ['FR25', 'FR26']
 nfrs: []
 shardedFrom: epics.md
 date: 2026-03-07

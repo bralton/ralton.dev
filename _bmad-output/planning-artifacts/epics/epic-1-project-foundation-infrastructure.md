@@ -1,11 +1,11 @@
 ---
 epic: 1
-title: "Project Foundation & Infrastructure"
+title: 'Project Foundation & Infrastructure'
 status: backlog
 storyCount: 4
-stories: ["1.1", "1.2", "1.3", "1.4"]
+stories: ['1.1', '1.2', '1.3', '1.4']
 frs: []
-nfrs: ["NFR6", "NFR8", "NFR10"]
+nfrs: ['NFR6', 'NFR8', 'NFR10']
 shardedFrom: epics.md
 date: 2026-03-07
 ---

@@ -1,11 +1,11 @@
 ---
 epic: 5
-title: "Contact & Communication"
+title: 'Contact & Communication'
 status: backlog
 storyCount: 6
-stories: ["5.1", "5.2", "5.3", "5.4", "5.5", "5.6"]
-frs: ["FR11", "FR12", "FR13", "FR14", "FR15"]
-nfrs: ["NFR11", "NFR14", "NFR24", "NFR25"]
+stories: ['5.1', '5.2', '5.3', '5.4', '5.5', '5.6']
+frs: ['FR11', 'FR12', 'FR13', 'FR14', 'FR15']
+nfrs: ['NFR11', 'NFR14', 'NFR24', 'NFR25']
 shardedFrom: epics.md
 date: 2026-03-07
 ---

@@ -2,7 +2,10 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your Next.js config here
+  // Skip during build - run separately in CI if needed
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: false },
+
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],

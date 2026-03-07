@@ -1,11 +1,11 @@
 ---
 epic: 3
-title: "Content Management System"
+title: 'Content Management System'
 status: backlog
 storyCount: 6
-stories: ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"]
-frs: ["FR16", "FR17", "FR18", "FR19", "FR20", "FR21", "FR22", "FR23", "FR24"]
-nfrs: ["NFR9", "NFR12"]
+stories: ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6']
+frs: ['FR16', 'FR17', 'FR18', 'FR19', 'FR20', 'FR21', 'FR22', 'FR23', 'FR24']
+nfrs: ['NFR9', 'NFR12']
 shardedFrom: epics.md
 date: 2026-03-07
 ---
