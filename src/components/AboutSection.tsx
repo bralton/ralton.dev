@@ -9,9 +9,16 @@ export async function AboutSection() {
   const about = await payload.findGlobal({ slug: 'about' })
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="px-4 py-16 md:px-6 md:py-24 lg:px-8"
+    >
       <div className="mx-auto max-w-[1200px]">
-        <h2 id="about-heading" className="mb-8 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]">
+        <h2
+          id="about-heading"
+          className="mb-8 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
+        >
           About
         </h2>
 
@@ -41,7 +48,11 @@ export async function AboutSection() {
             )}
 
             {about.highlights && about.highlights.length > 0 && (
-              <ul className="mt-6 flex flex-wrap gap-2" role="list" aria-label="Key highlights and specialties">
+              <ul
+                className="mt-6 flex flex-wrap gap-2"
+                role="list"
+                aria-label="Key highlights and specialties"
+              >
                 {about.highlights.map((highlight, index) => (
                   <li key={highlight.id ?? index}>
                     <Badge className="bg-teal-700 text-white hover:bg-teal-800">
