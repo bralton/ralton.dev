@@ -13,7 +13,7 @@ import {
   SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
 } from '@opentelemetry/semantic-conventions'
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node'
-import { BatchSpanProcessor, NoopSpanProcessor } from '@opentelemetry/sdk-trace-node'
+import { SimpleSpanProcessor, NoopSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 
 const axiomToken = process.env.AXIOM_TOKEN
@@ -22,9 +22,9 @@ const axiomDomain = process.env.AXIOM_DOMAIN || 'api.axiom.co'
 
 const useAxiom = axiomToken && axiomDataset
 
-// Configure span processor based on available credentials
+// Configure span processor - use SimpleSpanProcessor for serverless (sends immediately)
 const spanProcessor = useAxiom
-  ? new BatchSpanProcessor(
+  ? new SimpleSpanProcessor(
       new OTLPTraceExporter({
         url: `https://${axiomDomain}/v1/traces`,
         headers: {
