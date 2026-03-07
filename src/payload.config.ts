@@ -1,4 +1,5 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -10,6 +11,9 @@ import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+const databaseUrl = process.env.DATABASE_URL || 'file:./payload.db'
+const isLocalDev = databaseUrl.startsWith('file:')
 
 export default buildConfig({
   admin: {
@@ -24,11 +28,17 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || 'file:./payload.db',
-    },
-  }),
+  db: isLocalDev
+    ? sqliteAdapter({
+        client: {
+          url: databaseUrl,
+        },
+      })
+    : vercelPostgresAdapter({
+        pool: {
+          connectionString: databaseUrl,
+        },
+      }),
   sharp,
   plugins: [],
 })
