@@ -1,41 +1,15 @@
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import type { DatabaseAdapterObj } from 'payload'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
-const databaseUrl = process.env.DATABASE_URL || 'file:./payload.db'
-const isLocalDev = databaseUrl.startsWith('file:')
-
-// Dynamic import to avoid bundling SQLite native deps in production
-const getDbAdapter = async (): Promise<DatabaseAdapterObj> => {
-  if (isLocalDev) {
-    const { sqliteAdapter } = await import('@payloadcms/db-sqlite')
-    return sqliteAdapter({
-      client: {
-        url: databaseUrl,
-      },
-    })
-  } else {
-    const { postgresAdapter } = await import('@payloadcms/db-postgres')
-    // Use POSTGRES_URL from Neon/Vercel, auto-create tables
-    return postgresAdapter({
-      pool: {
-        connectionString: process.env.POSTGRES_URL,
-      },
-      push: true,
-    })
-  }
-}
-
-const dbAdapter = await getDbAdapter()
 
 export default buildConfig({
   admin: {
@@ -50,7 +24,11 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: dbAdapter,
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL,
+    },
+  }),
   sharp,
   plugins: [],
 })
