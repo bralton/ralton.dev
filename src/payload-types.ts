@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     experiences: Experience;
     education: Education;
+    projects: Project;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
     education: EducationSelect<false> | EducationSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -237,6 +239,53 @@ export interface Education {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  techStack?:
+    | {
+        technology: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * GitHub repository URL
+   */
+  repoUrl?: string | null;
+  /**
+   * Live demo or deployed site URL
+   */
+  liveUrl?: string | null;
+  /**
+   * Project screenshot or thumbnail (16:9 aspect ratio recommended)
+   */
+  image?: (number | null) | Media;
+  /**
+   * Toggle to show/hide this project on the site
+   */
+  isVisible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -274,6 +323,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'education';
         value: number | Education;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -381,6 +434,26 @@ export interface EducationSelect<T extends boolean = true> {
   startDate?: T;
   endDate?: T;
   description?: T;
+  isVisible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  techStack?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  repoUrl?: T;
+  liveUrl?: T;
+  image?: T;
   isVisible?: T;
   updatedAt?: T;
   createdAt?: T;
