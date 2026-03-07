@@ -49,8 +49,8 @@ development_status:
   epic-1-retrospective: done
 
   # Epic 2: Core Portfolio Content
-  epic-2: backlog
-  2-1-create-hero-section-with-payload-collection: backlog
+  epic-2: in-progress
+  2-1-create-hero-section-with-payload-collection: done
   2-2-create-about-section-with-payload-collection: backlog
   2-3-create-work-experience-section-with-payload-collection: backlog
   2-4-create-education-section-with-payload-collection: backlog
