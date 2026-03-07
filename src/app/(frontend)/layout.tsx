@@ -1,7 +1,5 @@
 import React from 'react'
 import { Inter, JetBrains_Mono } from 'next/font/google'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from '@vercel/analytics/next'
 import '../globals.css'
 
 const inter = Inter({
@@ -26,8 +24,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased">
         <main>{children}</main>
-        <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   )
