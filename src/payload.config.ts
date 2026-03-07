@@ -24,9 +24,12 @@ const getDbAdapter = async (): Promise<DatabaseAdapterObj> => {
       },
     })
   } else {
-    const { vercelPostgresAdapter } = await import('@payloadcms/db-vercel-postgres')
-    // Auto-create tables on startup (push mode)
-    return vercelPostgresAdapter({
+    const { postgresAdapter } = await import('@payloadcms/db-postgres')
+    // Use POSTGRES_URL from Neon/Vercel, auto-create tables
+    return postgresAdapter({
+      pool: {
+        connectionString: process.env.POSTGRES_URL,
+      },
       push: true,
     })
   }
