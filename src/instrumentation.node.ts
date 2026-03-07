@@ -6,8 +6,12 @@
  * This file is loaded only on the server runtime.
  */
 
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api'
 import { NodeSDK } from '@opentelemetry/sdk-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
+
+// Enable OpenTelemetry debug logging to see export errors
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG)
 import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
@@ -78,6 +82,9 @@ process.on('SIGTERM', async () => {
 
 if (useAxiom) {
   console.log('OpenTelemetry instrumentation initialized with Axiom exporter')
+  console.log(`  Endpoint: https://${axiomDomain}/v1/traces`)
+  console.log(`  Dataset: ${axiomDataset}`)
+  console.log(`  Token: ${axiomToken?.substring(0, 8)}...`)
 } else {
   console.log('OpenTelemetry instrumentation disabled (AXIOM_TOKEN not configured)')
 }
