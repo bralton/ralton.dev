@@ -1,0 +1,142 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { Menu } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
+
+const navLinks = [
+  { label: 'About', href: '#about' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Education', href: '#education' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contact', href: '#contact' },
+]
+
+export function Navigation() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    const targetId = href.replace('#', '')
+    const element = document.getElementById(targetId)
+    if (element) {
+      const headerOffset = 80 // Adjust based on header height (64px + buffer)
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.scrollY - headerOffset
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      })
+
+      // Update URL hash without page reload
+      window.history.pushState(null, '', href)
+    }
+    setIsMobileMenuOpen(false)
+  }
+
+  return (
+    <>
+      {/* Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-white focus:outline-none focus:ring-2 focus:ring-teal-400"
+      >
+        Skip to content
+      </a>
+
+      <header
+        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 motion-reduce:transition-none ${
+          isScrolled
+            ? 'border-b border-zinc-800 bg-background/80 shadow-lg backdrop-blur-md'
+            : 'bg-transparent'
+        }`}
+      >
+        <nav
+          role="navigation"
+          aria-label="Main navigation"
+          className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 md:px-6 lg:px-8"
+        >
+          {/* Logo/Name */}
+          <a
+            href="#hero"
+            onClick={(e) => handleNavClick(e, '#hero')}
+            className="rounded-sm text-xl font-semibold text-foreground transition-colors hover:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-background"
+          >
+            Ben Ralton
+          </a>
+
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex md:items-center md:gap-6">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="rounded-sm px-1 text-sm text-text-secondary transition-colors hover:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-background"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Mobile Menu Button */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Toggle menu"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-nav-menu"
+                className="focus:outline-none focus:ring-2 focus:ring-teal-400"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-[300px] border-zinc-800 bg-background"
+              id="mobile-nav-menu"
+              aria-describedby="mobile-nav-description"
+            >
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <span id="mobile-nav-description" className="sr-only">
+                Navigate to different sections of the website
+              </span>
+              <nav className="mt-8" aria-label="Mobile navigation">
+                <ul className="space-y-4">
+                  {navLinks.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleNavClick(e, link.href)}
+                        className="block rounded-sm px-2 py-2 text-lg text-foreground transition-colors hover:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </nav>
+      </header>
+    </>
+  )
+}

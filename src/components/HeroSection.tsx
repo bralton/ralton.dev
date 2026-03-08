@@ -7,7 +7,10 @@ export async function HeroSection() {
   const hero = await payload.findGlobal({ slug: 'hero' })
 
   return (
-    <section className="flex min-h-[70vh] items-center justify-center px-4 md:px-6 lg:min-h-[85vh] lg:px-8">
+    <section
+      id="hero"
+      className="flex min-h-[70vh] items-center justify-center px-4 md:px-6 lg:min-h-[85vh] lg:px-8"
+    >
       <div className="mx-auto w-full max-w-[1200px] text-center">
         <h1 className="mb-4 text-4xl font-bold text-foreground md:text-5xl lg:text-[48px]">
           {hero.name}
