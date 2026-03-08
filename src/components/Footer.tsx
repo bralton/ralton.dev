@@ -9,7 +9,7 @@ export function Footer() {
     >
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 md:flex-row md:justify-between">
         <p className="text-sm text-text-secondary">
-          &copy; {currentYear} Ben Ralton. All rights reserved.
+          &copy; {currentYear} B.RALTON · Development &amp; Operations
         </p>
 
         {/* Social Links Placeholder - To be implemented in Epic 5 */}

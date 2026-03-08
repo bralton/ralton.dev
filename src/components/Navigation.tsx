@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
@@ -31,7 +32,7 @@ export function Navigation() {
     const targetId = href.replace('#', '')
     const element = document.getElementById(targetId)
     if (element) {
-      const headerOffset = 80 // Adjust based on header height (64px + buffer)
+      const headerOffset = 112 // Adjust based on header height (96px + buffer)
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.scrollY - headerOffset
 
@@ -68,15 +69,22 @@ export function Navigation() {
         <nav
           role="navigation"
           aria-label="Main navigation"
-          className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 md:px-6 lg:px-8"
+          className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-4 md:px-6 lg:px-8"
         >
-          {/* Logo/Name */}
+          {/* Logo */}
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="rounded-sm text-xl font-semibold text-foreground transition-colors hover:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-background"
+            className="rounded-full transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-background"
           >
-            Ben Ralton
+            <Image
+              src="/icon.svg"
+              alt="B.Ralton - Home"
+              width={80}
+              height={80}
+              className="h-20 w-20"
+              priority
+            />
           </a>
 
           {/* Desktop Navigation */}

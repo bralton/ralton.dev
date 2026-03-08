@@ -14,7 +14,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata = {
   description: "Ben's personal portfolio website",
-  title: 'Ben Ralton',
+  title: 'B.Ralton',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

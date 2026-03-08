@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Navigation />
-      <main id="main-content" className="pt-16">
+      <main id="main-content" className="pt-24">
         <HeroSection />
         <AboutSection />
         <ExperienceSection />
