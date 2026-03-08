@@ -12,6 +12,9 @@ date: 2026-03-07
 
 # Epic 4: GitHub Integration
 
+> **Design Document:** [epic-4-design-document.md](../epic-4-design-document.md)
+> Contains verified GitHub GraphQL API queries, Vercel cron configuration, component specifications, and implementation code. Required reading before story creation.
+
 Visitors can see Ben's authentic coding activity and credibility. The commit graph displays real contribution data, building trust beyond static content.
 
 ## Story 4.1: Create GitHub Data Collection and Cron Job

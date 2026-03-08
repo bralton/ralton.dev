@@ -20,6 +20,7 @@ const navLinks = [
   { label: 'Education', href: '#education' },
   { label: 'Projects', href: '#projects' },
   { label: 'Skills', href: '#skills' },
+  { label: 'GitHub', href: '#github' },
   { label: 'Contact', href: '#contact' },
 ]
 
