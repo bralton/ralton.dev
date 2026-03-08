@@ -602,18 +602,41 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Configure your portfolio hero section content - the first thing visitors see.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "hero".
  */
 export interface Hero {
   id: number;
+  /**
+   * Your full name displayed prominently in the hero section
+   */
   name: string;
+  /**
+   * Your professional title or role (e.g., 'Senior Software Engineer')
+   */
   headline: string;
+  /**
+   * A brief one-liner about what you do or your expertise
+   */
   tagline?: string | null;
+  /**
+   * Call-to-action buttons below your intro (e.g., 'Contact Me', 'View Resume')
+   */
   ctaButtons?:
     | {
+        /**
+         * Button text displayed to visitors
+         */
         label: string;
+        /**
+         * Link destination (use # for section anchors, / for pages, https:// for external)
+         */
         url: string;
+        /**
+         * Visual style of the button
+         */
         variant: 'primary' | 'secondary';
         id?: string | null;
       }[]
@@ -622,11 +645,16 @@ export interface Hero {
   createdAt?: string | null;
 }
 /**
+ * Manage your About section content - your bio, photo, and key highlights.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about".
  */
 export interface About {
   id: number;
+  /**
+   * Your professional biography - use rich text formatting for paragraphs and emphasis
+   */
   bio: {
     root: {
       type: string;
@@ -642,9 +670,18 @@ export interface About {
     };
     [k: string]: unknown;
   };
+  /**
+   * Profile photo displayed in the About section
+   */
   photo?: (number | null) | Media;
+  /**
+   * Key specialties or focus areas displayed as badges
+   */
   highlights?:
     | {
+        /**
+         * Short highlight text (e.g., 'TypeScript', 'React', 'Cloud Architecture')
+         */
         text: string;
         id?: string | null;
       }[]
