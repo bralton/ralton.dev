@@ -66,7 +66,7 @@ development_status:
   3-3-implement-visibility-toggles: review
   3-4-enable-hero-and-about-editing: review
   3-5-enable-skills-management: review
-  3-6-configure-content-revalidation-and-preview: backlog
+  3-6-configure-content-revalidation-and-preview: review
   epic-3-retrospective: optional
 
   # Epic 4: GitHub Integration

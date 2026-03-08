@@ -1,9 +1,17 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobalAfterChange } from '@/lib/payloadHooks'
 
 export const About: GlobalConfig = {
   slug: 'about',
   admin: {
     description: 'Manage your About section content - your bio, photo, and key highlights.',
+    livePreview: {
+      url: () =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+    },
+  },
+  hooks: {
+    afterChange: [revalidateGlobalAfterChange],
   },
   fields: [
     {

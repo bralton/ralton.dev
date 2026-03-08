@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payloadHooks'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -6,8 +7,16 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'techStack', 'isVisible'],
     description: 'Portfolio projects displayed on your site',
+    livePreview: {
+      url: () =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+    },
   },
   defaultSort: '-createdAt',
+  hooks: {
+    afterChange: [revalidateAfterChange],
+    afterDelete: [revalidateAfterDelete],
+  },
   fields: [
     {
       name: 'title',

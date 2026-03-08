@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payloadHooks'
 
 export const Skills: CollectionConfig = {
   slug: 'skills',
@@ -6,8 +7,16 @@ export const Skills: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'isVisible'],
     description: 'Technical skills displayed on your portfolio, grouped by category',
+    livePreview: {
+      url: () =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+    },
   },
   defaultSort: 'category',
+  hooks: {
+    afterChange: [revalidateAfterChange],
+    afterDelete: [revalidateAfterDelete],
+  },
   fields: [
     {
       name: 'name',

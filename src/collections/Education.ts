@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payloadHooks'
 
 export const Education: CollectionConfig = {
   slug: 'education',
@@ -6,8 +7,16 @@ export const Education: CollectionConfig = {
     useAsTitle: 'degree',
     defaultColumns: ['degree', 'institution', 'startDate', 'isVisible'],
     description: 'Education entries displayed on your portfolio',
+    livePreview: {
+      url: () =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+    },
   },
   defaultSort: '-startDate',
+  hooks: {
+    afterChange: [revalidateAfterChange],
+    afterDelete: [revalidateAfterDelete],
+  },
   fields: [
     {
       name: 'institution',
