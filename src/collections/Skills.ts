@@ -32,6 +32,9 @@ export const Skills: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Toggle to show/hide this skill on the site',
+        components: {
+          Cell: '/admin/VisibilityCell#VisibilityCell',
+        },
       },
     },
   ],

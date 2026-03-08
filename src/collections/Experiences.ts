@@ -62,6 +62,9 @@ export const Experiences: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Toggle to show/hide this experience on the site',
+        components: {
+          Cell: '/admin/VisibilityCell#VisibilityCell',
+        },
       },
     },
   ],

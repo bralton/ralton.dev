@@ -62,6 +62,9 @@ export const Education: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Toggle to show/hide this education entry on the site',
+        components: {
+          Cell: '/admin/VisibilityCell#VisibilityCell',
+        },
       },
     },
   ],

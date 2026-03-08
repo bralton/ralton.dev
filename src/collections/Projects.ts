@@ -71,6 +71,9 @@ export const Projects: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Toggle to show/hide this project on the site',
+        components: {
+          Cell: '/admin/VisibilityCell#VisibilityCell',
+        },
       },
     },
   ],
