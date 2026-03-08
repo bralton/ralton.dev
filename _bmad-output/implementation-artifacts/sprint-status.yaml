@@ -49,7 +49,7 @@ development_status:
   epic-1-retrospective: done
 
   # Epic 2: Core Portfolio Content
-  epic-2: in-progress
+  epic-2: done
   2-1-create-hero-section-with-payload-collection: done
   2-2-create-about-section-with-payload-collection: done
   2-3-create-work-experience-section-with-payload-collection: done
@@ -57,7 +57,7 @@ development_status:
   2-5-create-projects-section-with-payload-collection: done
   2-6-create-skills-section-with-payload-collection: done
   2-7-create-navigation-and-page-layout: done
-  epic-2-retrospective: optional
+  epic-2-retrospective: done
 
   # Epic 3: Content Management System
   epic-3: backlog
