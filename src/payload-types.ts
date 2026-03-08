@@ -165,11 +165,16 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Upload and manage images for your portfolio
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
+  /**
+   * Alt text for accessibility (describes the image for screen readers)
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -184,15 +189,32 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Work experience entries displayed on your portfolio
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experiences".
  */
 export interface Experience {
   id: number;
+  /**
+   * Job title or position held
+   */
   title: string;
+  /**
+   * Company or organization name
+   */
   company: string;
+  /**
+   * When you started this position
+   */
   startDate: string;
+  /**
+   * When you ended this position (leave empty if current)
+   */
   endDate?: string | null;
+  /**
+   * Key responsibilities and achievements in this role
+   */
   description?: {
     root: {
       type: string;
@@ -216,15 +238,32 @@ export interface Experience {
   createdAt: string;
 }
 /**
+ * Education entries displayed on your portfolio
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "education".
  */
 export interface Education {
   id: number;
+  /**
+   * School, university, or institution name
+   */
   institution: string;
+  /**
+   * Degree or certification obtained (e.g., B.S. Computer Science)
+   */
   degree: string;
+  /**
+   * When you started this program
+   */
   startDate: string;
+  /**
+   * When you completed this program (leave empty if current)
+   */
   endDate?: string | null;
+  /**
+   * Notable achievements, coursework, or activities
+   */
   description?: {
     root: {
       type: string;
@@ -248,12 +287,20 @@ export interface Education {
   createdAt: string;
 }
 /**
+ * Portfolio projects displayed on your site
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
   id: number;
+  /**
+   * Project name or title
+   */
   title: string;
+  /**
+   * Detailed description of the project and your role
+   */
   description: {
     root: {
       type: string;
@@ -269,18 +316,24 @@ export interface Project {
     };
     [k: string]: unknown;
   };
+  /**
+   * Technologies used in this project
+   */
   techStack?:
     | {
+        /**
+         * Technology name (e.g., React, TypeScript, Node.js)
+         */
         technology: string;
         id?: string | null;
       }[]
     | null;
   /**
-   * GitHub repository URL
+   * GitHub repository URL (optional)
    */
   repoUrl?: string | null;
   /**
-   * Live demo or deployed site URL
+   * Live demo or deployed site URL (optional)
    */
   liveUrl?: string | null;
   /**
@@ -295,11 +348,16 @@ export interface Project {
   createdAt: string;
 }
 /**
+ * Technical skills displayed on your portfolio, grouped by category
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "skills".
  */
 export interface Skill {
   id: number;
+  /**
+   * Skill name (e.g., TypeScript, React, Docker)
+   */
   name: string;
   /**
    * Category for grouping (e.g., Languages, Frameworks, Tools, DevOps)

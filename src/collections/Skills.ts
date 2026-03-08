@@ -5,6 +5,7 @@ export const Skills: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'isVisible'],
+    description: 'Technical skills displayed on your portfolio, grouped by category',
   },
   defaultSort: 'category',
   fields: [
@@ -12,6 +13,9 @@ export const Skills: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Skill name (e.g., TypeScript, React, Docker)',
+      },
     },
     {
       name: 'category',

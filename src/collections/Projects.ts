@@ -5,6 +5,7 @@ export const Projects: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'techStack', 'isVisible'],
+    description: 'Portfolio projects displayed on your site',
   },
   defaultSort: '-createdAt',
   fields: [
@@ -12,20 +13,32 @@ export const Projects: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Project name or title',
+      },
     },
     {
       name: 'description',
       type: 'richText',
       required: true,
+      admin: {
+        description: 'Detailed description of the project and your role',
+      },
     },
     {
       name: 'techStack',
       type: 'array',
+      admin: {
+        description: 'Technologies used in this project',
+      },
       fields: [
         {
           name: 'technology',
           type: 'text',
           required: true,
+          admin: {
+            description: 'Technology name (e.g., React, TypeScript, Node.js)',
+          },
         },
       ],
     },
@@ -33,14 +46,14 @@ export const Projects: CollectionConfig = {
       name: 'repoUrl',
       type: 'text',
       admin: {
-        description: 'GitHub repository URL',
+        description: 'GitHub repository URL (optional)',
       },
     },
     {
       name: 'liveUrl',
       type: 'text',
       admin: {
-        description: 'Live demo or deployed site URL',
+        description: 'Live demo or deployed site URL (optional)',
       },
     },
     {
