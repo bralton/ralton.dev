@@ -17,11 +17,26 @@ import { Skills } from './collections/Skills'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/**
+ * SECURITY: PAYLOAD_SECRET is required for session encryption.
+ * This secret should ONLY be defined in .env/.env.local (server-side).
+ * NEVER import this file in client components (NFR12).
+ */
 if (!process.env.PAYLOAD_SECRET) {
   throw new Error('PAYLOAD_SECRET environment variable is required')
 }
 
 export default buildConfig({
+  /**
+   * Admin Panel Configuration
+   *
+   * SECURITY NOTES:
+   * - Admin panel accessible at /admin (not publicly linked from main site)
+   * - Uses built-in Payload authentication (NFR9)
+   * - Session cookies are HTTP-only (Payload default)
+   * - CSRF protection is enabled by default
+   * - HTTPS enforced by Vercel deployment (NFR8)
+   */
   admin: {
     user: Users.slug,
     importMap: {

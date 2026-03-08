@@ -6,6 +6,14 @@ import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 
+/**
+ * Navigation Links
+ *
+ * SECURITY: The /admin route is intentionally NOT included here.
+ * The admin panel should only be accessed by typing /admin directly.
+ * This is a security decision per NFR12 - admin credentials and
+ * access points should not be publicly exposed (AC #1, Story 3.1).
+ */
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },

@@ -1,6 +1,17 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 
-/** @type {import('next').NextConfig} */
+/**
+ * Next.js Configuration
+ *
+ * SECURITY NOTES (Story 3.1, NFR8, NFR12):
+ * - HTTPS is enforced by Vercel deployment (all traffic redirected to HTTPS)
+ * - CSP headers configured to restrict script/style sources
+ * - Frame-ancestors set to 'none' to prevent clickjacking
+ * - Strict referrer policy for privacy
+ * - Admin panel at /admin is NOT publicly linked (see Navigation/Footer components)
+ *
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   typescript: { ignoreBuildErrors: false },
 

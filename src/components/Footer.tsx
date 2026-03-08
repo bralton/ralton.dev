@@ -1,3 +1,10 @@
+/**
+ * Site Footer Component
+ *
+ * SECURITY: The /admin route is intentionally NOT linked here.
+ * Admin access should be direct URL only, not publicly discoverable.
+ * This is a security decision per NFR12 (Story 3.1, AC #1).
+ */
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
