@@ -74,7 +74,7 @@ development_status:
   4-1-create-github-data-collection-and-cron-job: done
   4-2-create-github-commit-graph-component: done
   4-3-add-github-profile-link: done
-  4-4-implement-graceful-fallback-for-github-data: backlog
+  4-4-implement-graceful-fallback-for-github-data: done
   epic-4-retrospective: optional
 
   # Epic 5: Contact & Communication
