@@ -39,9 +39,7 @@ export const Users: CollectionConfig = {
       type: 'select',
       label: 'Role',
       defaultValue: 'admin',
-      options: [
-        { label: 'Admin', value: 'admin' },
-      ],
+      options: [{ label: 'Admin', value: 'admin' }],
       admin: {
         description: 'User role for future access control',
         readOnly: true, // Only one role for now

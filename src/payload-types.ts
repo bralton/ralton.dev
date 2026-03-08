@@ -98,10 +98,12 @@ export interface Config {
   globals: {
     hero: Hero;
     about: About;
+    'github-data': GithubDatum;
   };
   globalsSelect: {
     hero: HeroSelect<false> | HeroSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    'github-data': GithubDataSelect<false> | GithubDataSelect<true>;
   };
   locale: null;
   widgets: {
@@ -690,6 +692,41 @@ export interface About {
   createdAt?: string | null;
 }
 /**
+ * Cached GitHub contribution data fetched daily via cron job
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "github-data".
+ */
+export interface GithubDatum {
+  id: number;
+  /**
+   * GitHub username to fetch contributions for
+   */
+  username: string;
+  /**
+   * Total contributions in the past year
+   */
+  totalContributions?: number | null;
+  /**
+   * JSON array of weekly contribution data
+   */
+  contributionData?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Timestamp of last successful data fetch
+   */
+  lastFetched?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "hero_select".
  */
@@ -722,6 +759,19 @@ export interface AboutSelect<T extends boolean = true> {
         text?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "github-data_select".
+ */
+export interface GithubDataSelect<T extends boolean = true> {
+  username?: T;
+  totalContributions?: T;
+  contributionData?: T;
+  lastFetched?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

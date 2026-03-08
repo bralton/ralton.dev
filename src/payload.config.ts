@@ -9,6 +9,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Hero } from './collections/Hero'
 import { About } from './collections/About'
+import { GitHubData } from './collections/GitHubData'
 import { Experiences } from './collections/Experiences'
 import { Education } from './collections/Education'
 import { Projects } from './collections/Projects'
@@ -44,7 +45,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Experiences, Education, Projects, Skills],
-  globals: [Hero, About],
+  globals: [Hero, About, GitHubData],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET,
   typescript: {
