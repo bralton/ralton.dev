@@ -13,15 +13,15 @@ interface EducationCardProps {
 
 export function EducationCard({ degree, institution, dateRange, description }: EducationCardProps) {
   return (
-    <article>
-      <Card
-        tabIndex={0}
-        className="border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
-      >
+    <article
+      tabIndex={0}
+      className="rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+    >
+      <Card className="h-full border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
         <CardHeader>
           <h3 className="text-xl font-semibold text-foreground">{degree}</h3>
           <p className="text-base text-muted-foreground">{institution}</p>
-          <p className="text-sm text-zinc-500">{dateRange}</p>
+          <p className="text-sm text-zinc-400">{dateRange}</p>
         </CardHeader>
         {description && (
           <CardContent>

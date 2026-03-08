@@ -25,11 +25,11 @@ export function ProjectCard({
   image,
 }: ProjectCardProps) {
   return (
-    <article>
-      <Card
-        tabIndex={0}
-        className="overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
-      >
+    <article
+      tabIndex={0}
+      className="rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+    >
+      <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
         {image && typeof image !== 'number' && image.url && (
           <div className="relative aspect-video w-full">
             <Image
@@ -73,7 +73,7 @@ export function ProjectCard({
                   aria-label={`View ${title} source code on GitHub`}
                   className="rounded text-zinc-400 transition-colors hover:text-teal-400 focus:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-700"
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="h-5 w-5" aria-hidden="true" />
                 </a>
               )}
               {liveUrl && (
@@ -84,7 +84,7 @@ export function ProjectCard({
                   aria-label={`View ${title} live demo`}
                   className="rounded text-zinc-400 transition-colors hover:text-teal-400 focus:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-700"
                 >
-                  <ExternalLink className="h-5 w-5" />
+                  <ExternalLink className="h-5 w-5" aria-hidden="true" />
                 </a>
               )}
             </div>
