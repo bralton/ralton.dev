@@ -12,6 +12,7 @@ import { About } from './collections/About'
 import { Experiences } from './collections/Experiences'
 import { Education } from './collections/Education'
 import { Projects } from './collections/Projects'
+import { Skills } from './collections/Skills'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Experiences, Education, Projects],
+  collections: [Users, Media, Experiences, Education, Projects, Skills],
   globals: [Hero, About],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET,
