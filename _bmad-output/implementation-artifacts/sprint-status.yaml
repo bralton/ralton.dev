@@ -82,7 +82,7 @@ development_status:
   5-1-create-contact-form-with-validation: review
   5-2-create-contact-api-endpoint-with-storage: review
   5-3-implement-rate-limiting-for-contact-form: review
-  5-4-integrate-email-notifications-with-resend: backlog
+  5-4-integrate-notifications: review
   5-5-implement-auto-delete-for-contact-submissions: backlog
   5-6-create-social-links-display: backlog
   epic-5-retrospective: optional

@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { contactFormSchema } from '@/lib/validations/contact'
+import { sendContactNotifications } from '@/lib/notifications'
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000 // 1 hour
 const RATE_LIMIT_MAX = 5 // Max 5 submissions per IP per hour
@@ -85,6 +86,11 @@ export async function POST(request: NextRequest) {
     })
 
     console.log(`[Contact] New submission stored: ${submission.id}`)
+
+    // Send notifications (non-blocking)
+    sendContactNotifications({ name, email, message }).catch((error) => {
+      console.error('[Contact] Failed to send notifications:', error)
+    })
 
     return NextResponse.json({ success: true })
   } catch (error) {
