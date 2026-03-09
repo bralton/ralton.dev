@@ -6,6 +6,7 @@ import { EducationSection } from '@/components/EducationSection'
 import { ProjectsSection } from '@/components/ProjectsSection'
 import { SkillsSection } from '@/components/SkillsSection'
 import { GitHubGraph } from '@/components/GitHubGraph'
+import { ContactSection } from '@/components/ContactSection'
 import { Footer } from '@/components/Footer'
 
 export default function HomePage() {
@@ -20,10 +21,7 @@ export default function HomePage() {
         <ProjectsSection />
         <SkillsSection />
         <GitHubGraph />
-        {/* Contact section placeholder for navigation anchor - implemented in Epic 5 */}
-        <section id="contact" className="sr-only" aria-label="Contact section placeholder">
-          {/* Content will be implemented in Epic 5 */}
-        </section>
+        <ContactSection />
       </main>
       <Footer />
     </>

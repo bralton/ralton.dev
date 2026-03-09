@@ -70,16 +70,16 @@ development_status:
   epic-3-retrospective: done
 
   # Epic 4: GitHub Integration
-  epic-4: in-progress
+  epic-4: done
   4-1-create-github-data-collection-and-cron-job: done
   4-2-create-github-commit-graph-component: done
   4-3-add-github-profile-link: done
   4-4-implement-graceful-fallback-for-github-data: done
-  epic-4-retrospective: optional
+  epic-4-retrospective: done
 
   # Epic 5: Contact & Communication
-  epic-5: backlog
-  5-1-create-contact-form-with-validation: backlog
+  epic-5: in-progress
+  5-1-create-contact-form-with-validation: review
   5-2-create-contact-api-endpoint-with-storage: backlog
   5-3-implement-rate-limiting-for-contact-form: backlog
   5-4-integrate-email-notifications-with-resend: backlog
