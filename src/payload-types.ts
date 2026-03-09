@@ -73,6 +73,7 @@ export interface Config {
     education: Education;
     projects: Project;
     skills: Skill;
+    'contact-submissions': ContactSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     education: EducationSelect<false> | EducationSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -373,6 +375,37 @@ export interface Skill {
   createdAt: string;
 }
 /**
+ * Contact form submissions from visitors
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  /**
+   * Name of the person who submitted the form
+   */
+  name: string;
+  /**
+   * Email address for replies
+   */
+  email: string;
+  /**
+   * Message content
+   */
+  message: string;
+  /**
+   * IP address for rate limiting
+   */
+  ip?: string | null;
+  /**
+   * When the form was submitted
+   */
+  submittedAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -419,6 +452,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'skills';
         value: number | Skill;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -560,6 +597,19 @@ export interface SkillsSelect<T extends boolean = true> {
   name?: T;
   category?: T;
   isVisible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  message?: T;
+  ip?: T;
+  submittedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

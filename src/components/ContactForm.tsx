@@ -40,7 +40,9 @@ export function ContactForm() {
         throw new Error(result.error || 'Failed to send message')
       }
 
-      setStatusMessage("Message sent successfully. Thanks for reaching out. I'll get back to you soon.")
+      setStatusMessage(
+        "Message sent successfully. Thanks for reaching out. I'll get back to you soon."
+      )
       toast({
         title: 'Message sent!',
         description: "Thanks for reaching out. I'll get back to you soon.",
@@ -63,18 +65,16 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {/* Visually hidden live region for screen reader announcements */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {statusMessage}
       </div>
 
       <div>
         <label htmlFor="name" className="mb-2 block text-sm font-medium">
-          Name <span aria-hidden="true" className="text-red-500">*</span>
+          Name{' '}
+          <span aria-hidden="true" className="text-red-500">
+            *
+          </span>
           <span className="sr-only">(required)</span>
         </label>
         <Input
@@ -94,7 +94,10 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="email" className="mb-2 block text-sm font-medium">
-          Email <span aria-hidden="true" className="text-red-500">*</span>
+          Email{' '}
+          <span aria-hidden="true" className="text-red-500">
+            *
+          </span>
           <span className="sr-only">(required)</span>
         </label>
         <Input
@@ -115,7 +118,10 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="message" className="mb-2 block text-sm font-medium">
-          Message <span aria-hidden="true" className="text-red-500">*</span>
+          Message{' '}
+          <span aria-hidden="true" className="text-red-500">
+            *
+          </span>
           <span className="sr-only">(required)</span>
         </label>
         <Textarea
@@ -133,12 +139,7 @@ export function ContactForm() {
         )}
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        aria-busy={isSubmitting}
-        className="w-full"
-      >
+      <Button type="submit" disabled={isSubmitting} aria-busy={isSubmitting} className="w-full">
         {isSubmitting ? (
           <>
             <LoadingSpinner className="mr-2 h-4 w-4" />
@@ -161,14 +162,7 @@ function LoadingSpinner({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"
