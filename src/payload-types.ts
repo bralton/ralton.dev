@@ -74,6 +74,7 @@ export interface Config {
     projects: Project;
     skills: Skill;
     'contact-submissions': ContactSubmission;
+    'social-links': SocialLink;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'social-links': SocialLinksSelect<false> | SocialLinksSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -406,6 +408,33 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
+ * Social media profile links
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-links".
+ */
+export interface SocialLink {
+  id: number;
+  /**
+   * Social media platform
+   */
+  platform: 'github' | 'linkedin' | 'twitter' | 'email';
+  /**
+   * Full URL to profile (or mailto: for email)
+   */
+  url: string;
+  /**
+   * Show this link on the site
+   */
+  isVisible?: boolean | null;
+  /**
+   * Display order (lower numbers first)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -456,6 +485,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'social-links';
+        value: number | SocialLink;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -610,6 +643,18 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   message?: T;
   ip?: T;
   submittedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-links_select".
+ */
+export interface SocialLinksSelect<T extends boolean = true> {
+  platform?: T;
+  url?: T;
+  isVisible?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

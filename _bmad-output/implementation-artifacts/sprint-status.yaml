@@ -84,7 +84,7 @@ development_status:
   5-3-implement-rate-limiting-for-contact-form: review
   5-4-integrate-notifications: review
   5-5-implement-auto-delete-for-contact-submissions: review
-  5-6-create-social-links-display: backlog
+  5-6-create-social-links-display: done
   epic-5-retrospective: optional
 
   # Epic 6: SEO & Discovery

@@ -1,3 +1,5 @@
+import { SocialLinks } from './SocialLinks'
+
 /**
  * Site Footer Component
  *
@@ -5,7 +7,7 @@
  * Admin access should be direct URL only, not publicly discoverable.
  * This is a security decision per NFR12 (Story 3.1, AC #1).
  */
-export function Footer() {
+export async function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
@@ -19,8 +21,7 @@ export function Footer() {
           &copy; {currentYear} B.RALTON · Development &amp; Operations
         </p>
 
-        {/* Social Links Placeholder - To be implemented in Epic 5 */}
-        <div className="flex items-center gap-4">{/* Social link icons will go here */}</div>
+        <SocialLinks />
       </div>
     </footer>
   )

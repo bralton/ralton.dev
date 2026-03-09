@@ -15,6 +15,7 @@ import { Education } from './collections/Education'
 import { Projects } from './collections/Projects'
 import { Skills } from './collections/Skills'
 import { ContactSubmissions } from './collections/ContactSubmissions'
+import { SocialLinks } from './collections/SocialLinks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -45,7 +46,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Experiences, Education, Projects, Skills, ContactSubmissions],
+  collections: [Users, Media, Experiences, Education, Projects, Skills, ContactSubmissions, SocialLinks],
   globals: [Hero, About, GitHubData],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET,
