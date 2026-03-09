@@ -3,6 +3,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { contactFormSchema } from '@/lib/validations/contact'
 
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000 // 1 hour
+const RATE_LIMIT_MAX = 5 // Max 5 submissions per IP per hour
+
 export async function POST(request: NextRequest) {
   try {
     // Validate Content-Type header
@@ -48,6 +51,26 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await getPayload({ config })
+
+    // Check rate limit
+    const oneHourAgo = new Date(Date.now() - RATE_LIMIT_WINDOW_MS)
+
+    const recentSubmissions = await payload.find({
+      collection: 'contact-submissions',
+      where: {
+        ip: { equals: ip },
+        submittedAt: { greater_than: oneHourAgo.toISOString() },
+      },
+      limit: RATE_LIMIT_MAX + 1, // Only need to know if >= 5
+    })
+
+    if (recentSubmissions.docs.length >= RATE_LIMIT_MAX) {
+      console.warn(`[Contact] Rate limit exceeded for IP: ${ip}`)
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
 
     // Store submission
     const submission = await payload.create({
