@@ -20,14 +20,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        run: npm install -g pnpm@9
-
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm install
 
       - name: Build Next.js app
-        run: pnpm run build
+        run: npm run build
         env:
           # Skip database migrations in CI (build-only mode)
           SKIP_MIGRATIONS: true
