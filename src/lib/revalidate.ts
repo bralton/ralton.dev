@@ -21,6 +21,11 @@ import { revalidatePath } from 'next/cache'
  * @returns Promise that resolves when revalidation completes (or fails gracefully)
  */
 export async function revalidateHomepage(): Promise<void> {
+  // Skip revalidation in CI environment (no Next.js context available)
+  if (process.env.CI) {
+    return
+  }
+
   try {
     revalidatePath('/')
     console.log('[Revalidate] Homepage cache invalidated')
