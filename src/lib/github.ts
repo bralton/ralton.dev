@@ -5,7 +5,12 @@ const GITHUB_GRAPHQL_ENDPOINT = 'https://api.github.com/graphql'
 
 export interface ContributionDay {
   contributionCount: number
-  contributionLevel: 'NONE' | 'FIRST_QUARTILE' | 'SECOND_QUARTILE' | 'THIRD_QUARTILE' | 'FOURTH_QUARTILE'
+  contributionLevel:
+    | 'NONE'
+    | 'FIRST_QUARTILE'
+    | 'SECOND_QUARTILE'
+    | 'THIRD_QUARTILE'
+    | 'FOURTH_QUARTILE'
   date: string
 }
 

@@ -12,7 +12,10 @@ date: 2026-03-07
 
 # Epic 5: Contact & Communication
 
-Visitors can reach out to Ben easily. Contact form submissions are stored, Ben receives email notifications, and visitors see social links.
+> **Design Document:** [epic-5-design-document.md](../epic-5-design-document.md)
+> Contains React Hook Form + Zod validation, Resend email integration, Discord webhook, rate limiting implementation, auto-delete cron job, and SocialLinks component. Required reading before story creation.
+
+Visitors can reach out to Ben easily. Contact form submissions are stored, Ben receives email notifications (and Discord alerts), and visitors see social links.
 
 ## Story 5.1: Create Contact Form with Validation
 
@@ -123,10 +126,10 @@ So that **spam and abuse are prevented** (NFR11).
 **Then** the query filters by IP and submittedAt > (now - 1 hour)
 **And** the query is efficient and doesn't slow down responses
 
-## Story 5.4: Integrate Email Notifications with Resend
+## Story 5.4: Integrate Notifications (Email + Discord)
 
 As **Ben (admin)**,
-I want **to receive email notifications when someone submits the contact form**,
+I want **to receive email and Discord notifications when someone submits the contact form**,
 So that **I can respond to inquiries promptly** (FR14).
 
 **Acceptance Criteria:**
@@ -152,6 +155,18 @@ So that **I can respond to inquiries promptly** (FR14).
 **Then** the error is logged to Axiom
 **And** the contact submission is still saved (email failure doesn't block storage)
 **And** the visitor still sees success (they submitted successfully)
+
+**Given** Discord webhook is configured
+**When** a contact form is submitted successfully
+**Then** a Discord notification is sent to the configured webhook
+**And** the notification includes: sender name, sender email, message preview
+**And** the notification uses an embed with teal branding color
+
+**Given** Discord webhook fails
+**When** the webhook returns an error
+**Then** the error is logged to Axiom
+**And** the contact submission is still saved (notification failure doesn't block storage)
+**And** the visitor still sees success
 
 ## Story 5.5: Implement Auto-Delete for Contact Submissions
 

@@ -40,3 +40,6 @@ data.db
 
 # Misc
 *.log
+
+# Payload uploads
+media/
