@@ -24,10 +24,8 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Next.js app
-        run: npm run build
+        run: npx next build
         env:
-          # Skip database migrations in CI (build-only mode)
-          SKIP_MIGRATIONS: true
           # Provide dummy values for required env vars during build
           DATABASE_URI: postgresql://localhost:5432/dummy
           PAYLOAD_SECRET: ci-build-secret-not-for-production
