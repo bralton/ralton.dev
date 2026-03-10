@@ -1,4 +1,4 @@
-# generated: 2026-03-07
+# generated: 2026-03-10
 # project: personal_website
 # project_key: NOKEY
 # tracking_system: file-system
@@ -33,7 +33,7 @@
 # - SM typically creates next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
-generated: 2026-03-07
+generated: 2026-03-10
 project: personal_website
 project_key: NOKEY
 tracking_system: file-system
@@ -78,18 +78,18 @@ development_status:
   epic-4-retrospective: done
 
   # Epic 5: Contact & Communication
-  epic-5: in-progress
+  epic-5: done
   5-1-create-contact-form-with-validation: done
   5-2-create-contact-api-endpoint-with-storage: done
   5-3-implement-rate-limiting-for-contact-form: done
   5-4-integrate-notifications: done
   5-5-implement-auto-delete-for-contact-submissions: done
   5-6-create-social-links-display: done
-  epic-5-retrospective: optional
+  epic-5-retrospective: done
 
   # Epic 6: SEO & Discovery
-  epic-6: backlog
-  6-1-configure-meta-tags-and-page-metadata: backlog
+  epic-6: in-progress
+  6-1-configure-meta-tags-and-page-metadata: done
   6-2-configure-open-graph-tags-for-social-sharing: backlog
   6-3-generate-sitemap: backlog
   6-4-add-structured-data-person-schema: backlog

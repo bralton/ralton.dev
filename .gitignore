@@ -43,3 +43,6 @@ data.db
 
 # Payload uploads
 media/
+
+# Lighthouse CI
+.lighthouseci/

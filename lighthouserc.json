@@ -6,13 +6,15 @@
       "url": ["http://localhost:3000"],
       "numberOfRuns": 1,
       "settings": {
-        "onlyCategories": ["accessibility"],
+        "onlyCategories": ["accessibility", "seo"],
         "chromeFlags": "--no-sandbox --disable-gpu --headless"
       }
     },
     "assert": {
       "assertions": {
         "categories:accessibility": ["error", { "minScore": 0.9 }],
+        "categories:seo": ["error", { "minScore": 0.9 }],
+
         "color-contrast": "error",
         "focus-order": "warn",
         "focusable-controls": "error",
@@ -44,7 +46,14 @@
         "aria-required-parent": "error",
         "aria-roles": "error",
         "aria-valid-attr-value": "error",
-        "aria-valid-attr": "error"
+        "aria-valid-attr": "error",
+
+        "meta-description": "error",
+        "link-text": "warn",
+        "crawlable-anchors": "warn",
+        "is-crawlable": "error",
+        "robots-txt": "warn",
+        "canonical": "error"
       }
     },
     "upload": {
