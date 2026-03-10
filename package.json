@@ -4,6 +4,7 @@
   "description": "Ben's personal portfolio website built with Payload CMS and Next.js",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation\" payload migrate && next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
