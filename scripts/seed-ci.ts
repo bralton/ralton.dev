@@ -5,6 +5,39 @@
 import { getPayload } from 'payload'
 import config from '../src/payload.config'
 
+// Helper to create Lexical rich text format
+function richText(text: string) {
+  return {
+    root: {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          version: 1,
+          children: [
+            {
+              type: 'text',
+              version: 1,
+              text,
+              format: 0,
+              style: '',
+              detail: 0,
+              mode: 'normal',
+            },
+          ],
+          direction: 'ltr' as const,
+          format: '' as const,
+          indent: 0,
+        },
+      ],
+      direction: 'ltr' as const,
+      format: '' as const,
+      indent: 0,
+      version: 1,
+    },
+  }
+}
+
 async function seed() {
   const payload = await getPayload({ config })
 
@@ -29,12 +62,7 @@ async function seed() {
   await payload.updateGlobal({
     slug: 'about',
     data: {
-      bio: [
-        {
-          type: 'paragraph',
-          children: [{ text: 'A passionate developer with experience in modern web technologies.' }],
-        },
-      ],
+      bio: richText('A passionate developer with experience in modern web technologies.'),
       highlights: [
         { text: 'Full Stack Development' },
         { text: 'React & Next.js' },
@@ -63,12 +91,7 @@ async function seed() {
       title: 'Senior Developer',
       company: 'Tech Company',
       startDate: '2022-01-01',
-      description: [
-        {
-          type: 'paragraph',
-          children: [{ text: 'Led development of web applications.' }],
-        },
-      ],
+      description: richText('Led development of web applications.'),
       isVisible: true,
     },
   })
@@ -92,12 +115,7 @@ async function seed() {
     collection: 'projects',
     data: {
       title: 'Portfolio Website',
-      description: [
-        {
-          type: 'paragraph',
-          children: [{ text: 'A modern portfolio built with Next.js and Payload CMS.' }],
-        },
-      ],
+      description: richText('A modern portfolio built with Next.js and Payload CMS.'),
       techStack: [{ technology: 'Next.js' }, { technology: 'TypeScript' }],
       isVisible: true,
     },
