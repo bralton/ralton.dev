@@ -45,8 +45,8 @@ export async function GitHubGraph() {
   const username = typeof githubData.username === 'string' ? githubData.username : 'GitHub'
 
   return (
-    <section id="github" aria-labelledby="github-heading" className="px-4 py-16">
-      <div className="mx-auto max-w-4xl">
+    <section id="github" aria-labelledby="github-heading" className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
+      <div className="mx-auto max-w-[1200px]">
         <h2 id="github-heading" className="mb-6 text-2xl font-bold">
           GitHub Activity
         </h2>
@@ -82,7 +82,11 @@ export async function GitHubGraph() {
           <span>Less</span>
           <div className="flex gap-0.5">
             {Object.entries(levelToColorClass).map(([level, colorClass]) => (
-              <div key={level} className={`h-2.5 w-2.5 rounded-sm ${colorClass}`} aria-hidden="true" />
+              <div
+                key={level}
+                className={`h-2.5 w-2.5 rounded-sm ${colorClass}`}
+                aria-hidden="true"
+              />
             ))}
           </div>
           <span>More</span>
