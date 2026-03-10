@@ -43,7 +43,7 @@ export async function sendContactEmail({
     return false
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL || 'ben@ralton.dev'
+  const adminEmail = process.env.ADMIN_EMAIL || 'devops@ralton.dev'
 
   // Escape user input for HTML to prevent XSS
   const safeName = escapeHtml(name)
