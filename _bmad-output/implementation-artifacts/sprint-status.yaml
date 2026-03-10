@@ -79,11 +79,11 @@ development_status:
 
   # Epic 5: Contact & Communication
   epic-5: in-progress
-  5-1-create-contact-form-with-validation: review
-  5-2-create-contact-api-endpoint-with-storage: review
-  5-3-implement-rate-limiting-for-contact-form: review
-  5-4-integrate-notifications: review
-  5-5-implement-auto-delete-for-contact-submissions: review
+  5-1-create-contact-form-with-validation: done
+  5-2-create-contact-api-endpoint-with-storage: done
+  5-3-implement-rate-limiting-for-contact-form: done
+  5-4-integrate-notifications: done
+  5-5-implement-auto-delete-for-contact-submissions: done
   5-6-create-social-links-display: done
   epic-5-retrospective: optional
 
