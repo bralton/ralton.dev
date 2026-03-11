@@ -4,20 +4,21 @@
 >
 > These rules are documented and ready but cannot be enforced on private repositories with GitHub Free tier.
 > Enable these rules when:
+>
 > - The repository becomes public, OR
 > - The GitHub plan is upgraded to Team/Enterprise
 
 ## Recommended Settings for `main` Branch
 
-| Setting | Value | Rationale |
-|---------|-------|-----------|
-| Require pull request reviews | 1 reviewer | Code quality gate |
-| Dismiss stale PR approvals | Yes | Prevent bypass via new commits |
-| Require status checks | Yes | Automated quality gates |
-| Status checks required | `Lighthouse Accessibility Audit`, `Playwright E2E` | Comprehensive coverage |
-| Require branches up to date | Yes | Prevent merge conflicts |
-| Do not allow bypassing | Yes | Consistent enforcement |
-| Require linear history | Optional | Cleaner git history |
+| Setting                      | Value                                              | Rationale                      |
+| ---------------------------- | -------------------------------------------------- | ------------------------------ |
+| Require pull request reviews | 1 reviewer                                         | Code quality gate              |
+| Dismiss stale PR approvals   | Yes                                                | Prevent bypass via new commits |
+| Require status checks        | Yes                                                | Automated quality gates        |
+| Status checks required       | `Lighthouse Accessibility Audit`, `Playwright E2E` | Comprehensive coverage         |
+| Require branches up to date  | Yes                                                | Prevent merge conflicts        |
+| Do not allow bypassing       | Yes                                                | Consistent enforcement         |
+| Require linear history       | Optional                                           | Cleaner git history            |
 
 ## Step-by-Step GitHub UI Instructions
 
@@ -62,32 +63,37 @@ Click **Create** or **Save changes** to apply the rule.
 
 ## Status Checks Reference
 
-| Check Name | Workflow File | Required |
-|------------|---------------|----------|
-| `Lighthouse Accessibility Audit` | `.github/workflows/accessibility.yml` | Yes |
-| `Playwright E2E` | `.github/workflows/e2e.yml` | Yes (when implemented) |
-| `Send Discord Notification` | `.github/workflows/pr-discord.yml` | No (informational only) |
+| Check Name                       | Workflow File                         | Required                |
+| -------------------------------- | ------------------------------------- | ----------------------- |
+| `Lighthouse Accessibility Audit` | `.github/workflows/accessibility.yml` | Yes                     |
+| `Playwright E2E`                 | `.github/workflows/e2e.yml`           | Yes (when implemented)  |
+| `Send Discord Notification`      | `.github/workflows/pr-discord.yml`    | No (informational only) |
 
 ## Why These Settings?
 
 ### Require PR Reviews (1 reviewer)
+
 - Ensures at least one person reviews code changes
 - For solo developers, consider using a "rubber duck" review or self-review after a delay
 
 ### Dismiss Stale Approvals
+
 - If new commits are pushed after approval, re-review is required
 - Prevents sneaking in changes after approval
 
 ### Require Status Checks
+
 - Lighthouse CI ensures accessibility standards are maintained
 - E2E tests catch regressions in critical user paths
 - Automated gates reduce human error
 
 ### Require Up-to-Date Branches
+
 - Ensures PRs are tested against latest main
 - Prevents merge conflicts and integration issues
 
 ### No Bypassing
+
 - Even repository owners must follow the rules
 - Maintains consistent quality standards
 

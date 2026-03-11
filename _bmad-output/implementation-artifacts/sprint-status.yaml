@@ -100,14 +100,15 @@ development_status:
   epic-7: done
   7-1-create-privacy-policy-page: done
   7-2-document-data-collection-practices: done
-  epic-7-retrospective: optional
+  epic-7-retrospective: done
 
   # Epic 8: CI/DevOps, Security & Documentation
-  epic-8: backlog
-  8-1-configure-discord-pr-notifications: backlog
-  8-2-enable-dependabot-security-updates: backlog
-  8-3-add-branch-protection-rules-configuration: backlog
-  8-4-implement-admin-ip-allowlist: backlog
-  8-5-set-up-playwright-e2e-tests: backlog
-  8-6-create-project-documentation: backlog
+  epic-8: in-progress
+  8-1-configure-discord-pr-notifications: review
+  8-2-enable-dependabot-security-updates: review
+  8-3-add-branch-protection-rules-configuration: done
+  8-4-create-custom-404-page: review
+  8-5-implement-admin-ip-allowlist: review
+  8-6-set-up-playwright-e2e-tests: review
+  8-7-create-project-documentation: done
   epic-8-retrospective: optional

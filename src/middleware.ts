@@ -5,9 +5,7 @@ import type { NextRequest } from 'next/server'
 const PROTECTED_PATHS = ['/admin']
 
 function isProtectedPath(pathname: string): boolean {
-  return PROTECTED_PATHS.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`)
-  )
+  return PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`))
 }
 
 function getClientIP(request: NextRequest): string {

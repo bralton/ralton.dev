@@ -2,15 +2,15 @@
 
 ## Build Commands
 
-| Command | Purpose | Notes |
-|---------|---------|-------|
-| `pnpm dev` | Start dev server | Requires `DATABASE_URL` |
-| `pnpm build` | Production build | Runs `payload migrate && next build` — needs database |
-| `npx next build` | Build without migrations | Use for local verification when no DB available |
-| `pnpm lint` | Run ESLint | |
-| `pnpm format` | Run Prettier | |
-| `pnpm devsafe` | Dev with clean `.next` | Deletes `.next` before starting |
-| `pnpm payload` | Raw Payload CLI | For migrations, seed, etc. |
+| Command          | Purpose                  | Notes                                                 |
+| ---------------- | ------------------------ | ----------------------------------------------------- |
+| `pnpm dev`       | Start dev server         | Requires `DATABASE_URL`                               |
+| `pnpm build`     | Production build         | Runs `payload migrate && next build` — needs database |
+| `npx next build` | Build without migrations | Use for local verification when no DB available       |
+| `pnpm lint`      | Run ESLint               |                                                       |
+| `pnpm format`    | Run Prettier             |                                                       |
+| `pnpm devsafe`   | Dev with clean `.next`   | Deletes `.next` before starting                       |
+| `pnpm payload`   | Raw Payload CLI          | For migrations, seed, etc.                            |
 
 **Local build note:** `pnpm build` hangs without a running database because `payload migrate` requires a connection. Use `npx next build` for local build verification.
 
@@ -41,6 +41,7 @@ src/
 ```
 
 Other top-level directories:
+
 - `_bmad/` — Project management workflow templates
 - `_bmad-output/` — Generated planning and implementation artifacts
 - `.github/workflows/` — CI (Lighthouse, sitemap/robots.txt validation)
@@ -52,6 +53,7 @@ Other top-level directories:
 ### Imports
 
 Use `@/` path alias for all imports from `src/`:
+
 ```ts
 import { cn } from '@/lib/utils'
 import { HeroSection } from '@/components/HeroSection'
@@ -85,6 +87,7 @@ import { HeroSection } from '@/components/HeroSection'
 **No unit/integration test framework is configured.** Playwright E2E tests are planned for Epic 8 (Story 8.5).
 
 Current CI validation (`.github/workflows/accessibility.yml`):
+
 - Lighthouse accessibility audit
 - Sitemap XML structure validation
 - robots.txt content validation
@@ -93,6 +96,7 @@ Current CI validation (`.github/workflows/accessibility.yml`):
 ## Environment Variables
 
 See `.env.example` for the full list. Key variables:
+
 - `DATABASE_URL` — PostgreSQL (Neon)
 - `PAYLOAD_SECRET` — Required for Payload CMS
 - `NEXT_PUBLIC_SITE_URL` — Canonical URL (`https://ralton.dev`)

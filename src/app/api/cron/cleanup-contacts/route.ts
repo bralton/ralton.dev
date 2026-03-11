@@ -62,9 +62,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('[Cron/Cleanup] Unexpected error:', error)
-    return Response.json(
-      { success: false, message: 'Cleanup failed' },
-      { status: 500 }
-    )
+    return Response.json({ success: false, message: 'Cleanup failed' }, { status: 500 })
   }
 }

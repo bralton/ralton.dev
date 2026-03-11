@@ -12,10 +12,7 @@ export async function POST(request: NextRequest) {
     // Validate Content-Type header
     const contentType = request.headers.get('content-type')
     if (!contentType?.includes('application/json')) {
-      return NextResponse.json(
-        { error: 'Content-Type must be application/json' },
-        { status: 415 }
-      )
+      return NextResponse.json({ error: 'Content-Type must be application/json' }, { status: 415 })
     }
 
     // Parse request body with explicit error handling for malformed JSON
@@ -23,10 +20,7 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json()
     } catch {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
     }
 
     // Validate request body against schema

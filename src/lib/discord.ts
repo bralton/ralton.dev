@@ -12,17 +12,19 @@ export interface DiscordNotificationParams {
  * Escapes Discord markdown special characters and prevents @everyone/@here mentions.
  */
 function sanitizeForDiscord(input: string): string {
-  return input
-    // Escape markdown characters
-    .replace(/\\/g, '\\\\')
-    .replace(/\*/g, '\\*')
-    .replace(/_/g, '\\_')
-    .replace(/~/g, '\\~')
-    .replace(/`/g, '\\`')
-    .replace(/\|/g, '\\|')
-    // Escape mentions (@everyone, @here, <@user>, <@&role>)
-    .replace(/@(everyone|here)/gi, '@\u200B$1')
-    .replace(/<@/g, '<\u200B@')
+  return (
+    input
+      // Escape markdown characters
+      .replace(/\\/g, '\\\\')
+      .replace(/\*/g, '\\*')
+      .replace(/_/g, '\\_')
+      .replace(/~/g, '\\~')
+      .replace(/`/g, '\\`')
+      .replace(/\|/g, '\\|')
+      // Escape mentions (@everyone, @here, <@user>, <@&role>)
+      .replace(/@(everyone|here)/gi, '@\u200B$1')
+      .replace(/<@/g, '<\u200B@')
+  )
 }
 
 export async function sendDiscordNotification({
@@ -70,11 +72,7 @@ export async function sendDiscordNotification({
     })
 
     if (!response.ok) {
-      console.error(
-        '[Discord] Webhook failed:',
-        response.status,
-        response.statusText
-      )
+      console.error('[Discord] Webhook failed:', response.status, response.statusText)
       return false
     }
 
