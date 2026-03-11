@@ -61,7 +61,7 @@ jobs:
         run: npx tsx scripts/seed-ci.ts
 
       - name: Build Next.js app
-        run: pnpm build
+        run: npx next build
 
       - name: Start server and run tests
         run: |
