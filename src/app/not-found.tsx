@@ -32,10 +32,9 @@ export default function NotFound() {
             className="mb-8 font-mono text-2xl text-muted-foreground sm:text-3xl"
             aria-hidden="true"
           >
-            {`  ___  ___  ___
- /   \\/   \\/   \\
-| 4  || 0 || 4  |
- \\___/\\___/\\___/`}
+            {`┌───┐ ┌───┐ ┌───┐
+│ 4 │ │ 0 │ │ 4 │
+└───┘ └───┘ └───┘`}
           </pre>
 
           <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Page Not Found</h1>
