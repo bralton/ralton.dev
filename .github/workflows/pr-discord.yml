@@ -29,33 +29,29 @@ jobs:
       - name: Send Discord Notification
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          PR_REPO: ${{ github.repository }}
-          PR_CREATED_AT: ${{ github.event.pull_request.created_at }}
         run: |
-          # Handle empty PR body with fallback
-          DESCRIPTION="${PR_BODY:-No description provided.}"
-          # Truncate description to 3900 chars (Discord embed limit is 4096)
-          DESCRIPTION=$(printf '%s' "$DESCRIPTION" | cut -c1-3900)
+          # Get PR data using GitHub's JSON escaping
+          PR_TITLE='${{ github.event.pull_request.title }}'
+          PR_URL='${{ github.event.pull_request.html_url }}'
+          PR_AUTHOR='${{ github.event.pull_request.user.login }}'
+          PR_REPO='${{ github.repository }}'
+          PR_CREATED_AT='${{ github.event.pull_request.created_at }}'
 
-          # Truncate title to 200 chars (Discord embed title limit is 256)
-          TITLE=$(printf '%s' "$PR_TITLE" | cut -c1-200)
+          # Handle PR body - use toJson for proper escaping, then process in jq
+          PR_BODY_JSON='${{ toJson(github.event.pull_request.body) }}'
 
-          # Build JSON payload safely with jq
+          # Build payload using jq with proper JSON handling
           PAYLOAD=$(jq -n \
-            --arg title "$TITLE" \
-            --arg description "$DESCRIPTION" \
+            --arg title "$PR_TITLE" \
+            --argjson body "$PR_BODY_JSON" \
             --arg author "$PR_AUTHOR" \
             --arg url "$PR_URL" \
             --arg repo "$PR_REPO" \
             --arg timestamp "$PR_CREATED_AT" \
             '{
               embeds: [{
-                title: ("PR: " + $title),
-                description: $description,
+                title: ("PR: " + ($title | if length > 200 then .[:200] + "..." else . end)),
+                description: (($body // "No description provided.") | if length > 3900 then .[:3900] + "..." else . end),
                 url: $url,
                 color: 3447003,
                 fields: [
@@ -66,14 +62,16 @@ jobs:
               }]
             }')
 
+          # Debug: show payload structure (without sensitive data)
+          echo "Payload structure validated"
+
           # Send to Discord
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+          HTTP_CODE=$(curl -s -o /tmp/discord_response.txt -w "%{http_code}" -X POST \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
             "$DISCORD_WEBHOOK_URL")
 
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | sed '$d')
+          BODY=$(cat /tmp/discord_response.txt)
 
           if [[ "$HTTP_CODE" != "200" && "$HTTP_CODE" != "204" ]]; then
             echo "::error::Discord webhook failed with status $HTTP_CODE"
