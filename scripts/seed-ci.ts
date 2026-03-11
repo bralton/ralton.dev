@@ -157,6 +157,67 @@ async function seed() {
   })
   console.log('[Seed] Social Links seeded')
 
+  // Seed Categories
+  const techCategory = await payload.create({
+    collection: 'categories',
+    data: {
+      name: 'Technology',
+      slug: 'technology',
+      description: 'Posts about technology and software development',
+    },
+  })
+  const tutorialCategory = await payload.create({
+    collection: 'categories',
+    data: {
+      name: 'Tutorials',
+      slug: 'tutorials',
+      description: 'Step-by-step guides and how-tos',
+    },
+  })
+  console.log('[Seed] Categories seeded')
+
+  // Seed Tags
+  const reactTag = await payload.create({
+    collection: 'tags',
+    data: {
+      name: 'React',
+      slug: 'react',
+    },
+  })
+  const nextjsTag = await payload.create({
+    collection: 'tags',
+    data: {
+      name: 'Next.js',
+      slug: 'nextjs',
+    },
+  })
+  const typescriptTag = await payload.create({
+    collection: 'tags',
+    data: {
+      name: 'TypeScript',
+      slug: 'typescript',
+    },
+  })
+  console.log('[Seed] Tags seeded')
+
+  // Seed a Blog Post
+  await payload.create({
+    collection: 'posts',
+    data: {
+      title: 'Getting Started with Next.js',
+      slug: 'getting-started-with-nextjs',
+      content: richText(
+        'Next.js is a powerful React framework that makes building web applications easier. In this post, we will explore the basics of Next.js and how to get started with your first project.'
+      ),
+      excerpt: 'Learn the basics of Next.js and start building modern web applications.',
+      status: 'published',
+      publishedAt: new Date().toISOString(),
+      categories: [techCategory.id, tutorialCategory.id],
+      tags: [reactTag.id, nextjsTag.id, typescriptTag.id],
+    },
+  })
+  console.log('[Seed] Blog Post seeded')
+
   console.log('[Seed] CI data seed complete!')
   process.exit(0)
 }

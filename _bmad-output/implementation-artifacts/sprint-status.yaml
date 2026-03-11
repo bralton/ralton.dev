@@ -114,8 +114,8 @@ development_status:
   epic-8-retrospective: done
 
   # Epic 9: Blog Platform
-  epic-9: backlog
-  9-1-create-blog-collections-posts-categories-tags: backlog
+  epic-9: in-progress
+  9-1-create-blog-collections-posts-categories-tags: done
   9-2-create-blog-listing-page: backlog
   9-3-create-blog-post-page-with-syntax-highlighting: backlog
   9-4-create-category-and-tag-filtering: backlog

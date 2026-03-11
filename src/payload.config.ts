@@ -10,12 +10,15 @@ import { Media } from './collections/Media'
 import { Hero } from './collections/Hero'
 import { About } from './collections/About'
 import { GitHubData } from './collections/GitHubData'
+import { Categories } from './collections/Categories'
 import { Experiences } from './collections/Experiences'
 import { Education } from './collections/Education'
+import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Skills } from './collections/Skills'
 import { ContactSubmissions } from './collections/ContactSubmissions'
 import { SocialLinks } from './collections/SocialLinks'
+import { Tags } from './collections/Tags'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -49,12 +52,15 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    Categories,
     Experiences,
     Education,
+    Posts,
     Projects,
     Skills,
     ContactSubmissions,
     SocialLinks,
+    Tags,
   ],
   globals: [Hero, About, GitHubData],
   editor: lexicalEditor(),
