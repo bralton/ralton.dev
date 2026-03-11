@@ -1,8 +1,8 @@
 ---
 documentType: epic-list
-epicCount: 7
+epicCount: 8
 shardedFrom: epics.md
-date: 2026-03-07
+date: 2026-03-11
 ---
 
 # Epic List
@@ -110,5 +110,26 @@ Site meets legal requirements for data collection disclosure. Visitors can under
 
 - Privacy policy page at `/privacy`
 - Data practices disclosure (collection, usage, 90-day retention, no third-party sharing)
+
+---
+
+## Epic 8: CI/DevOps, Security & Documentation
+
+Establish automated CI pipelines, security hardening, and comprehensive project documentation. Operational excellence sprint - reducing manual toil, tightening security, and ensuring maintainability.
+
+**FRs covered:** None (operational/infrastructure)
+
+**NFRs covered:** NFR12 (security)
+
+**Implementation Notes:**
+
+- Discord PR notifications (webhook from Kallion template)
+- Dependabot security updates with auto-PRs
+- Branch protection rules (config ready for when applicable)
+- Admin IP allowlist via Vercel Edge Middleware (use `CF-Connecting-IP` header for Cloudflare)
+- Playwright E2E tests for critical user paths
+- README with Mermaid architecture diagrams, tech stack, setup guide
+
+**Architecture Note:** Cloudflare (DNS/CDN) → Vercel (Edge) → Next.js → Payload → Postgres
 
 ---

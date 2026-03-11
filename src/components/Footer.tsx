@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { SocialLinks } from './SocialLinks'
 
 /**
@@ -17,9 +18,17 @@ export async function Footer() {
       className="border-t border-zinc-800 bg-background px-4 py-8 md:px-6 lg:px-8"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 md:flex-row md:justify-between">
-        <p className="text-sm text-text-secondary">
-          &copy; {currentYear} B.RALTON · Development &amp; Operations
-        </p>
+        <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
+          <p className="text-sm text-text-secondary">
+            &copy; {currentYear} B.RALTON · Development &amp; Operations
+          </p>
+          <Link
+            href="/privacy"
+            className="rounded hover:text-text-primary text-sm text-text-secondary focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          >
+            Privacy Policy
+          </Link>
+        </div>
 
         <SocialLinks />
       </div>
