@@ -92,7 +92,7 @@ development_status:
   6-1-configure-meta-tags-and-page-metadata: done
   6-2-configure-open-graph-tags-for-social-sharing: done
   6-3-generate-sitemap: done
-  6-4-add-structured-data-person-schema: review
+  6-4-add-structured-data-person-schema: done
   6-5-configure-robots-txt: backlog
   epic-6-retrospective: optional
 

@@ -1,6 +1,6 @@
 # Story 6.4: Add Structured Data (Person Schema)
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -90,17 +90,17 @@ export async function PersonStructuredData() {
     // Fetch About for description
     const aboutData = await payload.findGlobal({ slug: 'about' })
 
-    // Fetch visible social links for sameAs
+    // Fetch visible social links for sameAs (filter email in JS for simplicity)
     const socialLinks = await payload.find({
       collection: 'social-links',
       where: {
         isVisible: { equals: true },
-        platform: { in: ['linkedin', 'github', 'twitter'] } // Exclude email
       },
+      sort: 'order',
       limit: 10,
     })
 
-    // Build sameAs array from social links
+    // Build sameAs array from social links (exclude email - not a social profile URL)
     const sameAs = socialLinks.docs
       .filter(link => link.platform !== 'email')
       .map(link => link.url)
@@ -375,6 +375,17 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 - Email platform correctly filtered from sameAs array (only social profile URLs included)
 - Graceful error handling: component returns null on failure, logs error server-side
 
+**Validation Evidence (Task 3.4):**
+- JSON-LD output verified in build at `.next/server/app/index.html`
+- Schema structure follows schema.org/Person specification
+- All required fields (@context, @type, name, url) present
+- Optional fields (jobTitle, description, image, sameAs) conditionally included
+
+**Code Review Fixes Applied (2026-03-11):**
+- Fixed description truncation to use word boundaries instead of cutting mid-word
+- Updated Dev Notes spec to match actual implementation (email filtering done in JS, not query)
+- Removed unrelated file (pnpm-workspace.yaml) from File List
+
 **Known Issue to Address:**
 - `pnpm build` command fails due to database migration step requiring DB connection
 - Workaround: Use `npx next build` directly for build verification
@@ -384,9 +395,9 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 - `src/components/PersonStructuredData.tsx` (created)
 - `src/app/(frontend)/page.tsx` (modified - added PersonStructuredData import and component)
-- `pnpm-workspace.yaml` (modified - added packages field to fix pnpm workspace config)
 
 ### Change Log
 
 - 2026-03-11: Implemented Person structured data (JSON-LD) for SEO rich results
+- 2026-03-11: Code review fixes - word-boundary truncation, documentation corrections
 

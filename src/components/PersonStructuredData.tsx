@@ -96,10 +96,19 @@ export async function PersonStructuredData() {
     }
 
     if (aboutData?.bio) {
-      // Extract plain text from rich text and limit to 160 chars for description
+      // Extract plain text from rich text and limit to ~160 chars for description
       const bioText = extractTextFromRichText(aboutData.bio)
       if (bioText) {
-        personSchema.description = bioText.substring(0, 160)
+        // Truncate at word boundary to avoid cutting words mid-way
+        if (bioText.length <= 160) {
+          personSchema.description = bioText
+        } else {
+          const truncated = bioText.substring(0, 160)
+          const lastSpace = truncated.lastIndexOf(' ')
+          // Only use word boundary if we have enough content (at least 120 chars)
+          personSchema.description =
+            lastSpace > 120 ? truncated.substring(0, lastSpace) + '...' : truncated + '...'
+        }
       }
     }
 
