@@ -30,18 +30,32 @@ jobs:
             exit 1
           fi
 
+          # For Dependabot PRs, use a simple description
+          # For regular PRs, use first 500 chars of body
+          if [[ "$PR_AUTHOR" == "dependabot[bot]" ]]; then
+            DESCRIPTION="Automated dependency update. Click the link above to review changes."
+          else
+            # Strip <details> blocks and truncate
+            DESCRIPTION=$(echo "$PR_BODY" | sed 's/<details>.*<\/details>//g' | head -c 500)
+            if [ ${#PR_BODY} -gt 500 ]; then
+              DESCRIPTION="${DESCRIPTION}..."
+            fi
+            if [ -z "$DESCRIPTION" ]; then
+              DESCRIPTION="No description provided."
+            fi
+          fi
+
           # Construct the Discord payload safely using jq
-          # Discord embed description limit is 4096 chars, truncate at 3900 to be safe
           payload=$(jq -n \
             --arg title "$PR_TITLE" \
-            --arg body "$PR_BODY" \
+            --arg desc "$DESCRIPTION" \
             --arg url "$PR_URL" \
             --arg author "$PR_AUTHOR" \
             --arg repo "$PR_REPO" \
             '{
               "embeds": [{
-                "title": "New Pull Request",
-                "description": ("**\($title)**\n\n" + (($body // "No description provided") | (if length > 3900 then .[0:3900] + "\n\n...(description truncated)" else . end))),
+                "title": ("PR: " + $title),
+                "description": $desc,
                 "url": $url,
                 "color": 3447003,
                 "fields": [
