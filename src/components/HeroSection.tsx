@@ -30,7 +30,7 @@ export async function HeroSection() {
               className={`min-h-[44px] min-w-[44px] ${
                 button.variant === 'primary'
                   ? 'bg-teal-700 text-white hover:bg-teal-800'
-                  : 'border-teal-700 text-teal-700 hover:bg-teal-700 hover:text-white'
+                  : 'border-teal-400 text-teal-400 hover:bg-teal-700 hover:text-white'
               }`}
             >
               <a href={button.url}>{button.label}</a>

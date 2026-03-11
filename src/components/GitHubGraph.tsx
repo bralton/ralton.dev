@@ -45,7 +45,11 @@ export async function GitHubGraph() {
   const username = typeof githubData.username === 'string' ? githubData.username : 'GitHub'
 
   return (
-    <section id="github" aria-labelledby="github-heading" className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
+    <section
+      id="github"
+      aria-labelledby="github-heading"
+      className="px-4 py-16 md:px-6 md:py-24 lg:px-8"
+    >
       <div className="mx-auto max-w-[1200px]">
         <h2 id="github-heading" className="mb-6 text-2xl font-bold">
           GitHub Activity

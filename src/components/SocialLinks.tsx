@@ -45,10 +45,10 @@ export async function SocialLinks() {
                   href={link.url}
                   target={link.platform === 'email' ? undefined : '_blank'}
                   rel={link.platform === 'email' ? undefined : 'noopener noreferrer'}
-                  className="flex items-center justify-center w-11 h-11 rounded-full text-muted-foreground hover:text-teal-700 dark:hover:text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background transition-colors"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background dark:hover:text-teal-400"
                   aria-label={label}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="h-6 w-6" />
                 </a>
               </li>
             )

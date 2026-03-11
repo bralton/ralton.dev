@@ -25,7 +25,7 @@ export async function Footer() {
           </p>
           <Link
             href="/privacy"
-            className="rounded hover:text-text-primary text-sm text-text-secondary focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            className="hover:text-text-primary rounded text-sm text-text-secondary focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
           >
             Privacy Policy
           </Link>

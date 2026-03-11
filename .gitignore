@@ -46,3 +46,8 @@ media/
 
 # Lighthouse CI
 .lighthouseci/
+
+# Playwright
+playwright-report/
+test-results/
+.playwright/

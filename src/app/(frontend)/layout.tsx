@@ -73,8 +73,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ben Ralton | Development & Operations',
-    description:
-      'Personal portfolio of Ben Ralton - Development & Operations professional.',
+    description: 'Personal portfolio of Ben Ralton - Development & Operations professional.',
     images: ['/og-image.png'],
   },
   alternates: {
