@@ -21,6 +21,7 @@ export async function Footer() {
         <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
           <p className="text-sm text-text-secondary">
             &copy; {currentYear} B.RALTON · Development &amp; Operations
+            <span className="mx-2 hidden md:inline">|</span>
           </p>
           <Link
             href="/privacy"
