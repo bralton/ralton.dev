@@ -93,6 +93,58 @@ jobs:
           echo ""
           echo "✅ Sitemap validation passed!"
 
+      - name: Validate robots.txt
+        run: |
+          echo "Fetching robots.txt..."
+          ROBOTS=$(curl -s -f http://localhost:3000/robots.txt)
+          if [ $? -ne 0 ]; then
+            echo "❌ Failed to fetch robots.txt"
+            exit 1
+          fi
+          echo "✅ robots.txt is accessible"
+
+          # Verify required directives
+          if echo "$ROBOTS" | grep -q "User-agent:"; then
+            echo "✅ Contains User-agent directive"
+          else
+            echo "❌ Missing User-agent directive"
+            exit 1
+          fi
+
+          if echo "$ROBOTS" | grep -q "Allow: /"; then
+            echo "✅ Contains Allow: / directive"
+          else
+            echo "❌ Missing Allow: / directive"
+            exit 1
+          fi
+
+          if echo "$ROBOTS" | grep -q "Disallow: /admin"; then
+            echo "✅ Contains Disallow: /admin directive"
+          else
+            echo "❌ Missing Disallow: /admin directive"
+            exit 1
+          fi
+
+          if echo "$ROBOTS" | grep -q "Disallow: /api/"; then
+            echo "✅ Contains Disallow: /api/ directive"
+          else
+            echo "❌ Missing Disallow: /api/ directive"
+            exit 1
+          fi
+
+          if echo "$ROBOTS" | grep -q "Sitemap:"; then
+            echo "✅ Contains Sitemap directive"
+          else
+            echo "❌ Missing Sitemap directive"
+            exit 1
+          fi
+
+          echo ""
+          echo "robots.txt content:"
+          echo "$ROBOTS"
+          echo ""
+          echo "✅ robots.txt validation passed!"
+
       - name: Stop background server
         run: pkill -f "next start" || true
 

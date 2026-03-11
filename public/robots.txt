@@ -1,0 +1,11 @@
+# robots.txt for ralton.dev
+
+User-agent: *
+Allow: /
+
+# Disallow admin panel and API routes
+Disallow: /admin
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://ralton.dev/sitemap.xml

@@ -93,7 +93,7 @@ development_status:
   6-2-configure-open-graph-tags-for-social-sharing: done
   6-3-generate-sitemap: done
   6-4-add-structured-data-person-schema: done
-  6-5-configure-robots-txt: backlog
+  6-5-configure-robots-txt: done
   epic-6-retrospective: optional
 
   # Epic 7: Privacy & Legal Compliance
