@@ -27,23 +27,9 @@ so that {{benefit}}.
 - Source tree components to touch
 - Testing standards summary
 
-### Accessibility Patterns (from Epic 2 Retrospective)
+### Dev Standards
 
-**Color System:**
-- Use teal-700 for primary accent, teal-800 for hover (WCAG AA compliant)
-- Do NOT use teal-600 (insufficient contrast)
-
-**Semantic HTML:**
-- Use `<ul role="list">` with `<li>` wrappers for repeated elements (cards, badges, etc.)
-- Add `aria-label` on lists for screen reader context
-
-**React Keys:**
-- Use unique IDs as keys (item.id, item.name) - NOT array index
-- Example: `key={skill.id}` not `key={index}`
-
-**Focus States:**
-- All interactive elements (links, buttons) need visible focus indicators
-- Pattern: `focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background`
+See [CLAUDE.md](../../../../../CLAUDE.md) for accessibility patterns, naming conventions, and project structure.
 
 ### Project Structure Notes
 
