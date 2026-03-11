@@ -103,12 +103,12 @@ development_status:
   epic-7-retrospective: done
 
   # Epic 8: CI/DevOps, Security & Documentation
-  epic-8: in-progress
-  8-1-configure-discord-pr-notifications: review
-  8-2-enable-dependabot-security-updates: review
+  epic-8: done
+  8-1-configure-discord-pr-notifications: done
+  8-2-enable-dependabot-security-updates: done
   8-3-add-branch-protection-rules-configuration: done
-  8-4-create-custom-404-page: review
-  8-5-implement-admin-ip-allowlist: review
-  8-6-set-up-playwright-e2e-tests: review
+  8-4-create-custom-404-page: done
+  8-5-implement-admin-ip-allowlist: done
+  8-6-set-up-playwright-e2e-tests: done
   8-7-create-project-documentation: done
-  epic-8-retrospective: optional
+  epic-8-retrospective: done
