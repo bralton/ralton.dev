@@ -17,6 +17,19 @@ updates:
       - 'automated'
     reviewers:
       - 'bralton'
+    groups:
+      opentelemetry:
+        patterns:
+          - '@opentelemetry/*'
+      vercel:
+        patterns:
+          - '@vercel/*'
+      all-other:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - '@opentelemetry/*'
+          - '@vercel/*'
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'
@@ -29,3 +42,7 @@ updates:
     labels:
       - 'ci'
       - 'automated'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
