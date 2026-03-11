@@ -1,12 +1,16 @@
 ---
 documentType: epics-index
 project_name: personal_website
-epicCount: 7
-storyCount: 34
-frCoverage: '38/38'
+epicCount: 9
+storyCount: 41
+frCoverage: '54/54'
 shardedFrom: epics.md
 date: 2026-03-07
-status: complete
+lastUpdated: 2026-03-11
+status: in-progress
+updateHistory:
+  - date: '2026-03-11'
+    changes: 'Added Epic 9: Blog Platform (FR39-54)'
 ---
 
 # personal_website - Epic Breakdown
@@ -28,6 +32,8 @@ status: complete
     - [Epic 5: Contact & Communication](./epic-list.md#epic-5-contact-communication)
     - [Epic 6: SEO & Discovery](./epic-list.md#epic-6-seo-discovery)
     - [Epic 7: Privacy & Legal Compliance](./epic-list.md#epic-7-privacy-legal-compliance)
+    - [Epic 8: CI/DevOps, Security & Documentation](./epic-list.md#epic-8-cidevops-security-documentation)
+    - [Epic 9: Blog Platform](./epic-list.md#epic-9-blog-platform)
   - [Epic 1: Project Foundation & Infrastructure](./epic-1-project-foundation-infrastructure.md)
     - [Story 1.1: Initialize Project with Payload and shadcn](./epic-1-project-foundation-infrastructure.md#story-11-initialize-project-with-payload-and-shadcn)
     - [Story 1.2: Configure Project Structure and Development Environment](./epic-1-project-foundation-infrastructure.md#story-12-configure-project-structure-and-development-environment)
@@ -69,3 +75,12 @@ status: complete
   - [Epic 7: Privacy & Legal Compliance](./epic-7-privacy-legal-compliance.md)
     - [Story 7.1: Create Privacy Policy Page](./epic-7-privacy-legal-compliance.md#story-71-create-privacy-policy-page)
     - [Story 7.2: Document Data Collection Practices](./epic-7-privacy-legal-compliance.md#story-72-document-data-collection-practices)
+  - [Epic 8: CI/DevOps, Security & Documentation](./epic-8-ci-devops-security-documentation.md)
+  - [Epic 9: Blog Platform](./epic-9-blog-platform.md)
+    - [Story 9.1: Create Blog Collections (Posts, Categories, Tags)](./epic-9-blog-platform.md#story-91-create-blog-collections-posts-categories-tags)
+    - [Story 9.2: Create Blog Listing Page](./epic-9-blog-platform.md#story-92-create-blog-listing-page)
+    - [Story 9.3: Create Blog Post Page with Syntax Highlighting](./epic-9-blog-platform.md#story-93-create-blog-post-page-with-syntax-highlighting)
+    - [Story 9.4: Create Category and Tag Filtering](./epic-9-blog-platform.md#story-94-create-category-and-tag-filtering)
+    - [Story 9.5: Add Blog Post SEO and Open Graph](./epic-9-blog-platform.md#story-95-add-blog-post-seo-and-open-graph)
+    - [Story 9.6: Create RSS Feed](./epic-9-blog-platform.md#story-96-create-rss-feed)
+    - [Story 9.7: Configure Blog Draft Preview](./epic-9-blog-platform.md#story-97-configure-blog-draft-preview)

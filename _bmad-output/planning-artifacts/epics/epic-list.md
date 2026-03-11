@@ -1,8 +1,12 @@
 ---
 documentType: epic-list
-epicCount: 8
+epicCount: 9
 shardedFrom: epics.md
 date: 2026-03-11
+lastUpdated: 2026-03-11
+updateHistory:
+  - date: '2026-03-11'
+    changes: 'Added Epic 9: Blog Platform'
 ---
 
 # Epic List
@@ -131,5 +135,26 @@ Establish automated CI pipelines, security hardening, and comprehensive project 
 - README with Mermaid architecture diagrams, tech stack, setup guide
 
 **Architecture Note:** Cloudflare (DNS/CDN) → Vercel (Edge) → Next.js → Payload → Postgres
+
+---
+
+## Epic 9: Blog Platform
+
+Visitors can discover and read Ben's technical articles, tutorials, and thought leadership content. Blog posts feature code syntax highlighting, category/tag organization, and RSS subscription. Ben can create, edit, and publish posts with a draft/preview workflow through the existing Payload CMS admin.
+
+**FRs covered:** FR39, FR40, FR41, FR42, FR43, FR44, FR45, FR46, FR47, FR48, FR49, FR50, FR51, FR52, FR53, FR54
+
+**NFRs addressed:** NFR29, NFR30, NFR31, NFR32
+
+**Implementation Notes:**
+
+- 3 new Payload collections: Posts, Categories, Tags
+- Payload Lexical for rich text content with code blocks
+- Shiki for build-time syntax highlighting (zero client JS)
+- Reading time calculated via Payload hook at save time
+- RSS feed via `/api/rss` endpoint
+- Blog routes: `/blog`, `/blog/[slug]`, `/blog/category/[slug]`, `/blog/tag/[slug]`
+- Pagination (10 posts per page)
+- Draft/published workflow via status field
 
 ---

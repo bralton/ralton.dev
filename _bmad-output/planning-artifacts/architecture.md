@@ -11,6 +11,10 @@ date: '2026-03-07'
 lastStep: 8
 status: 'complete'
 completedAt: '2026-03-07'
+lastUpdated: '2026-03-11'
+updateHistory:
+  - date: '2026-03-11'
+    changes: 'Added Blog feature architecture - Posts/Categories/Tags collections, blog routes, CodeBlock component, Shiki syntax highlighting, RSS feed'
 ---
 
 # Architecture Decision Document
@@ -22,7 +26,7 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 ### Requirements Overview
 
 **Functional Requirements:**
-38 functional requirements spanning 8 categories:
+54 functional requirements spanning 10 categories:
 
 - **Content Display (FR1-7):** Hero, About, Experience, Education, Projects, Skills sections with smooth navigation
 - **GitHub Integration (FR8-10):** Commit graph display, profile linking, contribution data fetching
@@ -32,15 +36,18 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 - **SEO & Discovery (FR27-31):** Meta tags, Open Graph, sitemap, structured data, robots.txt
 - **Accessibility (FR32-35):** Keyboard navigation, screen reader support, alt text, color contrast
 - **Responsive Experience (FR36-38):** Mobile, tablet, and desktop breakpoint support
+- **Blog Content Display (FR39-46):** Blog listing, post pages, category/tag filtering, reading time, code syntax highlighting, RSS feed, SEO metadata
+- **Blog Content Management (FR47-54):** Post CRUD, drafts, preview, categories, tags, featured images
 
 **Non-Functional Requirements:**
-28 NFRs defining quality attributes:
+32 NFRs defining quality attributes:
 
 - **Performance (NFR1-7):** LCP < 2.5s, FID < 100ms, CLS < 0.1, TTFB < 600ms, Lighthouse > 90, CDN edge serving, image optimization
 - **Security (NFR8-14):** HTTPS, Payload auth, CSP headers, rate limiting (5/IP/hour), no client-side secrets, dependency scanning, 90-day data retention
 - **Accessibility (NFR15-21):** WCAG 2.1 AA, keyboard navigation, 4.5:1 contrast, alt text, focus indicators, semantic HTML, 44x44px touch targets
 - **Integration (NFR22-25):** Daily GitHub data refresh, graceful API failure handling, form confirmation < 3s, email notification < 60s
 - **Reliability (NFR26-28):** 99.9% uptime (Vercel), graceful degradation, static content availability during CMS downtime
+- **Blog Performance (NFR29-32):** Blog listing LCP < 1.5s, code highlighting without layout shift, RSS generation < 3s, blog posts Lighthouse > 90
 
 **Scale & Complexity:**
 
@@ -189,6 +196,9 @@ npx shadcn@latest add button card input textarea toast navigation-menu badge ske
 | `skills`             | Collection | name, category, visible                                           | Grouped by category        |
 | `socialLinks`        | Collection | platform, url, icon, visible                                      | LinkedIn, GitHub, etc.     |
 | `contactSubmissions` | Collection | name, email, message, ip, submittedAt                             | Auto-delete after 90 days  |
+| `posts`              | Collection | title, slug, content (richText), excerpt, featuredImage, publishedAt, status, readingTime, categories, tags | Draft/published workflow, Lexical rich text |
+| `categories`         | Collection | name, slug, description                                           | Blog organization          |
+| `tags`               | Collection | name, slug                                                        | Fine-grained topic tagging |
 
 **Database:** Postgres everywhere (Vercel Postgres for production, Neon for local development)
 
@@ -231,6 +241,50 @@ npx shadcn@latest add button card input textarea toast navigation-menu badge ske
 
 - API key stored in environment variable
 - Template: Simple notification with name, email, message
+
+### Blog Architecture
+
+**Content Editing:**
+
+- Payload Lexical (built-in rich text editor)
+- Supports headings, lists, links, images, code blocks
+- Draft/published workflow via `status` field (`draft` | `published`)
+
+**Code Syntax Highlighting:**
+
+- **Shiki** for build-time syntax highlighting
+- Zero client-side JavaScript for code blocks
+- VS Code theme support (use `github-dark` to match site aesthetic)
+- Configured via custom Lexical serializer for code blocks
+
+**Reading Time Calculation:**
+
+- Calculated at save time (Payload hook)
+- Formula: `Math.ceil(wordCount / 200)` minutes
+- Stored in `readingTime` field on post
+
+**RSS Feed:**
+
+- API route at `/api/rss`
+- Generates RSS 2.0 XML on demand
+- Includes title, description, pubDate, link for each published post
+- Caches response with appropriate headers
+
+**Blog URL Structure:**
+
+| Route | Purpose |
+|-------|---------|
+| `/blog` | Blog listing with pagination |
+| `/blog/[slug]` | Individual post |
+| `/blog/category/[slug]` | Posts filtered by category |
+| `/blog/tag/[slug]` | Posts filtered by tag |
+| `/api/rss` | RSS feed |
+
+**Pagination:**
+
+- 10 posts per page
+- URL pattern: `/blog?page=2`
+- Server-side pagination via Payload query
 
 ### Frontend Architecture
 
@@ -360,21 +414,36 @@ components/
 app/
 ├── (frontend)/      # Public pages (grouped route)
 │   ├── page.tsx     # Home/portfolio page
-│   └── privacy/     # Privacy policy
+│   ├── privacy/     # Privacy policy
+│   └── blog/        # Blog section
+│       ├── page.tsx           # Blog listing
+│       ├── [slug]/
+│       │   └── page.tsx       # Individual post
+│       ├── category/
+│       │   └── [slug]/
+│       │       └── page.tsx   # Posts by category
+│       └── tag/
+│           └── [slug]/
+│               └── page.tsx   # Posts by tag
 ├── (payload)/       # Payload admin routes
 ├── api/
 │   ├── contact/     # Contact form endpoint
+│   ├── rss/         # RSS feed endpoint
+│   │   └── route.ts
 │   └── cron/        # Vercel cron jobs
 │       └── github/  # Daily GitHub data fetch
 └── layout.tsx
 
 collections/         # Payload CMS collections
-├── experiences.ts
-├── education.ts
-├── projects.ts
-├── skills.ts
-├── socialLinks.ts
-└── contactSubmissions.ts
+├── Experiences.ts
+├── Education.ts
+├── Projects.ts
+├── Skills.ts
+├── SocialLinks.ts
+├── ContactSubmissions.ts
+├── Posts.ts         # Blog posts
+├── Categories.ts    # Blog categories
+└── Tags.ts          # Blog tags
 
 lib/                 # Shared utilities
 ├── payload.ts       # Payload client
@@ -556,12 +625,21 @@ personal_website/
 │   ├── ContactSection.tsx        # Contact form wrapper
 │   ├── ContactForm.tsx           # Form logic
 │   ├── SocialLinks.tsx           # Platform icons
-│   └── Footer.tsx                # Minimal footer
+│   ├── Footer.tsx                # Minimal footer
+│   ├── BlogListingSection.tsx    # Blog post grid with pagination
+│   ├── BlogPostCard.tsx          # Post preview card
+│   ├── BlogPostContent.tsx       # Full post rendering (Lexical)
+│   ├── CodeBlock.tsx             # Shiki syntax highlighted code
+│   ├── CategoryList.tsx          # Category navigation
+│   ├── TagCloud.tsx              # Tag display
+│   └── ReadingTime.tsx           # Reading time badge
 │
 ├── lib/
 │   ├── payload.ts                # Payload client helper
 │   ├── github.ts                 # GitHub API functions
 │   ├── email.ts                  # Resend helper
+│   ├── blog.ts                   # Blog utilities (reading time, RSS generation)
+│   ├── shiki.ts                  # Shiki highlighter setup
 │   ├── utils.ts                  # cn(), formatDate(), etc.
 │   └── validations.ts            # Zod schemas
 │
@@ -651,6 +729,30 @@ personal_website/
 | Sitemap         | `next-sitemap` or built-in Next.js sitemap          |
 | Structured data | JSON-LD in `app/(frontend)/page.tsx`                |
 | robots.txt      | `public/robots.txt`                                 |
+
+**Blog Content Display (FR39-46):**
+
+| Requirement              | Component/File                                      |
+| ------------------------ | --------------------------------------------------- |
+| Blog listing page        | `app/(frontend)/blog/page.tsx`                      |
+| Individual post pages    | `app/(frontend)/blog/[slug]/page.tsx`               |
+| Category filtering       | `app/(frontend)/blog/category/[slug]/page.tsx`      |
+| Tag filtering            | `app/(frontend)/blog/tag/[slug]/page.tsx`           |
+| Reading time             | `components/ReadingTime.tsx` + `lib/blog.ts`        |
+| Code syntax highlighting | `components/CodeBlock.tsx` + `lib/shiki.ts`         |
+| RSS feed                 | `app/api/rss/route.ts`                              |
+| Post SEO metadata        | `generateMetadata` in `blog/[slug]/page.tsx`        |
+
+**Blog Content Management (FR47-54):**
+
+| Requirement          | Component/File                          |
+| -------------------- | --------------------------------------- |
+| Post CRUD            | `collections/Posts.ts` + Payload admin  |
+| Draft/publish status | `status` field in Posts collection      |
+| Post preview         | `app/api/preview/route.ts` (existing)   |
+| Categories           | `collections/Categories.ts`             |
+| Tags                 | `collections/Tags.ts`                   |
+| Featured image       | `featuredImage` field (Media relation)  |
 
 ### Integration Points
 
@@ -746,8 +848,8 @@ CRON_SECRET=
 
 ### Requirements Coverage ✅
 
-**Functional Requirements:** All 38 FRs mapped to architectural components
-**Non-Functional Requirements:** All 28 NFRs addressed by architectural decisions
+**Functional Requirements:** All 54 FRs mapped to architectural components (including FR39-54 blog features)
+**Non-Functional Requirements:** All 32 NFRs addressed by architectural decisions (including NFR29-32 blog performance)
 
 ### Implementation Readiness ✅
 
@@ -767,10 +869,11 @@ CRON_SECRET=
 **✅ Architectural Decisions**
 
 - [x] Starter template selected (Payload Blank + shadcn)
-- [x] Data architecture defined (9 Payload collections)
+- [x] Data architecture defined (12 Payload collections including Posts, Categories, Tags)
 - [x] Authentication approach specified (Payload built-in)
 - [x] API patterns documented
 - [x] Infrastructure decisions complete
+- [x] Blog architecture defined (Lexical rich text, Shiki highlighting, RSS feed)
 
 **✅ Implementation Patterns**
 
@@ -795,14 +898,16 @@ CRON_SECRET=
 
 **Key Strengths:**
 
-- Clear, low-complexity architecture appropriate for portfolio site
+- Clear, low-complexity architecture appropriate for portfolio site with integrated blog
 - Single deployment model (no separate services to manage)
 - Established patterns (Next.js + Payload + shadcn well-documented ecosystem)
 - Comprehensive consistency rules prevent agent conflicts
+- Blog uses native Payload capabilities (Lexical) with build-time syntax highlighting (Shiki)
 
-**First Implementation Priority:**
+**Next Implementation Priority (Blog Feature):**
 
-```bash
-pnpx create-payload-app@latest -t blank
-npx shadcn@latest init
-```
+1. Create Posts, Categories, Tags collections
+2. Add blog routes and pages
+3. Configure Shiki for code block rendering
+4. Add RSS feed endpoint
+5. Update sitemap to include blog posts

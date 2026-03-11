@@ -14,6 +14,9 @@ stepsCompleted:
     step-09-functional,
     step-10-nonfunctional,
     step-11-polish,
+    step-e-01-discovery,
+    step-e-02-review,
+    step-e-03-edit,
   ]
 inputDocuments:
   - product-brief-personal_website-2026-03-06.md
@@ -28,6 +31,10 @@ classification:
   domain: general
   complexity: low
   projectContext: greenfield
+lastEdited: '2026-03-11'
+editHistory:
+  - date: '2026-03-11'
+    changes: 'Added Blog feature - Executive Summary, Product Scope, User Journey 5, FR39-FR54, NFR29-NFR32'
 ---
 
 # Product Requirements Document - personal_website
@@ -47,8 +54,9 @@ The site serves as a branded destination beyond LinkedIn where visitors can asse
 - **GitHub commit graph integration** — Real contribution history adds credibility beyond static resume content
 - **Distinctive dark green branding** — Minimalist dark-mode aesthetic with a unique color identity
 - **Admin UI out of the box** — Payload CMS provides a ready-made admin interface for content management
+- **Integrated blog platform** — Technical articles, tutorials, and thought leadership content with code syntax highlighting, categories, tags, and RSS feed
 
-The core insight: most portfolio solutions force a choice between "fully automatic but no control" or "fully manual and tedious." This gives Ben the best of both — structured data from LinkedIn, curated display with simple toggles.
+The core insight: most portfolio solutions force a choice between "fully automatic but no control" or "fully manual and tedious." This gives Ben the best of both — structured data from LinkedIn, curated display with simple toggles. The integrated blog extends this philosophy: a streamlined publishing workflow with draft/preview capabilities, without the overhead of a separate blogging platform.
 
 ## Project Classification
 
@@ -96,12 +104,13 @@ The core insight: most portfolio solutions force a choice between "fully automat
 ### MVP - Minimum Viable Product
 
 - Hero/intro, About, Work experience (with toggles), Education (with toggles), Projects, Skills, GitHub commit graph, Contact form, Social links
+- Blog with posts, categories, tags, code syntax highlighting, RSS feed, reading time estimates, draft/preview workflow
 - Dark mode + dark green theme, responsive layout
 - Next.js, shadcn, Payload CMS, Vercel, OpenTelemetry, Axiom
 
 ### Growth Features (Post-MVP)
 
-- Blog/articles for thought leadership and SEO
+- Blog enhancements: related posts, newsletter integration, search
 - Testimonials from clients/colleagues
 - Expanded project case studies
 
@@ -178,21 +187,44 @@ The core insight: most portfolio solutions force a choice between "fully automat
 
 ---
 
+### Journey 5: Alex the Technical Reader (Secondary User)
+
+**Persona:** Alex is a mid-level developer searching for a solution to a specific technical problem. They found Ben's blog post via Google search.
+
+**Opening Scene:** Alex lands directly on a blog post about a technical topic they're researching. The page loads quickly with clear typography and a visible reading time estimate.
+
+**Rising Action:** Alex scans the article structure via headings. The code examples have syntax highlighting, making them easy to read and copy. The content is well-organized with clear explanations alongside practical examples.
+
+**Climax:** Alex finds the solution they needed. The code snippet works as described. They notice the author's expertise through the quality of explanation.
+
+**Resolution:** Alex bookmarks the site, subscribes to the RSS feed, and browses other articles in the same category. They note Ben's name as a credible source and follow links to Ben's GitHub and LinkedIn profiles.
+
+**Requirements Revealed:** Blog post pages with clear typography, reading time estimates, code syntax highlighting, category/tag navigation, RSS feed, links to author profile, SEO-optimized content for search discovery.
+
+---
+
 ### Journey Requirements Summary
 
-| Capability                       | Revealed By        |
-| -------------------------------- | ------------------ |
-| Clear hero/intro section         | Sarah, Marcus      |
-| Scannable work experience        | Sarah              |
-| Projects with tech stack details | Sarah, Marcus, Dev |
-| GitHub commit graph integration  | Sarah, Dev         |
-| Functional contact form          | Sarah, Marcus      |
-| About section with specialties   | Marcus             |
-| Social links (LinkedIn, GitHub)  | Sarah, Dev         |
-| Mobile-responsive design         | Sarah              |
-| Payload CMS admin panel          | Ben                |
-| Visibility toggles on content    | Ben                |
-| Preview capability               | Ben                |
+| Capability                       | Revealed By         |
+| -------------------------------- | ------------------- |
+| Clear hero/intro section         | Sarah, Marcus       |
+| Scannable work experience        | Sarah               |
+| Projects with tech stack details | Sarah, Marcus, Dev  |
+| GitHub commit graph integration  | Sarah, Dev          |
+| Functional contact form          | Sarah, Marcus       |
+| About section with specialties   | Marcus              |
+| Social links (LinkedIn, GitHub)  | Sarah, Dev, Alex    |
+| Mobile-responsive design         | Sarah               |
+| Payload CMS admin panel          | Ben                 |
+| Visibility toggles on content    | Ben                 |
+| Preview capability               | Ben                 |
+| Blog listing page                | Alex                |
+| Blog post pages with typography  | Alex                |
+| Reading time estimates           | Alex                |
+| Code syntax highlighting         | Alex                |
+| Category/tag navigation          | Alex                |
+| RSS feed                         | Alex                |
+| SEO-optimized blog content       | Alex                |
 
 ## Domain-Specific Requirements
 
@@ -430,6 +462,28 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 - FR37: Visitors can view the site on tablet devices (768px - 1024px)
 - FR38: Visitors can view the site on desktop devices (> 1024px)
 
+### Blog - Content Display
+
+- FR39: Visitors can view a blog listing page showing published posts
+- FR40: Visitors can view individual blog post pages with full content
+- FR41: Visitors can filter blog posts by category
+- FR42: Visitors can filter blog posts by tag
+- FR43: Visitors can view estimated reading time on each blog post
+- FR44: Visitors can view code blocks with syntax highlighting in blog posts
+- FR45: Visitors can subscribe to blog content via RSS feed
+- FR46: System generates SEO metadata (title, description, Open Graph) for each blog post
+
+### Blog - Content Management (Admin)
+
+- FR47: Admin can create, edit, and delete blog posts
+- FR48: Admin can save blog posts as drafts (unpublished)
+- FR49: Admin can preview draft blog posts before publishing
+- FR50: Admin can assign categories to blog posts
+- FR51: Admin can assign tags to blog posts
+- FR52: Admin can set featured image for blog posts
+- FR53: Admin can manage blog categories (create, edit, delete)
+- FR54: Admin can manage blog tags (create, edit, delete)
+
 ## Non-Functional Requirements
 
 ### Performance
@@ -474,3 +528,10 @@ Single-page application built with Next.js (hybrid SSR/SSG), deployed on Vercel.
 - NFR26: 99.9% uptime (Vercel-managed infrastructure)
 - NFR27: Graceful degradation if external services (GitHub API) are unavailable
 - NFR28: Static content available even during CMS downtime
+
+### Blog Performance
+
+- NFR29: Blog listing page loads within 1.5 seconds (LCP) with pagination
+- NFR30: Code syntax highlighting renders without causing layout shift (CLS < 0.1)
+- NFR31: RSS feed generates within 3 seconds of request
+- NFR32: Blog post pages achieve Lighthouse Performance Score above 90

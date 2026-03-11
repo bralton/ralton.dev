@@ -1,9 +1,13 @@
 ---
 documentType: requirements-inventory
-frCount: 38
-nfrCount: 28
+frCount: 54
+nfrCount: 32
 shardedFrom: epics.md
 date: 2026-03-07
+lastUpdated: 2026-03-11
+updateHistory:
+  - date: '2026-03-11'
+    changes: 'Added Blog requirements FR39-54, NFR29-32'
 ---
 
 # Requirements Inventory
@@ -72,6 +76,28 @@ date: 2026-03-07
 - FR37: Visitors can view the site on tablet devices (768px - 1024px)
 - FR38: Visitors can view the site on desktop devices (> 1024px)
 
+**Blog - Content Display (FR39-46):**
+
+- FR39: Visitors can view a blog listing page showing published posts
+- FR40: Visitors can view individual blog post pages with full content
+- FR41: Visitors can filter blog posts by category
+- FR42: Visitors can filter blog posts by tag
+- FR43: Visitors can view estimated reading time on each blog post
+- FR44: Visitors can view code blocks with syntax highlighting in blog posts
+- FR45: Visitors can subscribe to blog content via RSS feed
+- FR46: System generates SEO metadata (title, description, Open Graph) for each blog post
+
+**Blog - Content Management (FR47-54):**
+
+- FR47: Admin can create, edit, and delete blog posts
+- FR48: Admin can save blog posts as drafts (unpublished)
+- FR49: Admin can preview draft blog posts before publishing
+- FR50: Admin can assign categories to blog posts
+- FR51: Admin can assign tags to blog posts
+- FR52: Admin can set featured image for blog posts
+- FR53: Admin can manage blog categories (create, edit, delete)
+- FR54: Admin can manage blog tags (create, edit, delete)
+
 ## NonFunctional Requirements
 
 **Performance (NFR1-7):**
@@ -116,6 +142,13 @@ date: 2026-03-07
 - NFR26: 99.9% uptime (Vercel-managed infrastructure)
 - NFR27: Graceful degradation if external services (GitHub API) are unavailable
 - NFR28: Static content available even during CMS downtime
+
+**Blog Performance (NFR29-32):**
+
+- NFR29: Blog listing page loads within 1.5 seconds (LCP) with pagination
+- NFR30: Code syntax highlighting renders without causing layout shift (CLS < 0.1)
+- NFR31: RSS feed generates within 3 seconds of request
+- NFR32: Blog post pages achieve Lighthouse Performance Score above 90
 
 ## Additional Requirements
 
@@ -195,6 +228,21 @@ date: 2026-03-07
 - `prefers-reduced-motion` support
 - Semantic HTML with proper heading hierarchy
 
+**From Architecture - Blog Feature:**
+
+- 3 new Payload CMS collections: Posts, Categories, Tags
+- Posts collection fields: title, slug, content (Lexical richText), excerpt, featuredImage, publishedAt, status, readingTime, categories, tags
+- Rich text editing via Payload Lexical (built-in)
+- Shiki for build-time syntax highlighting (zero client JS, VS Code themes)
+- Reading time calculated via Payload hook at save time: `Math.ceil(wordCount / 200)` minutes
+- RSS feed via `/api/rss` route (RSS 2.0 XML, on-demand generation)
+- Blog URL structure:
+  - `/blog` — listing with pagination (10 posts per page)
+  - `/blog/[slug]` — individual posts
+  - `/blog/category/[slug]` — category filter
+  - `/blog/tag/[slug]` — tag filter
+- Draft/published workflow via `status` field (`draft` | `published`)
+
 ## FR Coverage Map
 
 | FR   | Epic   | Description                 |
@@ -237,3 +285,19 @@ date: 2026-03-07
 | FR36 | Epic 2 | Mobile responsive           |
 | FR37 | Epic 2 | Tablet responsive           |
 | FR38 | Epic 2 | Desktop responsive          |
+| FR39 | Epic 9 | Blog listing page           |
+| FR40 | Epic 9 | Blog post pages             |
+| FR41 | Epic 9 | Category filtering          |
+| FR42 | Epic 9 | Tag filtering               |
+| FR43 | Epic 9 | Reading time display        |
+| FR44 | Epic 9 | Code syntax highlighting    |
+| FR45 | Epic 9 | RSS feed                    |
+| FR46 | Epic 9 | Blog post SEO metadata      |
+| FR47 | Epic 9 | Blog post CRUD              |
+| FR48 | Epic 9 | Draft posts                 |
+| FR49 | Epic 9 | Draft preview               |
+| FR50 | Epic 9 | Category assignment         |
+| FR51 | Epic 9 | Tag assignment              |
+| FR52 | Epic 9 | Featured image              |
+| FR53 | Epic 9 | Category management         |
+| FR54 | Epic 9 | Tag management              |
