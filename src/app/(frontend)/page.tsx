@@ -8,10 +8,12 @@ import { SkillsSection } from '@/components/SkillsSection'
 import { GitHubGraph } from '@/components/GitHubGraph'
 import { ContactSection } from '@/components/ContactSection'
 import { Footer } from '@/components/Footer'
+import { PersonStructuredData } from '@/components/PersonStructuredData'
 
 export default function HomePage() {
   return (
     <>
+      <PersonStructuredData />
       <Navigation />
       <main id="main-content" className="pt-24">
         <HeroSection />

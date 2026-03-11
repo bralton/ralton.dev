@@ -92,7 +92,7 @@ development_status:
   6-1-configure-meta-tags-and-page-metadata: done
   6-2-configure-open-graph-tags-for-social-sharing: done
   6-3-generate-sitemap: done
-  6-4-add-structured-data-person-schema: backlog
+  6-4-add-structured-data-person-schema: review
   6-5-configure-robots-txt: backlog
   epic-6-retrospective: optional
 
@@ -101,3 +101,13 @@ development_status:
   7-1-create-privacy-policy-page: backlog
   7-2-document-data-collection-practices: backlog
   epic-7-retrospective: optional
+
+  # Epic 8: CI/DevOps, Security & Documentation
+  epic-8: backlog
+  8-1-configure-discord-pr-notifications: backlog
+  8-2-enable-dependabot-security-updates: backlog
+  8-3-add-branch-protection-rules-configuration: backlog
+  8-4-implement-admin-ip-allowlist: backlog
+  8-5-set-up-playwright-e2e-tests: backlog
+  8-6-create-project-documentation: backlog
+  epic-8-retrospective: optional
