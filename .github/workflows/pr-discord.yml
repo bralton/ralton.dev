@@ -1,81 +1,76 @@
-name: PR Discord Notification
+name: Discord PR Notification
 
 on:
   pull_request:
     types: [opened]
 
-permissions:
-  pull-requests: read
-
-concurrency:
-  group: discord-pr-${{ github.event.pull_request.number }}
-  cancel-in-progress: false
-
 jobs:
-  notify:
-    name: Send Discord Notification
+  notify-discord:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
-      - name: Validate Webhook URL
+      - name: Send Discord notification
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_REPO: ${{ github.repository }}
         run: |
-          if [[ ! "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/ ]]; then
-            echo "::error::Invalid Discord webhook URL format"
+          set -euo pipefail
+
+          # Validate webhook URL exists and has correct format
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "Error: DISCORD_WEBHOOK_URL secret not configured"
             exit 1
           fi
 
-      - name: Send Discord Notification
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          # Get PR data using GitHub's JSON escaping
-          PR_TITLE='${{ github.event.pull_request.title }}'
-          PR_URL='${{ github.event.pull_request.html_url }}'
-          PR_AUTHOR='${{ github.event.pull_request.user.login }}'
-          PR_REPO='${{ github.repository }}'
-          PR_CREATED_AT='${{ github.event.pull_request.created_at }}'
+          if [[ ! "$DISCORD_WEBHOOK" =~ ^https://discord\.com/api/webhooks/ ]]; then
+            echo "Error: DISCORD_WEBHOOK_URL doesn't appear to be a valid Discord webhook"
+            exit 1
+          fi
 
-          # Handle PR body - use toJson for proper escaping, then process in jq
-          PR_BODY_JSON='${{ toJson(github.event.pull_request.body) }}'
-
-          # Build payload using jq with proper JSON handling
-          PAYLOAD=$(jq -n \
+          # Construct the Discord payload safely using jq
+          # Discord embed description limit is 4096 chars, truncate at 3900 to be safe
+          payload=$(jq -n \
             --arg title "$PR_TITLE" \
-            --argjson body "$PR_BODY_JSON" \
-            --arg author "$PR_AUTHOR" \
+            --arg body "$PR_BODY" \
             --arg url "$PR_URL" \
+            --arg author "$PR_AUTHOR" \
             --arg repo "$PR_REPO" \
-            --arg timestamp "$PR_CREATED_AT" \
             '{
-              embeds: [{
-                title: ("PR: " + ($title | if length > 200 then .[:200] + "..." else . end)),
-                description: (($body // "No description provided.") | if length > 3900 then .[:3900] + "..." else . end),
-                url: $url,
-                color: 3447003,
-                fields: [
-                  { name: "Repository", value: $repo, inline: true },
-                  { name: "Author", value: $author, inline: true }
-                ],
-                timestamp: $timestamp
+              "embeds": [{
+                "title": "New Pull Request",
+                "description": ("**\($title)**\n\n" + (($body // "No description provided") | (if length > 3900 then .[0:3900] + "\n\n...(description truncated)" else . end))),
+                "url": $url,
+                "color": 3447003,
+                "fields": [
+                  {
+                    "name": "Author",
+                    "value": $author,
+                    "inline": true
+                  },
+                  {
+                    "name": "Repository",
+                    "value": $repo,
+                    "inline": true
+                  }
+                ]
               }]
             }')
 
-          # Debug: show payload structure (without sensitive data)
-          echo "Payload structure validated"
+          # Send to Discord with error handling
+          http_code=$(curl -H "Content-Type: application/json" \
+                          -X POST \
+                          -d "$payload" \
+                          -w "%{http_code}" \
+                          -s \
+                          -o /tmp/discord_response.txt \
+                          "$DISCORD_WEBHOOK")
 
-          # Send to Discord
-          HTTP_CODE=$(curl -s -o /tmp/discord_response.txt -w "%{http_code}" -X POST \
-            -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            "$DISCORD_WEBHOOK_URL")
-
-          BODY=$(cat /tmp/discord_response.txt)
-
-          if [[ "$HTTP_CODE" != "200" && "$HTTP_CODE" != "204" ]]; then
-            echo "::error::Discord webhook failed with status $HTTP_CODE"
-            echo "Response body: $BODY"
+          if [ "$http_code" != "204" ] && [ "$http_code" != "200" ]; then
+            echo "Discord notification failed with status $http_code"
+            cat /tmp/discord_response.txt
             exit 1
           fi
 
