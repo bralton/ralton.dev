@@ -82,9 +82,8 @@ export function Navigation() {
         >
           {/* Logo */}
           <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, '#hero')}
-            className="rounded-full transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-background"
+            href="/"
+            className="block rounded-lg transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
           >
             <Image
               src="/icon.svg"
