@@ -31,40 +31,94 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-text-primary text-2xl font-semibold">Information We Collect</h2>
+              <h2 className="text-text-primary text-2xl font-semibold">Information I Collect</h2>
               <p className="mt-4 text-text-secondary">
-                Details about data collection practices will be provided here.
+                When you use the contact form on this site, I collect:
+              </p>
+              <ul
+                className="mt-4 list-disc space-y-2 pl-5 text-text-secondary"
+                role="list"
+                aria-label="Information collected through the contact form"
+              >
+                <li>Your name (so I know who I&apos;m talking to)</li>
+                <li>Your email address (so I can reply to you)</li>
+                <li>Your message (the reason you&apos;re reaching out)</li>
+                <li>Your IP address (to prevent spam and abuse)</li>
+              </ul>
+              <p className="mt-4 text-text-secondary">
+                I don&apos;t use cookies for tracking, and I don&apos;t collect any other personal
+                information.
               </p>
             </section>
 
             <section>
               <h2 className="text-text-primary text-2xl font-semibold">
-                How We Use Your Information
+                How I Use Your Information
               </h2>
+              <p className="mt-4 text-text-secondary">I use your contact form information to:</p>
+              <ul
+                className="mt-4 list-disc space-y-2 pl-5 text-text-secondary"
+                role="list"
+                aria-label="How your information is used"
+              >
+                <li>Read and respond to your message</li>
+                <li>
+                  Prevent spam by limiting how many messages can be sent from one IP address (5 per
+                  hour)
+                </li>
+              </ul>
               <p className="mt-4 text-text-secondary">
-                Information about how collected data is used will be provided here.
+                That&apos;s it. I don&apos;t use your information for marketing, I don&apos;t build
+                profiles, and I don&apos;t sell or share your data. When you submit the contact
+                form, I receive an email notification so I can respond promptly.
               </p>
             </section>
 
             <section>
               <h2 className="text-text-primary text-2xl font-semibold">Data Retention</h2>
               <p className="mt-4 text-text-secondary">
-                Details about data retention periods will be provided here.
+                Contact form submissions are automatically deleted after 90 days. This happens
+                through an automated daily cleanup process.
+              </p>
+              <p className="mt-4 text-text-secondary">
+                If you&apos;d like your submission deleted sooner, just let me know through the
+                contact form and I&apos;ll remove it manually.
               </p>
             </section>
 
             <section>
               <h2 className="text-text-primary text-2xl font-semibold">Third-Party Services</h2>
               <p className="mt-4 text-text-secondary">
-                Information about third-party services will be provided here.
+                To keep this site running, I use a few service providers:
+              </p>
+              <ul
+                className="mt-4 list-disc space-y-2 pl-5 text-text-secondary"
+                role="list"
+                aria-label="Third-party services used"
+              >
+                <li>
+                  <strong>Vercel</strong> hosts the website and database
+                </li>
+                <li>
+                  <strong>Resend</strong> delivers email notifications when someone contacts me
+                </li>
+                <li>
+                  <strong>Discord</strong> sends me internal notifications when a contact form is
+                  submitted (your name, email, and message are included in the notification)
+                </li>
+              </ul>
+              <p className="mt-4 text-text-secondary">
+                These services only process your data as needed to provide their services. I
+                don&apos;t sell or share your information with anyone for marketing purposes.
               </p>
             </section>
 
             <section>
               <h2 className="text-text-primary text-2xl font-semibold">Contact</h2>
               <p className="mt-4 text-text-secondary">
-                For questions about this privacy policy, please use the contact form on the
-                homepage.
+                Questions about this privacy policy? Want to know what data I have about you, or
+                want it deleted? Just use the contact form on the homepage and I&apos;ll be happy to
+                help.
               </p>
             </section>
           </div>

@@ -99,7 +99,7 @@ development_status:
   # Epic 7: Privacy & Legal Compliance
   epic-7: in-progress
   7-1-create-privacy-policy-page: review
-  7-2-document-data-collection-practices: backlog
+  7-2-document-data-collection-practices: review
   epic-7-retrospective: optional
 
   # Epic 8: CI/DevOps, Security & Documentation
