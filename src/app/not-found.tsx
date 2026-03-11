@@ -28,14 +28,12 @@ export default function NotFound() {
       <body className="font-sans antialiased">
         <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
           {/* ASCII Art - visible but decorative */}
-          <pre
-            className="mb-8 font-mono text-2xl text-muted-foreground sm:text-3xl"
+          <div
+            className="mb-8 font-mono text-8xl font-bold tracking-widest text-muted-foreground sm:text-9xl"
             aria-hidden="true"
           >
-            {`┌───┐ ┌───┐ ┌───┐
-│ 4 │ │ 0 │ │ 4 │
-└───┘ └───┘ └───┘`}
-          </pre>
+            404
+          </div>
 
           <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Page Not Found</h1>
 
