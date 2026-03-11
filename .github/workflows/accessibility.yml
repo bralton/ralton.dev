@@ -51,6 +51,51 @@ jobs:
       - name: Build Next.js app
         run: npx next build
 
+      - name: Start server for validation
+        run: |
+          npm run start &
+          sleep 10
+
+      - name: Validate sitemap.xml
+        run: |
+          echo "Fetching sitemap.xml..."
+          SITEMAP=$(curl -s -f http://localhost:3000/sitemap.xml)
+          if [ $? -ne 0 ]; then
+            echo "❌ Failed to fetch sitemap.xml"
+            exit 1
+          fi
+          echo "✅ sitemap.xml is accessible"
+
+          # Verify XML structure
+          if echo "$SITEMAP" | grep -q "<urlset"; then
+            echo "✅ Contains <urlset> element"
+          else
+            echo "❌ Missing <urlset> element"
+            exit 1
+          fi
+
+          if echo "$SITEMAP" | grep -q "<loc>"; then
+            echo "✅ Contains <loc> element"
+          else
+            echo "❌ Missing <loc> element"
+            exit 1
+          fi
+
+          if echo "$SITEMAP" | grep -q "changefreq"; then
+            echo "✅ Contains changefreq"
+          else
+            echo "❌ Missing changefreq"
+            exit 1
+          fi
+
+          echo "Sitemap content:"
+          echo "$SITEMAP"
+          echo ""
+          echo "✅ Sitemap validation passed!"
+
+      - name: Stop background server
+        run: pkill -f "next start" || true
+
       - name: Run Lighthouse CI
         id: lighthouse
         uses: treosh/lighthouse-ci-action@v12
