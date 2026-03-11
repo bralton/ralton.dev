@@ -15,13 +15,13 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
  * access points should not be publicly exposed (AC #1, Story 3.1).
  */
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Education', href: '#education' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'GitHub', href: '#github' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/#about' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Education', href: '/#education' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'GitHub', href: '/#github' },
+  { label: 'Contact', href: '/#contact' },
 ]
 
 export function Navigation() {
@@ -37,8 +37,21 @@ export function Navigation() {
   }, [])
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Extract the hash from href (e.g., '/#about' -> 'about')
+    const targetId = href.split('#')[1]
+    if (!targetId) return
+
+    // Check if we're on the homepage
+    const isHomePage = window.location.pathname === '/'
+
+    // If not on homepage, allow normal navigation
+    if (!isHomePage) {
+      setIsMobileMenuOpen(false)
+      return
+    }
+
+    // On homepage, do smooth scroll
     e.preventDefault()
-    const targetId = href.replace('#', '')
     const element = document.getElementById(targetId)
     if (element) {
       const headerOffset = 112 // Adjust based on header height (96px + buffer)
