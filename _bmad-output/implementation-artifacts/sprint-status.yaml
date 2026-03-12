@@ -114,12 +114,12 @@ development_status:
   epic-8-retrospective: done
 
   # Epic 9: Blog Platform
-  epic-9: in-progress
+  epic-9: done
   9-1-create-blog-collections-posts-categories-tags: done
   9-2-create-blog-listing-page: done
   9-3-create-blog-post-page-with-syntax-highlighting: done
   9-4-create-category-and-tag-filtering: done
   9-5-add-blog-post-seo-and-open-graph: done
-  9-6-create-rss-feed: ready-for-dev
-  9-7-configure-blog-draft-preview: review
+  9-6-create-rss-feed: done
+  9-7-configure-blog-draft-preview: done
   epic-9-retrospective: optional
