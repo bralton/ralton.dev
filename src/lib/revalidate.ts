@@ -35,3 +35,43 @@ export async function revalidateHomepage(): Promise<void> {
     console.error('[Revalidate] Failed to revalidate homepage:', error)
   }
 }
+
+/**
+ * Revalidate blog-related caches.
+ *
+ * When blog content changes (posts, categories, tags), revalidates:
+ * - /blog listing page
+ * - Individual post pages via layout revalidation
+ * - Category filter pages (/blog/category/[slug])
+ * - Tag filter pages (/blog/tag/[slug])
+ *
+ * @param slug - Optional post slug for targeted revalidation
+ * @returns Promise that resolves when revalidation completes (or fails gracefully)
+ */
+export async function revalidateBlog(slug?: string): Promise<void> {
+  // Skip revalidation in CI environment (no Next.js context available)
+  if (process.env.CI) {
+    return
+  }
+
+  try {
+    // Always revalidate the blog listing
+    revalidatePath('/blog')
+
+    // If a specific post slug is provided, revalidate that post
+    if (slug) {
+      revalidatePath(`/blog/${slug}`)
+    }
+
+    // Revalidate all category and tag filter pages
+    // Using 'page' type to revalidate all dynamic segments
+    revalidatePath('/blog/category/[slug]', 'page')
+    revalidatePath('/blog/tag/[slug]', 'page')
+
+    console.log('[Revalidate] Blog cache invalidated', slug ? `(post: ${slug})` : '')
+  } catch (error) {
+    // Log full error details server-side, but don't throw
+    // This ensures CMS saves succeed even if revalidation fails
+    console.error('[Revalidate] Failed to revalidate blog:', error)
+  }
+}

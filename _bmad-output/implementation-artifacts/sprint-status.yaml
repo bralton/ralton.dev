@@ -114,12 +114,13 @@ development_status:
   epic-8-retrospective: done
 
   # Epic 9: Blog Platform
-  epic-9: backlog
-  9-1-create-blog-collections-posts-categories-tags: backlog
-  9-2-create-blog-listing-page: backlog
-  9-3-create-blog-post-page-with-syntax-highlighting: backlog
-  9-4-create-category-and-tag-filtering: backlog
-  9-5-add-blog-post-seo-and-open-graph: backlog
-  9-6-create-rss-feed: backlog
-  9-7-configure-blog-draft-preview: backlog
+  epic-9: in-progress
+  9-1-create-blog-collections-posts-categories-tags: done
+  9-2-create-blog-listing-page: done
+  9-3-create-blog-post-page-with-syntax-highlighting: done
+  9-4-create-category-and-tag-filtering: done
+  9-5-add-blog-post-seo-and-open-graph: done
+  9-6-create-rss-feed: done
+  9-7-configure-blog-draft-preview: done
+  9-8-mcp-server-blog-drafts: ready-for-dev
   epic-9-retrospective: optional

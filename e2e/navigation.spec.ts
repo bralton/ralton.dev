@@ -71,14 +71,15 @@ test.describe('Navigation', () => {
     const desktopNav = page.locator('nav[aria-label="Main navigation"] ul.hidden.md\\:flex')
     await expect(desktopNav).toBeVisible()
 
-    // Check that all nav links are present
+    // Check that all nav links are present (in order)
     const expectedLinks = [
       'About',
-      'Experience',
-      'Education',
-      'Projects',
       'Skills',
       'GitHub',
+      'Projects',
+      'Blog',
+      'Experience',
+      'Education',
       'Contact',
     ]
     for (const linkText of expectedLinks) {
@@ -94,5 +95,15 @@ test.describe('Navigation', () => {
     const logo = page.locator('nav[aria-label="Main navigation"] a[href="/"]').first()
     await expect(logo).toBeVisible()
     await expect(logo).toHaveAttribute('href', '/')
+  })
+
+  test('blog link navigates to blog page', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Desktop nav only visible on desktop')
+
+    const blogLink = page.locator('nav[aria-label="Main navigation"] a[href="/blog"]')
+    await expect(blogLink).toBeVisible()
+
+    await blogLink.click()
+    await expect(page).toHaveURL('/blog')
   })
 })
