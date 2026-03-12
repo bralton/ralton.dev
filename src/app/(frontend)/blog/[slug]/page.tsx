@@ -124,11 +124,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       .map((tag) => tag.name) || []
 
   return {
-    title: post.title,
+    title: `${post.title} | Ben Ralton`,
     description: post.excerpt || `Read ${post.title} on Ben Ralton's blog.`,
     openGraph: {
       type: 'article',
-      title: post.title,
+      title: `${post.title} | Ben Ralton`,
       description: post.excerpt || `Read ${post.title} on Ben Ralton's blog.`,
       url: `${siteUrl}/blog/${post.slug}`,
       siteName: 'Ben Ralton',
@@ -146,7 +146,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
+      title: `${post.title} | Ben Ralton`,
       description: post.excerpt || `Read ${post.title} on Ben Ralton's blog.`,
       images: [ogImage],
     },
