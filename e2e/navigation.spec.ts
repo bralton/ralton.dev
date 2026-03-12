@@ -79,6 +79,7 @@ test.describe('Navigation', () => {
       'Projects',
       'Skills',
       'GitHub',
+      'Blog',
       'Contact',
     ]
     for (const linkText of expectedLinks) {
@@ -94,5 +95,15 @@ test.describe('Navigation', () => {
     const logo = page.locator('nav[aria-label="Main navigation"] a[href="/"]').first()
     await expect(logo).toBeVisible()
     await expect(logo).toHaveAttribute('href', '/')
+  })
+
+  test('blog link navigates to blog page', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Desktop nav only visible on desktop')
+
+    const blogLink = page.locator('nav[aria-label="Main navigation"] a[href="/blog"]')
+    await expect(blogLink).toBeVisible()
+
+    await blogLink.click()
+    await expect(page).toHaveURL('/blog')
   })
 })

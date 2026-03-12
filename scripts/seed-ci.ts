@@ -296,7 +296,11 @@ async function seed() {
   )
 
   // Seed Social Links (4 platforms)
-  const socialLinks = [
+  const socialLinks: Array<{
+    platform: 'github' | 'linkedin' | 'twitter' | 'email'
+    url: string
+    order: number
+  }> = [
     { platform: 'github', url: 'https://github.com/benralton', order: 1 },
     { platform: 'linkedin', url: 'https://linkedin.com/in/benralton', order: 2 },
     { platform: 'twitter', url: 'https://twitter.com/benralton', order: 3 },

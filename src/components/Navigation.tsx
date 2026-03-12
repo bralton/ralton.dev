@@ -21,6 +21,7 @@ const navLinks = [
   { label: 'Projects', href: '/#projects' },
   { label: 'Skills', href: '/#skills' },
   { label: 'GitHub', href: '/#github' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/#contact' },
 ]
 

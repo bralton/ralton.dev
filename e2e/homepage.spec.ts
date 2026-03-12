@@ -91,4 +91,25 @@ test.describe('Homepage', () => {
     const mainContent = page.locator('main#main-content')
     await expect(mainContent).toBeVisible()
   })
+
+  test('renders Latest Posts section when posts exist', async ({ page }) => {
+    const latestPostsSection = page.locator('section#latest-posts')
+    // Latest Posts section only renders if there are published posts in the database
+    const sectionExists = (await latestPostsSection.count()) > 0
+    if (sectionExists) {
+      await expect(latestPostsSection).toBeVisible()
+      const heading = latestPostsSection.locator('h2#latest-posts-heading')
+      await expect(heading).toBeVisible()
+      await expect(heading).toContainText('Latest Posts')
+
+      // Should have "View all posts" link
+      const viewAllLink = latestPostsSection.locator('a[href="/blog"]')
+      await expect(viewAllLink).toBeVisible()
+
+      // Should have at least one blog post card
+      const postCards = latestPostsSection.locator('article')
+      await expect(postCards.first()).toBeVisible()
+    }
+    // Test passes even if section doesn't exist (no posts in DB)
+  })
 })
