@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { FileText } from 'lucide-react'
+import { FileText, Rss } from 'lucide-react'
 import { BlogPostCard } from '@/components/BlogPostCard'
 import { Pagination } from '@/components/Pagination'
 import { Navigation } from '@/components/Navigation'
@@ -41,6 +41,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: '/blog',
+    types: {
+      'application/rss+xml': '/api/rss',
+    },
   },
 }
 
@@ -129,12 +132,22 @@ export default async function BlogPage(props: BlogPageProps) {
       <main id="main-content" className="pt-24">
         <section aria-labelledby="blog-heading" className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
           <div className="mx-auto max-w-[1200px]">
-            <h1
-              id="blog-heading"
-              className="mb-8 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
-            >
-              Blog
-            </h1>
+            <div className="mb-8 flex items-center justify-between">
+              <h1
+                id="blog-heading"
+                className="text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
+              >
+                Blog
+              </h1>
+              <a
+                href="/api/rss"
+                className="flex items-center gap-1.5 rounded text-text-secondary transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                title="Subscribe via RSS"
+              >
+                <Rss className="h-5 w-5" aria-hidden="true" />
+                <span className="sr-only">Subscribe via RSS</span>
+              </a>
+            </div>
 
             <Suspense
               fallback={

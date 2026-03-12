@@ -19,7 +19,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { Calendar, Clock, Eye } from 'lucide-react'
+import { Calendar, Clock, Eye, Rss } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
@@ -114,14 +114,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const featuredImage =
     post.featuredImage && typeof post.featuredImage !== 'number' ? post.featuredImage : null
   const ogImage = featuredImage?.url
-    ? (featuredImage.url.startsWith('http') ? featuredImage.url : `${siteUrl}${featuredImage.url}`)
+    ? featuredImage.url.startsWith('http')
+      ? featuredImage.url
+      : `${siteUrl}${featuredImage.url}`
     : `${siteUrl}/og-image.png`
 
   // Get tag names for article metadata
   const tags =
-    post.tags
-      ?.filter((tag): tag is TagType => typeof tag !== 'number')
-      .map((tag) => tag.name) || []
+    post.tags?.filter((tag): tag is TagType => typeof tag !== 'number').map((tag) => tag.name) || []
 
   return {
     title: `${post.title} | Ben Ralton`,
@@ -152,6 +152,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     },
     alternates: {
       canonical: `${siteUrl}/blog/${post.slug}`,
+      types: {
+        'application/rss+xml': '/api/rss',
+      },
     },
   }
 }
@@ -171,8 +174,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Filter and type-guard categories
   const categories =
-    post.categories?.filter((cat): cat is Category => typeof cat !== 'number' && cat !== null) ||
-    []
+    post.categories?.filter((cat): cat is Category => typeof cat !== 'number' && cat !== null) || []
 
   // Filter and type-guard tags
   const tags =
@@ -220,7 +222,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {post.title}
               </h1>
 
-              {/* Date and Reading Time */}
+              {/* Date, Reading Time, and RSS */}
               <div className="flex flex-wrap items-center gap-4 text-text-secondary">
                 {post.publishedAt && (
                   <span className="flex items-center gap-1.5">
@@ -234,6 +236,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <span>{post.readingTime} min read</span>
                   </span>
                 )}
+                <a
+                  href="/api/rss"
+                  className="flex items-center gap-1.5 rounded transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                  title="Subscribe via RSS"
+                >
+                  <Rss className="h-4 w-4" aria-hidden="true" />
+                  <span className="sr-only">Subscribe via RSS</span>
+                </a>
               </div>
             </header>
 
