@@ -18,8 +18,8 @@ test.describe('Blog Listing Page', () => {
     // First post card should have title, excerpt, date, reading time
     const firstCard = postCards.first()
 
-    // Title (h2 link)
-    const title = firstCard.locator('h2 a')
+    // Title (h2 inside the card, which is wrapped in a Link)
+    const title = firstCard.locator('h2')
     await expect(title).toBeVisible()
     await expect(title).not.toBeEmpty()
 
@@ -33,7 +33,8 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('post card links to individual post page', async ({ page }) => {
-    const firstPostLink = page.locator('article h2 a').first()
+    // The whole article is wrapped in a Link, so we click the card itself
+    const firstPostLink = page.locator('article a').first()
     const href = await firstPostLink.getAttribute('href')
 
     expect(href).toMatch(/^\/blog\/[\w-]+$/)
@@ -53,8 +54,10 @@ test.describe('Blog Listing Page', () => {
     await expect(rssLinkTag).toHaveAttribute('href', /\/api\/rss/)
   })
 
-  test('category badges are clickable and link to filter pages', async ({ page }) => {
-    const categoryBadge = page.locator('article').first().locator('a[href^="/blog/category/"]').first()
+  test('category badges are visible on post cards', async ({ page }) => {
+    // Categories are displayed as badges inside the card (not clickable links on listing page)
+    // The whole card links to the post, categories are just visual indicators
+    const categoryBadge = page.locator('article').first().locator('ul[aria-label="Post categories"] li').first()
 
     // Skip if no categories on first post
     if ((await categoryBadge.count()) === 0) {
@@ -63,8 +66,6 @@ test.describe('Blog Listing Page', () => {
     }
 
     await expect(categoryBadge).toBeVisible()
-    const href = await categoryBadge.getAttribute('href')
-    expect(href).toMatch(/^\/blog\/category\/[\w-]+$/)
   })
 
   test('page has correct meta description', async ({ page }) => {

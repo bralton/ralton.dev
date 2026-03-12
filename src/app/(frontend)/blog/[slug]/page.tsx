@@ -19,7 +19,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { Calendar, Clock, Eye, Rss } from 'lucide-react'
+import { ArrowLeft, Calendar, Clock, Eye, Rss } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
@@ -201,6 +201,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <article className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
           <div className="mx-auto max-w-[800px]">
+            {/* Back link */}
+            <Link
+              href="/blog"
+              className="mb-8 inline-flex items-center gap-1.5 rounded text-teal-400 transition-colors hover:text-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Back to Blog
+            </Link>
+
             {/* Post header */}
             <header className="mb-8">
               {/* Categories */}

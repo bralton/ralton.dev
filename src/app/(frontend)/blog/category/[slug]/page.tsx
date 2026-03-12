@@ -179,7 +179,7 @@ async function CategoryContent({ params, searchParams }: CategoryPageProps) {
     <>
       <ul role="list" aria-label="Blog posts" className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {posts.docs.map((post, index) => (
-          <li key={post.id}>
+          <li key={post.id} className="h-full">
             <BlogPostCard
               title={post.title}
               slug={post.slug}

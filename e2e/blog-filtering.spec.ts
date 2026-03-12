@@ -24,7 +24,8 @@ test.describe('Blog Category Filtering', () => {
   test('category page has "View all posts" link', async ({ page }) => {
     await page.goto(`/blog/category/${testCategorySlug}`, { waitUntil: 'networkidle' })
 
-    const viewAllLink = page.locator('a[href="/blog"]')
+    // Find the "View all posts" link in the main content area (not nav)
+    const viewAllLink = page.locator('main a[href="/blog"]')
     await expect(viewAllLink.first()).toBeVisible()
 
     // Click and verify navigation
@@ -65,7 +66,8 @@ test.describe('Blog Tag Filtering', () => {
   test('tag page has "View all posts" link', async ({ page }) => {
     await page.goto(`/blog/tag/${testTagSlug}`, { waitUntil: 'networkidle' })
 
-    const viewAllLink = page.locator('a[href="/blog"]')
+    // Find the "View all posts" link in the main content area (not nav)
+    const viewAllLink = page.locator('main a[href="/blog"]')
     await expect(viewAllLink.first()).toBeVisible()
   })
 
@@ -84,19 +86,19 @@ test.describe('Filter Navigation Flow', () => {
     await page.goto('/blog', { waitUntil: 'networkidle' })
     await expect(page).toHaveURL('/blog')
 
-    // Click on a post
-    const postLink = page.locator('article h2 a').first()
+    // Click on a post (the whole article is wrapped in a Link)
+    const postLink = page.locator('article a').first()
     await postLink.click()
     await expect(page).toHaveURL(/\/blog\/[\w-]+$/)
 
-    // Click on a category
+    // Click on a category (categories are clickable links on the individual post page)
     const categoryLink = page.locator('a[href^="/blog/category/"]').first()
     if ((await categoryLink.count()) > 0) {
       await categoryLink.click()
       await expect(page).toHaveURL(/\/blog\/category\/[\w-]+/)
 
-      // Go back to all posts
-      const viewAllLink = page.locator('a[href="/blog"]').first()
+      // Go back to all posts (use the link in main content, not nav)
+      const viewAllLink = page.locator('main a[href="/blog"]').first()
       await viewAllLink.click()
       await expect(page).toHaveURL('/blog')
     }

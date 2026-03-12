@@ -48,12 +48,12 @@ export function BlogPostCard({
   const image = featuredImage && typeof featuredImage !== 'number' ? featuredImage : null
 
   return (
-    <article>
+    <article className="h-full">
       <Link
         href={`/blog/${slug}`}
-        className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+        className="block h-full rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
       >
-        <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
+        <Card className="flex h-full flex-col overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
           {image?.url && (
             <div className="relative aspect-video w-full">
               <Image
@@ -71,7 +71,7 @@ export function BlogPostCard({
             <h2 className="line-clamp-2 text-xl font-semibold text-foreground">{title}</h2>
           </CardHeader>
 
-          <CardContent className="space-y-3">
+          <CardContent className="flex flex-grow flex-col space-y-3">
             {/* Date and Reading Time */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-text-secondary">
               {publishedAt && (
@@ -91,9 +91,9 @@ export function BlogPostCard({
             {/* Excerpt */}
             {excerpt && <p className="line-clamp-3 text-text-secondary">{excerpt}</p>}
 
-            {/* Categories */}
+            {/* Categories - pushed to bottom with mt-auto */}
             {populatedCategories && populatedCategories.length > 0 && (
-              <ul role="list" aria-label="Post categories" className="flex flex-wrap gap-2">
+              <ul role="list" aria-label="Post categories" className="mt-auto flex flex-wrap gap-2">
                 {populatedCategories.map((category) => (
                   <li key={category.id}>
                     <Badge

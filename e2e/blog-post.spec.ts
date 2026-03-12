@@ -87,7 +87,8 @@ test.describe('Blog Post Page', () => {
   })
 
   test('has back to blog link', async ({ page }) => {
-    const backLink = page.locator('a[href="/blog"]')
+    // Look for the back link in the main content area
+    const backLink = page.locator('main a[href="/blog"]')
     await expect(backLink.first()).toBeVisible()
   })
 })
