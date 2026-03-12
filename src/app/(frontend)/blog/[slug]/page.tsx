@@ -189,6 +189,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="bg-amber-600 px-4 py-2 text-center text-sm font-medium text-white">
             <Eye className="mr-1.5 inline-block h-4 w-4" aria-hidden="true" />
             Draft Preview Mode - This content is not published
+            <a
+              href={`/api/exit-preview?slug=${encodeURIComponent(`/blog/${post.slug}`)}`}
+              aria-label="Exit draft preview mode and return to published view"
+              className="ml-4 rounded underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-amber-600"
+            >
+              Exit Preview
+            </a>
           </div>
         )}
 

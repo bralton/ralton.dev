@@ -120,6 +120,6 @@ development_status:
   9-3-create-blog-post-page-with-syntax-highlighting: done
   9-4-create-category-and-tag-filtering: done
   9-5-add-blog-post-seo-and-open-graph: done
-  9-6-create-rss-feed: backlog
-  9-7-configure-blog-draft-preview: backlog
+  9-6-create-rss-feed: ready-for-dev
+  9-7-configure-blog-draft-preview: review
   epic-9-retrospective: optional
