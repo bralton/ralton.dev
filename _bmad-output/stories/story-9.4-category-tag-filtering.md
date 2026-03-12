@@ -329,3 +329,25 @@ Modified files:
   - Updated revalidation hooks for category/tag pages
   - Updated sitemap to include all category and tag pages dynamically
   - Fixed shiki.ts TypeScript error (pre-existing issue)
+
+---
+
+## Post-Implementation Review Notes
+
+**Review Date:** 2026-03-12
+
+**Gaps Caught in Review:**
+
+The following testing gaps were identified during post-sprint review and were NOT implemented as part of the original story:
+
+1. **E2E Tests Missing** - No Playwright E2E tests were created for category/tag filtering. Tests should verify:
+   - Category page shows filtered posts
+   - Tag page shows filtered posts
+   - "View all posts" link works
+   - 404 returned for non-existent category/tag slugs
+
+2. **Lighthouse CI Not Updated** - The Lighthouse configuration was not updated to include `/blog/category/[slug]` pages.
+
+**Remediation:** These gaps have been addressed in a follow-up commit adding:
+- `e2e/blog-filtering.spec.ts` - E2E tests for category and tag filtering
+- Updated `lighthouserc.json` with category page URL

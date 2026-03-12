@@ -295,3 +295,28 @@ All HIGH and MEDIUM severity issues have been fixed. The implementation now full
 - 2026-03-11: Story 9.2 implemented - Blog listing page with pagination, BlogPostCard component, Pagination component, and empty state handling
 - 2026-03-11: Code review completed - Fixed 5 issues (2 HIGH, 3 MEDIUM): replaced emoji with icon, added aria-label to categories, changed `<a>` to `<Link>`, used `<button disabled>` for pagination, added priority prop for LCP
 
+
+---
+
+## Post-Implementation Review Notes
+
+**Review Date:** 2026-03-12
+
+**Gaps Caught in Review:**
+
+The following testing gaps were identified during post-sprint review and were NOT implemented as part of the original story:
+
+1. **E2E Tests Missing** - No Playwright E2E tests were created for the blog listing page. Tests should verify:
+   - Page renders with post cards
+   - Post cards contain required information (title, excerpt, date, reading time)
+   - RSS link is visible
+   - Pagination works when > 10 posts exist
+
+2. **Lighthouse CI Not Updated** - The Lighthouse configuration (`lighthouserc.json`) was not updated to include `/blog` in the accessibility/SEO audits.
+
+3. **Seed Data Insufficient** - The CI seed script only created 1 blog post, which is insufficient to test pagination (requires 11+ posts).
+
+**Remediation:** These gaps have been addressed in a follow-up commit adding:
+- `e2e/blog-listing.spec.ts` - E2E tests for blog listing
+- Updated `lighthouserc.json` with blog URLs
+- Updated `scripts/seed-ci.ts` with 12 blog posts for pagination testing

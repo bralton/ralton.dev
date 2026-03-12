@@ -382,3 +382,26 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 |------|--------|--------|
 | 2026-03-11 | Implemented full blog post page with Shiki syntax highlighting, Lexical serializer, SEO metadata, and draft preview support | Claude Opus 4.5 |
 | 2026-03-11 | Code review: Fixed CLS prevention (min-height), added language aliases, fixed singleton race condition, corrected plaintext to text | Claude Opus 4.5 (Review) |
+
+---
+
+## Post-Implementation Review Notes
+
+**Review Date:** 2026-03-12
+
+**Gaps Caught in Review:**
+
+The following testing gaps were identified during post-sprint review and were NOT implemented as part of the original story:
+
+1. **E2E Tests Missing** - No Playwright E2E tests were created for blog post pages. Tests should verify:
+   - Post renders with title, content, date, reading time
+   - Categories and tags are clickable links
+   - Featured image displays if present
+   - 404 returned for non-existent slugs
+   - SEO meta tags are present (og:title, og:description, og:type=article)
+
+2. **Lighthouse CI Not Updated** - The Lighthouse configuration was not updated to include `/blog/[slug]` pages in accessibility/SEO audits.
+
+**Remediation:** These gaps have been addressed in a follow-up commit adding:
+- `e2e/blog-post.spec.ts` - E2E tests for individual blog posts
+- Updated `lighthouserc.json` with blog post URL

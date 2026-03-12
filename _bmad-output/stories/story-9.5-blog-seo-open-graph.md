@@ -182,3 +182,20 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-03-12 | Verified SEO implementation from Stories 9.3 and 9.4. Fixed meta title to include site name suffix. | Claude Opus 4.5 |
+
+---
+
+## Post-Implementation Review Notes
+
+**Review Date:** 2026-03-12
+
+**Gaps Caught in Review:**
+
+The following testing gaps were identified during post-sprint review and were NOT implemented as part of the original story:
+
+1. **E2E Tests Missing** - No E2E tests were created to verify SEO meta tags. Tests in `e2e/blog-post.spec.ts` now verify:
+   - og:title, og:description, og:type meta tags present
+   - Twitter card meta tags present
+   - Meta description present
+
+**Remediation:** These gaps have been addressed in a follow-up commit adding SEO verification to `e2e/blog-post.spec.ts`.
