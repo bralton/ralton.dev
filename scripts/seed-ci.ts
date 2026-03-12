@@ -38,7 +38,19 @@ function richText(text: string) {
   }
 }
 
+// Map count to GitHub's contribution level strings
+function getContributionLevel(
+  count: number
+): 'NONE' | 'FIRST_QUARTILE' | 'SECOND_QUARTILE' | 'THIRD_QUARTILE' | 'FOURTH_QUARTILE' {
+  if (count === 0) return 'NONE'
+  if (count < 3) return 'FIRST_QUARTILE'
+  if (count < 6) return 'SECOND_QUARTILE'
+  if (count < 10) return 'THIRD_QUARTILE'
+  return 'FOURTH_QUARTILE'
+}
+
 // Generate sample GitHub contribution data for the past 52 weeks
+// Matches the structure from GitHub's GraphQL API
 function generateGitHubContributionData() {
   const weeks = []
   const today = new Date()
@@ -47,7 +59,7 @@ function generateGitHubContributionData() {
     const weekStart = new Date(today)
     weekStart.setDate(today.getDate() - w * 7)
 
-    const days = []
+    const contributionDays = []
     for (let d = 0; d < 7; d++) {
       const date = new Date(weekStart)
       date.setDate(weekStart.getDate() + d)
@@ -55,15 +67,15 @@ function generateGitHubContributionData() {
       // Generate realistic contribution counts (more on weekdays)
       const isWeekend = d === 0 || d === 6
       const baseContributions = isWeekend ? 1 : 4
-      const count = Math.floor(Math.random() * baseContributions * 3)
+      const contributionCount = Math.floor(Math.random() * baseContributions * 3)
 
-      days.push({
+      contributionDays.push({
         date: date.toISOString().split('T')[0],
-        count,
-        level: count === 0 ? 0 : count < 3 ? 1 : count < 6 ? 2 : count < 10 ? 3 : 4,
+        contributionCount,
+        contributionLevel: getContributionLevel(contributionCount),
       })
     }
-    weeks.push({ days })
+    weeks.push({ contributionDays })
   }
   return weeks
 }
@@ -109,7 +121,8 @@ async function seed() {
   // Seed GitHub Data (global) with sample contribution data
   const contributionData = generateGitHubContributionData()
   const totalContributions = contributionData.reduce(
-    (sum, week) => sum + week.days.reduce((daySum, day) => daySum + day.count, 0),
+    (sum, week) =>
+      sum + week.contributionDays.reduce((daySum, day) => daySum + day.contributionCount, 0),
     0
   )
 

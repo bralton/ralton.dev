@@ -16,12 +16,12 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
  */
 const navLinks = [
   { label: 'About', href: '/#about' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Education', href: '/#education' },
-  { label: 'Projects', href: '/#projects' },
   { label: 'Skills', href: '/#skills' },
   { label: 'GitHub', href: '/#github' },
+  { label: 'Projects', href: '/#projects' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Education', href: '/#education' },
   { label: 'Contact', href: '/#contact' },
 ]
 

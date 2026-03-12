@@ -71,15 +71,15 @@ test.describe('Navigation', () => {
     const desktopNav = page.locator('nav[aria-label="Main navigation"] ul.hidden.md\\:flex')
     await expect(desktopNav).toBeVisible()
 
-    // Check that all nav links are present
+    // Check that all nav links are present (in order)
     const expectedLinks = [
       'About',
-      'Experience',
-      'Education',
-      'Projects',
       'Skills',
       'GitHub',
+      'Projects',
       'Blog',
+      'Experience',
+      'Education',
       'Contact',
     ]
     for (const linkText of expectedLinks) {

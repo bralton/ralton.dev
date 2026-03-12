@@ -19,12 +19,12 @@ export default function HomePage() {
       <main id="main-content" className="pt-24">
         <HeroSection />
         <AboutSection />
-        <ExperienceSection />
-        <EducationSection />
-        <ProjectsSection />
         <SkillsSection />
         <GitHubGraph />
+        <ProjectsSection />
         <LatestPostsSection />
+        <ExperienceSection />
+        <EducationSection />
         <ContactSection />
       </main>
       <Footer />
