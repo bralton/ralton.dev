@@ -42,6 +42,8 @@ export async function revalidateHomepage(): Promise<void> {
  * When blog content changes (posts, categories, tags), revalidates:
  * - /blog listing page
  * - Individual post pages via layout revalidation
+ * - Category filter pages (/blog/category/[slug])
+ * - Tag filter pages (/blog/tag/[slug])
  *
  * @param slug - Optional post slug for targeted revalidation
  * @returns Promise that resolves when revalidation completes (or fails gracefully)
@@ -60,6 +62,11 @@ export async function revalidateBlog(slug?: string): Promise<void> {
     if (slug) {
       revalidatePath(`/blog/${slug}`)
     }
+
+    // Revalidate all category and tag filter pages
+    // Using 'page' type to revalidate all dynamic segments
+    revalidatePath('/blog/category/[slug]', 'page')
+    revalidatePath('/blog/tag/[slug]', 'page')
 
     console.log('[Revalidate] Blog cache invalidated', slug ? `(post: ${slug})` : '')
   } catch (error) {

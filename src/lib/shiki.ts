@@ -33,7 +33,6 @@ const SUPPORTED_LANGUAGES: BundledLanguage[] = [
   'go',
   'yaml',
   'markdown',
-  'text',
 ]
 
 /**
@@ -62,10 +61,11 @@ export async function getHighlighter(): Promise<Highlighter> {
 export async function highlightCode(code: string, lang: string): Promise<string> {
   const h = await getHighlighter()
 
-  // Validate language is supported, fallback to 'text' for plain formatting
+  // Validate language is supported, fallback to 'bash' for plain formatting
+  // (bash handles plain text well without syntax coloring)
   const supportedLang = SUPPORTED_LANGUAGES.includes(lang as BundledLanguage)
     ? (lang as BundledLanguage)
-    : 'text'
+    : 'bash'
 
   return h.codeToHtml(code, {
     lang: supportedLang,
