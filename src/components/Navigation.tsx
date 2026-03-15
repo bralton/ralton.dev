@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
@@ -98,12 +99,13 @@ export function Navigation() {
             href="/"
             className="block rounded-lg transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
           >
-            <img
-              src="/icon.svg"
+            <Image
+              src="/icon.png"
               alt="B.Ralton - Home"
-              width={80}
-              height={80}
+              width={160}
+              height={160}
               className="h-20 w-20"
+              priority
             />
           </a>
 
