@@ -214,32 +214,24 @@ function renderFormattedText(text: string, format: number): JSX.Element {
 async function serializeNode(node: SerializedLexicalNode, index: number): Promise<JSX.Element> {
   switch (node.type) {
     case 'text':
-      return (
-        <Fragment key={index}>{renderFormattedText(node.text, node.format)}</Fragment>
-      )
+      return <Fragment key={index}>{renderFormattedText(node.text, node.format)}</Fragment>
 
     case 'linebreak':
       return <br key={index} />
 
     case 'paragraph': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       return <p key={index}>{children}</p>
     }
 
     case 'heading': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       const Tag = node.tag
       return <Tag key={index}>{children}</Tag>
     }
 
     case 'list': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       const Tag = node.listType === 'number' ? 'ol' : 'ul'
       return (
         <Tag key={index} role="list">
@@ -249,17 +241,13 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
     }
 
     case 'listitem': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       return <li key={index}>{children}</li>
     }
 
     case 'link':
     case 'autolink': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       const url = node.fields?.url || '#'
       const isExternal = url.startsWith('http') || url.startsWith('//')
       const newTab = node.fields?.newTab ?? isExternal
@@ -290,9 +278,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
     }
 
     case 'quote': {
-      const children = await Promise.all(
-        node.children.map((child, i) => serializeNode(child, i))
-      )
+      const children = await Promise.all(node.children.map((child, i) => serializeNode(child, i)))
       return (
         <blockquote
           key={index}
@@ -329,9 +315,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
       // Handle CodeBlock from Payload's premade blocks
       if (node.fields?.blockType === 'code' && typeof node.fields.code === 'string') {
         const language = (node.fields.language as string) || 'text'
-        return (
-          <CodeBlock key={index} code={node.fields.code} language={language} />
-        )
+        return <CodeBlock key={index} code={node.fields.code} language={language} />
       }
       // Unknown block type
       return <Fragment key={index} />
@@ -376,7 +360,7 @@ export async function RichText({ content, className = '' }: RichTextProps) {
 
   return (
     <div
-      className={`prose prose-invert prose-zinc max-w-none prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
+      className={`prose prose-zinc prose-invert max-w-none prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
     >
       {serializedContent}
     </div>

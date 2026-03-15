@@ -46,7 +46,11 @@ export async function LatestPostsSection() {
           </Link>
         </div>
 
-        <ul role="list" aria-label="Latest blog posts" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ul
+          role="list"
+          aria-label="Latest blog posts"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {posts.docs.map((post, index) => (
             <li key={post.id} className="h-full">
               <BlogPostCard
