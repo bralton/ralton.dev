@@ -106,6 +106,7 @@ export function Navigation() {
               height={80}
               className="h-20 w-20"
               priority
+              unoptimized
             />
           </a>
 

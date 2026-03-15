@@ -171,7 +171,8 @@ async function seed() {
       company: 'WebDev Studio',
       startDate: '2016-06-01',
       endDate: '2017-12-31',
-      description: 'Started career building WordPress sites and learning modern JavaScript frameworks.',
+      description:
+        'Started career building WordPress sites and learning modern JavaScript frameworks.',
       isVisible: false, // Hidden - tests visibility toggle
     },
   ]
@@ -382,7 +383,8 @@ async function seed() {
       title: 'Getting Started with Next.js',
       slug: 'getting-started-with-nextjs',
       excerpt: 'Learn the basics of Next.js and start building modern web applications.',
-      content: 'Next.js is a powerful React framework that makes building web applications easier. In this post, we will explore the basics of Next.js and how to get started with your first project.',
+      content:
+        'Next.js is a powerful React framework that makes building web applications easier. In this post, we will explore the basics of Next.js and how to get started with your first project.',
       categories: [techCategory.id, tutorialCategory.id],
       tags: [reactTag.id, nextjsTag.id, typescriptTag.id],
     },
@@ -390,7 +392,8 @@ async function seed() {
       title: 'Understanding TypeScript Generics',
       slug: 'understanding-typescript-generics',
       excerpt: 'A deep dive into TypeScript generics and how to use them effectively.',
-      content: 'TypeScript generics provide a way to create reusable components that work with multiple types. This post explores how to leverage generics in your codebase.',
+      content:
+        'TypeScript generics provide a way to create reusable components that work with multiple types. This post explores how to leverage generics in your codebase.',
       categories: [techCategory.id],
       tags: [typescriptTag.id],
     },
@@ -398,7 +401,8 @@ async function seed() {
       title: 'React Server Components Explained',
       slug: 'react-server-components-explained',
       excerpt: 'Understanding the new React Server Components paradigm.',
-      content: 'React Server Components represent a fundamental shift in how we build React applications. Learn about the benefits and trade-offs.',
+      content:
+        'React Server Components represent a fundamental shift in how we build React applications. Learn about the benefits and trade-offs.',
       categories: [techCategory.id],
       tags: [reactTag.id, nextjsTag.id],
     },
@@ -406,7 +410,8 @@ async function seed() {
       title: 'Building APIs with Next.js Route Handlers',
       slug: 'building-apis-nextjs-route-handlers',
       excerpt: 'Create robust APIs using Next.js App Router route handlers.',
-      content: 'Next.js route handlers provide a simple way to build API endpoints. This tutorial walks through creating a complete API.',
+      content:
+        'Next.js route handlers provide a simple way to build API endpoints. This tutorial walks through creating a complete API.',
       categories: [tutorialCategory.id],
       tags: [nextjsTag.id, typescriptTag.id],
     },
@@ -414,7 +419,8 @@ async function seed() {
       title: 'State Management in React 2024',
       slug: 'state-management-react-2024',
       excerpt: 'An overview of state management options in modern React applications.',
-      content: 'From useState to Zustand, this post compares different state management approaches and when to use each.',
+      content:
+        'From useState to Zustand, this post compares different state management approaches and when to use each.',
       categories: [techCategory.id],
       tags: [reactTag.id],
     },
@@ -422,7 +428,8 @@ async function seed() {
       title: 'CSS-in-JS vs Tailwind CSS',
       slug: 'css-in-js-vs-tailwind',
       excerpt: 'Comparing styling approaches for React applications.',
-      content: 'Both CSS-in-JS and Tailwind CSS have their merits. This post helps you choose the right approach for your project.',
+      content:
+        'Both CSS-in-JS and Tailwind CSS have their merits. This post helps you choose the right approach for your project.',
       categories: [techCategory.id],
       tags: [reactTag.id],
     },
@@ -430,7 +437,8 @@ async function seed() {
       title: 'Testing Next.js Applications with Playwright',
       slug: 'testing-nextjs-playwright',
       excerpt: 'End-to-end testing strategies for Next.js apps.',
-      content: 'Playwright provides powerful E2E testing capabilities. Learn how to set up and write effective tests for your Next.js application.',
+      content:
+        'Playwright provides powerful E2E testing capabilities. Learn how to set up and write effective tests for your Next.js application.',
       categories: [tutorialCategory.id],
       tags: [nextjsTag.id, typescriptTag.id],
     },
@@ -438,7 +446,8 @@ async function seed() {
       title: 'Optimizing React Performance',
       slug: 'optimizing-react-performance',
       excerpt: 'Techniques for improving React application performance.',
-      content: 'From memoization to code splitting, explore various techniques to make your React apps faster.',
+      content:
+        'From memoization to code splitting, explore various techniques to make your React apps faster.',
       categories: [techCategory.id],
       tags: [reactTag.id],
     },
@@ -446,7 +455,8 @@ async function seed() {
       title: 'Introduction to Payload CMS',
       slug: 'introduction-to-payload-cms',
       excerpt: 'Getting started with Payload CMS for your next project.',
-      content: 'Payload CMS is a powerful headless CMS built with TypeScript. This introduction covers the basics.',
+      content:
+        'Payload CMS is a powerful headless CMS built with TypeScript. This introduction covers the basics.',
       categories: [tutorialCategory.id],
       tags: [typescriptTag.id, nextjsTag.id],
     },
@@ -454,7 +464,8 @@ async function seed() {
       title: 'Database Design for Web Applications',
       slug: 'database-design-web-applications',
       excerpt: 'Best practices for designing databases in web apps.',
-      content: 'Good database design is crucial for application success. Learn about normalization, indexing, and more.',
+      content:
+        'Good database design is crucial for application success. Learn about normalization, indexing, and more.',
       categories: [techCategory.id],
       tags: [typescriptTag.id],
     },
@@ -462,7 +473,8 @@ async function seed() {
       title: 'Authentication Patterns in Next.js',
       slug: 'authentication-patterns-nextjs',
       excerpt: 'Implementing secure authentication in Next.js applications.',
-      content: 'From JWT to session-based auth, explore different authentication patterns and their implementation in Next.js.',
+      content:
+        'From JWT to session-based auth, explore different authentication patterns and their implementation in Next.js.',
       categories: [tutorialCategory.id],
       tags: [nextjsTag.id, typescriptTag.id],
     },
@@ -470,7 +482,8 @@ async function seed() {
       title: 'Deploying Next.js to Vercel',
       slug: 'deploying-nextjs-vercel',
       excerpt: 'A complete guide to deploying your Next.js app on Vercel.',
-      content: 'Vercel provides the best deployment experience for Next.js. This guide covers everything from setup to production.',
+      content:
+        'Vercel provides the best deployment experience for Next.js. This guide covers everything from setup to production.',
       categories: [tutorialCategory.id],
       tags: [nextjsTag.id],
     },

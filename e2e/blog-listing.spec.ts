@@ -57,7 +57,11 @@ test.describe('Blog Listing Page', () => {
   test('category badges are visible on post cards', async ({ page }) => {
     // Categories are displayed as badges inside the card (not clickable links on listing page)
     // The whole card links to the post, categories are just visual indicators
-    const categoryBadge = page.locator('article').first().locator('ul[aria-label="Post categories"] li').first()
+    const categoryBadge = page
+      .locator('article')
+      .first()
+      .locator('ul[aria-label="Post categories"] li')
+      .first()
 
     // Skip if no categories on first post
     if ((await categoryBadge.count()) === 0) {
