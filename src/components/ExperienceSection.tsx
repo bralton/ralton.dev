@@ -155,7 +155,7 @@ function TimelineItem({ role }: { role: Experience }) {
         }`}
       />
       <div className="flex flex-wrap items-baseline gap-x-2">
-        <h4 className="text-[15.5px] font-bold text-foreground">{role.title}</h4>
+        <h3 className="text-[15.5px] font-bold text-foreground">{role.title}</h3>
         <span className="text-sm font-medium text-teal-dim">{role.company}</span>
       </div>
       <p className="mb-2 mt-0.5 font-mono text-[11.5px] text-text-tertiary">

@@ -103,6 +103,7 @@ async function BlogContent({ searchParams }: BlogPageProps) {
               slug={post.slug}
               excerpt={post.excerpt}
               publishedAt={post.publishedAt}
+              headingLevel="h2"
             />
           </li>
         ))}

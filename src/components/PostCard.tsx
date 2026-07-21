@@ -5,6 +5,8 @@ interface PostCardProps {
   slug: string
   excerpt?: string | null
   publishedAt?: string | null
+  /** Heading level for the title - h3 under a section h2 (default), h2 directly under a page h1 */
+  headingLevel?: 'h2' | 'h3'
 }
 
 function formatDate(date: string): string {
@@ -19,7 +21,13 @@ function clampExcerpt(text: string): string {
   return text.length > 120 ? `${text.slice(0, 117)}…` : text
 }
 
-export function PostCard({ title, slug, excerpt, publishedAt }: PostCardProps) {
+export function PostCard({
+  title,
+  slug,
+  excerpt,
+  publishedAt,
+  headingLevel: Heading = 'h3',
+}: PostCardProps) {
   return (
     <Link
       href={`/blog/${slug}`}
@@ -30,7 +38,7 @@ export function PostCard({ title, slug, excerpt, publishedAt }: PostCardProps) {
           {formatDate(publishedAt)}
         </time>
       )}
-      <h3 className="text-[15px] font-semibold leading-snug text-foreground">{title}</h3>
+      <Heading className="text-[15px] font-semibold leading-snug text-foreground">{title}</Heading>
       {excerpt && <p className="text-[13px] text-text-secondary">{clampExcerpt(excerpt)}</p>}
       <span aria-hidden="true" className="mt-auto pt-2 font-mono text-[11.5px] text-teal">
         read →
