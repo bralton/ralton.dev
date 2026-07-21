@@ -130,11 +130,11 @@ export function ProjectCard({
           </div>
         </div>
 
-        <details ref={detailsRef} className="mt-3.5 border-t border-border-soft">
+        <details ref={detailsRef} className="group/write mt-3.5 border-t border-border-soft">
           <summary className="cursor-pointer list-none rounded pt-3 font-mono text-xs text-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel [&::-webkit-details-marker]:hidden">
             <span aria-hidden="true" className="text-text-tertiary">
-              <span className="group-has-[details[open]]:hidden">+ </span>
-              <span className="hidden group-has-[details[open]]:inline">− </span>
+              <span className="group-open/write:hidden">+ </span>
+              <span className="hidden group-open/write:inline">− </span>
             </span>
             full write-up
           </summary>

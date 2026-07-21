@@ -77,10 +77,11 @@ export async function ExperienceSection() {
             ))}
           </ol>
           {earlierRoles.length > 0 && (
-            <details>
+            <details className="group/earlier">
               <summary className="cursor-pointer list-none rounded py-1 font-mono text-xs text-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden">
                 <span aria-hidden="true" className="text-text-tertiary">
-                  +{' '}
+                  <span className="group-open/earlier:hidden">+ </span>
+                  <span className="hidden group-open/earlier:inline">− </span>
                 </span>
                 earlier roles ({earlierRoles.length})
               </summary>
