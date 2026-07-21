@@ -28,10 +28,7 @@ export async function Footer() {
           </Link>
         </p>
 
-        <div className="flex items-center gap-6">
-          <SocialLinks />
-          <span className="font-mono text-xs text-text-tertiary">uptime: excellent</span>
-        </div>
+        <SocialLinks />
       </div>
     </footer>
   )
