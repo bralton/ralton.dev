@@ -7,18 +7,17 @@ test.describe('Blog Listing Page', () => {
 
   test('renders blog listing page with heading', async ({ page }) => {
     const heading = page.locator('h1')
-    await expect(heading).toContainText('Blog')
+    await expect(heading).toContainText('writing')
   })
 
   test('displays blog post cards with required information', async ({ page }) => {
-    // Check that at least one post card exists
-    const postCards = page.locator('article')
+    // Redesign PostCards: whole card is a link inside the posts list
+    const postCards = page.locator('ul[aria-label="Blog posts"] li a')
     await expect(postCards.first()).toBeVisible()
 
-    // First post card should have title, excerpt, date, reading time
     const firstCard = postCards.first()
 
-    // Title (h2 inside the card, which is wrapped in a Link)
+    // Title (h2 on the index, directly under the page h1)
     const title = firstCard.locator('h2')
     await expect(title).toBeVisible()
     await expect(title).not.toBeEmpty()
@@ -26,15 +25,11 @@ test.describe('Blog Listing Page', () => {
     // Date (time element)
     const date = firstCard.locator('time')
     await expect(date).toBeVisible()
-
-    // Reading time
-    const readingTime = firstCard.locator('text=/\\d+ min read/')
-    await expect(readingTime).toBeVisible()
   })
 
   test('post card links to individual post page', async ({ page }) => {
-    // The whole article is wrapped in a Link, so we click the card itself
-    const firstPostLink = page.locator('article a').first()
+    // The whole card is a Link
+    const firstPostLink = page.locator('ul[aria-label="Blog posts"] li a').first()
     const href = await firstPostLink.getAttribute('href')
 
     expect(href).toMatch(/^\/blog\/[\w-]+$/)
@@ -52,24 +47,6 @@ test.describe('Blog Listing Page', () => {
   test('has RSS autodiscovery link in head', async ({ page }) => {
     const rssLinkTag = page.locator('link[type="application/rss+xml"]')
     await expect(rssLinkTag).toHaveAttribute('href', /\/api\/rss/)
-  })
-
-  test('category badges are visible on post cards', async ({ page }) => {
-    // Categories are displayed as badges inside the card (not clickable links on listing page)
-    // The whole card links to the post, categories are just visual indicators
-    const categoryBadge = page
-      .locator('article')
-      .first()
-      .locator('ul[aria-label="Post categories"] li')
-      .first()
-
-    // Skip if no categories on first post
-    if ((await categoryBadge.count()) === 0) {
-      test.skip()
-      return
-    }
-
-    await expect(categoryBadge).toBeVisible()
   })
 
   test('page has correct meta description', async ({ page }) => {

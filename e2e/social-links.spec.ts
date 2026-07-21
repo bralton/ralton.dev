@@ -6,12 +6,12 @@ test.describe('Social Links', () => {
   })
 
   test('social links navigation is visible', async ({ page }) => {
-    const socialNav = page.locator('nav[aria-label="Social media links"]')
+    const socialNav = page.locator('nav[aria-label="Social media links"]').first()
     await expect(socialNav).toBeVisible()
   })
 
   test('social links have accessible labels', async ({ page }) => {
-    const socialNav = page.locator('nav[aria-label="Social media links"]')
+    const socialNav = page.locator('nav[aria-label="Social media links"]').first()
     const links = socialNav.locator('a')
 
     const count = await links.count()
@@ -25,7 +25,7 @@ test.describe('Social Links', () => {
   })
 
   test('external social links have target="_blank"', async ({ page }) => {
-    const socialNav = page.locator('nav[aria-label="Social media links"]')
+    const socialNav = page.locator('nav[aria-label="Social media links"]').first()
     const links = socialNav.locator('a')
 
     const count = await links.count()
@@ -42,7 +42,7 @@ test.describe('Social Links', () => {
   })
 
   test('external social links have rel="noopener noreferrer"', async ({ page }) => {
-    const socialNav = page.locator('nav[aria-label="Social media links"]')
+    const socialNav = page.locator('nav[aria-label="Social media links"]').first()
     const links = socialNav.locator('a')
 
     const count = await links.count()
@@ -70,7 +70,7 @@ test.describe('Social Links', () => {
   })
 
   test('social link icons are decorative (aria-hidden)', async ({ page }) => {
-    const socialNav = page.locator('nav[aria-label="Social media links"]')
+    const socialNav = page.locator('nav[aria-label="Social media links"]').first()
     const icons = socialNav.locator('svg')
 
     const count = await icons.count()
