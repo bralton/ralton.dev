@@ -15,7 +15,7 @@ test.describe('Blog Post Page', () => {
   })
 
   test('displays published date', async ({ page }) => {
-    const date = page.locator('time')
+    const date = page.locator('time').first()
     await expect(date).toBeVisible()
     await expect(date).toHaveAttribute('datetime')
   })
@@ -82,13 +82,13 @@ test.describe('Blog Post Page', () => {
 
   test('post content is rendered', async ({ page }) => {
     // Main article content area
-    const content = page.locator('article .prose, main .prose')
+    const content = page.locator('article .prose, main .prose').first()
     await expect(content).toBeVisible()
   })
 
   test('has back to blog link', async ({ page }) => {
     // Look for the back link in the main content area
-    const backLink = page.locator('main a[href="/blog"]')
+    const backLink = page.locator('main a[href="/blog"]').first()
     await expect(backLink.first()).toBeVisible()
   })
 })

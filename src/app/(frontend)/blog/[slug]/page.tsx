@@ -23,6 +23,7 @@ import { ArrowLeft, Calendar, Clock, Eye, Rss } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
+import { AuthorFooterCard } from '@/components/AuthorFooterCard'
 import { RichText } from '@/lib/lexicalSerializer'
 import type { Post, Category, Tag as TagType, Media } from '@/payload-types'
 
@@ -183,7 +184,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <Navigation />
-      <main id="main-content" className="pt-24">
+      <main id="main-content">
         {/* Draft mode indicator */}
         {isDraftMode && (
           <div className="bg-amber-600 px-4 py-2 text-center text-sm font-medium text-white">
@@ -199,15 +200,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         )}
 
-        <article className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
+        <article className="px-6 pb-16 pt-12 desk:pt-16">
           <div className="mx-auto max-w-[800px]">
             {/* Back link */}
             <Link
               href="/blog"
-              className="mb-8 inline-flex items-center gap-1.5 rounded text-teal-400 transition-colors hover:text-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+              className="mb-8 inline-flex items-center gap-1.5 rounded font-mono text-xs text-teal transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
             >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              Back to Blog
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              all posts
             </Link>
 
             {/* Post header */}
@@ -239,7 +240,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </h1>
 
               {/* Date, Reading Time, and RSS */}
-              <div className="flex flex-wrap items-center gap-4 text-text-secondary">
+              <div className="flex flex-wrap items-center gap-4 font-mono text-xs text-text-tertiary">
                 {post.publishedAt && (
                   <span className="flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" aria-hidden="true" />
@@ -252,6 +253,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <span>{post.readingTime} min read</span>
                   </span>
                 )}
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
                 <a
                   href="/api/rss"
                   className="flex items-center gap-1.5 rounded transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
@@ -282,7 +284,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* Tags */}
             {tags.length > 0 && (
-              <footer className="mt-12 border-t border-zinc-800 pt-8">
+              <footer className="mt-12 border-t border-border-soft pt-8">
                 <h2 className="mb-4 text-sm font-medium text-text-secondary">Tags</h2>
                 <ul role="list" aria-label="Post tags" className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
@@ -303,6 +305,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </ul>
               </footer>
             )}
+
+            <AuthorFooterCard currentSlug={post.slug} />
           </div>
         </article>
       </main>

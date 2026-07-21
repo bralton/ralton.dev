@@ -16,10 +16,12 @@ const platformLabels: Record<string, string> = {
 }
 
 export async function SocialLinks() {
+  // Data fetch guarded separately - JSX must stay outside try/catch (react-hooks/error-boundaries)
+  let socialLinks
   try {
     const payload = await getPayload({ config })
 
-    const socialLinks = await payload.find({
+    socialLinks = await payload.find({
       collection: 'social-links',
       where: {
         isVisible: { equals: true },
@@ -27,40 +29,40 @@ export async function SocialLinks() {
       sort: 'order',
       limit: 10,
     })
-
-    if (socialLinks.docs.length === 0) {
-      return null
-    }
-
-    return (
-      <nav aria-label="Social media links">
-        <ul className="flex items-center gap-4" role="list">
-          {socialLinks.docs.map((link) => {
-            const Icon = platformIcons[link.platform] || DefaultIcon
-            const label = platformLabels[link.platform] || link.platform
-
-            return (
-              <li key={link.id}>
-                <a
-                  href={link.url}
-                  target={link.platform === 'email' ? undefined : '_blank'}
-                  rel={link.platform === 'email' ? undefined : 'noopener noreferrer'}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background dark:hover:text-teal-400"
-                  aria-label={label}
-                >
-                  <Icon className="h-6 w-6" />
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
-    )
   } catch (error) {
     // Graceful degradation: log error and return null to prevent page crash
     console.error('[SocialLinks] Failed to fetch social links:', error)
     return null
   }
+
+  if (socialLinks.docs.length === 0) {
+    return null
+  }
+
+  return (
+    <nav aria-label="Social media links">
+      <ul className="flex items-center gap-4" role="list">
+        {socialLinks.docs.map((link) => {
+          const Icon = platformIcons[link.platform] || DefaultIcon
+          const label = platformLabels[link.platform] || link.platform
+
+          return (
+            <li key={link.id}>
+              <a
+                href={link.url}
+                target={link.platform === 'email' ? undefined : '_blank'}
+                rel={link.platform === 'email' ? undefined : 'noopener noreferrer'}
+                className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background dark:hover:text-teal-400"
+                aria-label={label}
+              >
+                <Icon className="h-6 w-6" />
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
+  )
 }
 
 // Icon components

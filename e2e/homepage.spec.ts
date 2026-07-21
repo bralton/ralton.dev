@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Homepage', () => {
+test.describe('Homepage (redesign)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
   })
@@ -9,111 +9,95 @@ test.describe('Homepage', () => {
     const heroSection = page.locator('section#hero')
     await expect(heroSection).toBeVisible()
 
-    // Hero should have a heading with the name
     const h1 = heroSection.locator('h1')
     await expect(h1).toBeVisible()
     await expect(h1).not.toBeEmpty()
 
-    // Hero should have a headline (h2)
     const h2 = heroSection.locator('h2')
     await expect(h2).toBeVisible()
     await expect(h2).not.toBeEmpty()
   })
 
-  test('renders About section', async ({ page }) => {
-    const aboutSection = page.locator('section#about')
-    await expect(aboutSection).toBeVisible()
-
-    const heading = aboutSection.locator('h2#about-heading')
-    await expect(heading).toBeVisible()
+  test('renders GitHub proof panel in hero when data exists', async ({ page }) => {
+    const proofPanel = page.locator('aside[aria-label="GitHub activity and career stats"]')
+    // Panel only renders when GitHub/experience/education data exists
+    if ((await proofPanel.count()) > 0) {
+      await expect(proofPanel).toBeVisible()
+    }
   })
 
-  test('renders Experience section', async ({ page }) => {
+  test('retired v1 sections are gone', async ({ page }) => {
+    await expect(page.locator('section#about')).toHaveCount(0)
+    await expect(page.locator('section#skills')).toHaveCount(0)
+    await expect(page.locator('section#education')).toHaveCount(0)
+    await expect(page.locator('section#github')).toHaveCount(0)
+    await expect(page.locator('section#latest-posts')).toHaveCount(0)
+  })
+
+  test('renders Projects section with expandable cards when projects exist', async ({ page }) => {
+    const projectsSection = page.locator('section#projects')
+    if ((await projectsSection.count()) === 0) return // no projects seeded
+
+    await expect(projectsSection).toBeVisible()
+    await expect(projectsSection.locator('h2#projects-heading')).toBeVisible()
+
+    // Cards expose a collapsed full write-up via <details>
+    const firstCard = projectsSection.locator('article').first()
+    await expect(firstCard).toBeVisible()
+    const details = firstCard.locator('details')
+    await expect(details).toHaveCount(1)
+    await expect(details).not.toHaveAttribute('open', '')
+
+    // Whole-card click expands the write-up
+    await firstCard.locator('h3').click()
+    await expect(details).toHaveAttribute('open', '')
+
+    // Clicking again collapses it
+    await firstCard.locator('h3').click()
+    await expect(details).not.toHaveAttribute('open', '')
+  })
+
+  test('renders Experience section with timeline and sidebar', async ({ page }) => {
     const experienceSection = page.locator('section#experience')
     await expect(experienceSection).toBeVisible()
+    await expect(experienceSection.locator('h2#experience-heading')).toBeVisible()
 
-    const heading = experienceSection.locator('h2#experience-heading')
-    await expect(heading).toBeVisible()
+    // Timeline renders at least one role
+    const timeline = experienceSection.locator('ol[aria-label="Work experience history"] li')
+    await expect(timeline.first()).toBeVisible()
   })
 
-  test('renders Education section', async ({ page }) => {
-    const educationSection = page.locator('section#education')
-    await expect(educationSection).toBeVisible()
+  test('renders Writing section when posts exist', async ({ page }) => {
+    const writingSection = page.locator('section#writing')
+    if ((await writingSection.count()) === 0) return // no posts seeded
 
-    const heading = educationSection.locator('h2#education-heading')
-    await expect(heading).toBeVisible()
+    await expect(writingSection).toBeVisible()
+    await expect(writingSection.locator('h2#writing-heading')).toBeVisible()
+
+    // "all posts →" link to /blog
+    await expect(writingSection.locator('a[href="/blog"]').first()).toBeVisible()
+
+    // At least one post card
+    await expect(
+      writingSection.locator('ul[aria-label="Latest blog posts"] li').first()
+    ).toBeVisible()
   })
 
-  test('renders Projects section when projects exist', async ({ page }) => {
-    const projectsSection = page.locator('section#projects')
-    // Projects section only renders if there are visible projects in the database
-    const sectionExists = (await projectsSection.count()) > 0
-    if (sectionExists) {
-      await expect(projectsSection).toBeVisible()
-      const heading = projectsSection.locator('h2#projects-heading')
-      await expect(heading).toBeVisible()
-    }
-    // Test passes even if section doesn't exist (no projects in DB)
-  })
-
-  test('renders Skills section', async ({ page }) => {
-    const skillsSection = page.locator('section#skills')
-    await expect(skillsSection).toBeVisible()
-
-    const heading = skillsSection.locator('h2#skills-heading')
-    await expect(heading).toBeVisible()
-  })
-
-  test('renders GitHub activity section when data exists', async ({ page }) => {
-    const githubSection = page.locator('section#github')
-    // GitHub section only renders if there is valid contribution data in the database
-    const sectionExists = (await githubSection.count()) > 0
-    if (sectionExists) {
-      await expect(githubSection).toBeVisible()
-      const heading = githubSection.locator('h2#github-heading')
-      await expect(heading).toBeVisible()
-    }
-    // Test passes even if section doesn't exist (no GitHub data seeded)
+  test('renders Contact section with form and social links', async ({ page }) => {
+    const contactSection = page.locator('section#contact')
+    await expect(contactSection).toBeVisible()
+    await expect(contactSection.locator('form')).toBeVisible()
   })
 
   test('renders CTA buttons that are accessible', async ({ page }) => {
     const heroSection = page.locator('section#hero')
-
-    // Check for CTA buttons (links styled as buttons)
     const ctaButtons = heroSection.locator('a').filter({ has: page.locator('text=/./') })
-    const count = await ctaButtons.count()
-
-    // Should have at least one CTA button
-    expect(count).toBeGreaterThan(0)
-
-    // Each button should have an href
-    const firstButton = ctaButtons.first()
-    await expect(firstButton).toHaveAttribute('href')
+    expect(await ctaButtons.count()).toBeGreaterThan(0)
+    await expect(ctaButtons.first()).toHaveAttribute('href')
   })
 
   test('main content has correct id for skip link', async ({ page }) => {
     const mainContent = page.locator('main#main-content')
     await expect(mainContent).toBeVisible()
-  })
-
-  test('renders Latest Posts section when posts exist', async ({ page }) => {
-    const latestPostsSection = page.locator('section#latest-posts')
-    // Latest Posts section only renders if there are published posts in the database
-    const sectionExists = (await latestPostsSection.count()) > 0
-    if (sectionExists) {
-      await expect(latestPostsSection).toBeVisible()
-      const heading = latestPostsSection.locator('h2#latest-posts-heading')
-      await expect(heading).toBeVisible()
-      await expect(heading).toContainText('Latest Posts')
-
-      // Should have "View all posts" link
-      const viewAllLink = latestPostsSection.locator('a[href="/blog"]')
-      await expect(viewAllLink).toBeVisible()
-
-      // Should have at least one blog post card
-      const postCards = latestPostsSection.locator('article')
-      await expect(postCards.first()).toBeVisible()
-    }
-    // Test passes even if section doesn't exist (no posts in DB)
   })
 })

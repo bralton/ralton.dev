@@ -60,7 +60,7 @@ test.describe('Contact Form', () => {
     await expect(messageError).toBeVisible()
   })
 
-  test('successful form submission shows success toast', async ({ page }) => {
+  test('successful form submission replaces form with confirmation', async ({ page }) => {
     const contactSection = page.locator('section#contact')
 
     // Mock the contact API to return success
@@ -78,9 +78,14 @@ test.describe('Contact Form', () => {
     // Submit the form
     await contactSection.getByRole('button', { name: /send message/i }).click()
 
-    // Wait for the toast to appear
-    const toast = page.locator('[data-state="open"]').filter({ hasText: /message sent/i })
-    await expect(toast).toBeVisible({ timeout: 10000 })
+    // Success replaces the form with a mono confirmation line
+    const confirmation = page
+      .locator('section#contact [role="status"]')
+      .filter({ hasText: /message queued/i })
+    await expect(confirmation).toBeVisible({ timeout: 10000 })
+
+    // Form is gone; social links remain as the escape hatch
+    await expect(page.locator('section#contact form')).toHaveCount(0)
   })
 
   test('form fields have proper accessibility attributes', async ({ page }) => {

@@ -15,6 +15,12 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   typescript: { ignoreBuildErrors: false },
 
+  // Next 16 streams generateMetadata output into the body on dynamic pages,
+  // which Lighthouse and non-JS crawlers miss. Serve blocking (in-head)
+  // metadata to Lighthouse in addition to Next's default bot list.
+  htmlLimitedBots:
+    /Chrome-Lighthouse|Mediapartners-Google|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview/i,
+
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],

@@ -86,8 +86,7 @@ test.describe('Filter Navigation Flow', () => {
     await page.goto('/blog', { waitUntil: 'networkidle' })
     await expect(page).toHaveURL('/blog')
 
-    // Click on a post (the whole article is wrapped in a Link)
-    const postLink = page.locator('article a').first()
+    const postLink = page.locator('ul[aria-label="Blog posts"] li a').first()
     await postLink.click()
     await expect(page).toHaveURL(/\/blog\/[\w-]+$/)
 

@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { FileText, Rss } from 'lucide-react'
-import { BlogPostCard } from '@/components/BlogPostCard'
+import { Rss } from 'lucide-react'
+import { PostCard } from '@/components/PostCard'
 import { Pagination } from '@/components/Pagination'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
@@ -72,13 +72,8 @@ async function BlogContent({ searchParams }: BlogPageProps) {
   // Empty state when no posts
   if (posts.docs.length === 0 && currentPage === 1) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center px-4 text-center">
-        <FileText className="mb-4 h-16 w-16 text-zinc-600" aria-hidden="true" />
-        <h2 className="mb-2 text-xl font-semibold text-foreground">No Posts Yet</h2>
-        <p className="max-w-md text-text-secondary">
-          I&apos;m working on some articles. Check back soon for technical insights and development
-          stories.
-        </p>
+      <div className="flex min-h-[300px] items-center justify-center px-4">
+        <p className="font-mono text-sm text-text-tertiary">no posts yet — check back soon</p>
       </div>
     )
   }
@@ -86,14 +81,13 @@ async function BlogContent({ searchParams }: BlogPageProps) {
   // Invalid page number - show empty state
   if (posts.docs.length === 0 && currentPage > 1) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center px-4 text-center">
-        <h2 className="mb-2 text-xl font-semibold text-foreground">Page Not Found</h2>
-        <p className="mb-4 text-text-secondary">This page doesn&apos;t exist.</p>
+      <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 px-4 text-center">
+        <p className="font-mono text-sm text-text-tertiary">this page doesn&apos;t exist</p>
         <Link
           href="/blog"
-          className="rounded-md bg-teal-700 px-4 py-2 text-white transition-colors hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
         >
-          Back to Blog
+          Back to all posts
         </Link>
       </div>
     )
@@ -101,18 +95,15 @@ async function BlogContent({ searchParams }: BlogPageProps) {
 
   return (
     <>
-      <ul role="list" aria-label="Blog posts" className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {posts.docs.map((post, index) => (
+      <ul role="list" aria-label="Blog posts" className="grid grid-cols-1 gap-5 desk:grid-cols-2">
+        {posts.docs.map((post) => (
           <li key={post.id} className="h-full">
-            <BlogPostCard
+            <PostCard
               title={post.title}
               slug={post.slug}
               excerpt={post.excerpt}
               publishedAt={post.publishedAt}
-              readingTime={post.readingTime}
-              categories={post.categories}
-              featuredImage={post.featuredImage}
-              priority={index === 0}
+              headingLevel="h2"
             />
           </li>
         ))}
@@ -129,23 +120,25 @@ export default async function BlogPage(props: BlogPageProps) {
   return (
     <>
       <Navigation />
-      <main id="main-content" className="pt-24">
-        <section aria-labelledby="blog-heading" className="px-4 py-16 md:px-6 md:py-24 lg:px-8">
-          <div className="mx-auto max-w-[1200px]">
-            <div className="mb-8 flex items-center justify-between">
-              <h1
-                id="blog-heading"
-                className="text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
-              >
-                Blog
+      <main id="main-content" className="pb-16">
+        <section aria-labelledby="blog-heading" className="px-6 pb-4 pt-12 desk:pt-16">
+          <div className="mx-auto max-w-[1120px]">
+            <div className="mb-7 flex items-baseline gap-4">
+              <h1 id="blog-heading" className="whitespace-nowrap font-mono text-[13px] text-teal">
+                <span aria-hidden="true" className="text-text-tertiary">
+                  ~/
+                </span>
+                writing
               </h1>
+              <span aria-hidden="true" className="h-px flex-1 bg-border-soft" />
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
               <a
                 href="/api/rss"
-                className="flex items-center gap-1.5 rounded text-text-secondary transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 title="Subscribe via RSS"
               >
-                <Rss className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">Subscribe via RSS</span>
+                <Rss className="h-4 w-4" aria-hidden="true" />
+                rss
               </a>
             </div>
 

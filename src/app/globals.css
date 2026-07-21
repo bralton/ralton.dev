@@ -29,39 +29,56 @@
     --input: 240 5.9% 90%;
     --ring: 174 82% 29%;
     --radius: 0.5rem;
+
+    /* Redesign tokens (UX spec §Visual Design Foundation) - hex, consumed as var(--x) */
+    --rd-bg: #0b0f14;
+    --rd-panel: #10161d;
+    --rd-panel-2: #141c25;
+    --rd-border: #1e2937;
+    --rd-border-soft: #182230;
+    --rd-text: #e6edf3;
+    --rd-text-2: #94a6b8;
+    /* Spec value #5D7288 failed AA on --rd-panel (3.66:1); bumped per AC-3 to 4.57:1 */
+    --rd-text-3: #6b8299;
+    --rd-teal: #2dd4bf;
+    --rd-teal-dim: #14b8a6;
+    --rd-teal-deep: #0f766e;
+    --rd-teal-ink: #042f2e;
   }
 
   .dark {
-    /* Background: #09090b */
-    --background: 240 10% 3.9%;
-    /* Text Primary: #fafafa */
-    --foreground: 0 0% 98%;
-    /* Surface: #18181b */
-    --card: 240 6% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 6% 10%;
-    --popover-foreground: 0 0% 98%;
-    /* Primary: teal-700 (#0f766e) - WCAG AA compliant */
-    --primary: 175 77% 26%;
-    --primary-foreground: 0 0% 98%;
-    /* Primary Hover: teal-800 (#115e59) */
-    --primary-hover: 175 54% 22%;
-    /* Secondary using surface color */
-    --secondary: 240 6% 10%;
-    --secondary-foreground: 0 0% 98%;
-    /* Text Muted: #71717a */
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 64.9%;
-    /* Accent using primary */
-    --accent: 174 82% 29%;
-    --accent-foreground: 0 0% 98%;
+    /* Redesign palette - blue-biased slate ground, teal accent system */
+    /* Background: #0b0f14 */
+    --background: 213 29% 6%;
+    /* Text Primary: #e6edf3 */
+    --foreground: 208 35% 93%;
+    /* Panel/Surface: #10161d */
+    --card: 212 29% 9%;
+    --card-foreground: 208 35% 93%;
+    --popover: 212 29% 9%;
+    --popover-foreground: 208 35% 93%;
+    /* Primary: teal-dim #14b8a6 - dark ink text on teal fill (AA 6.9:1) */
+    --primary: 173 80% 40%;
+    --primary-foreground: 174 78% 7%;
+    /* Primary Hover: bright teal #2dd4bf - hover LIGHTENS in the redesign */
+    --primary-hover: 172 66% 50%;
+    /* Secondary using panel color */
+    --secondary: 212 29% 9%;
+    --secondary-foreground: 208 35% 93%;
+    /* Muted: raised panel #141c25 / text-2 #94a6b8 */
+    --muted: 212 30% 11%;
+    --muted-foreground: 210 20% 65%;
+    /* Accent: teal-deep #0f766e */
+    --accent: 175 77% 26%;
+    --accent-foreground: 208 35% 93%;
     /* Error: #ef4444 */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    /* Border: #27272a */
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 174 82% 29%;
+    /* Border: #1e2937 */
+    --border: 214 29% 17%;
+    --input: 214 29% 17%;
+    /* Ring: bright teal #2dd4bf */
+    --ring: 172 66% 50%;
   }
 }
 
