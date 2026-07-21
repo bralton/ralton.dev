@@ -253,6 +253,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <span>{post.readingTime} min read</span>
                   </span>
                 )}
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
                 <a
                   href="/api/rss"
                   className="flex items-center gap-1.5 rounded transition-colors hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"

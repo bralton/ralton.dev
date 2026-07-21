@@ -130,6 +130,7 @@ export default async function BlogPage(props: BlogPageProps) {
                 writing
               </h1>
               <span aria-hidden="true" className="h-px flex-1 bg-border-soft" />
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
               <a
                 href="/api/rss"
                 className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"

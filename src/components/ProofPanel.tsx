@@ -57,9 +57,16 @@ export async function ProofPanel() {
   const username = typeof githubData?.username === 'string' ? githubData.username : null
 
   const earliestStart = experiences.docs[0]?.startDate
-  const yearsInTech = earliestStart
-    ? Math.max(1, Math.floor((Date.now() - new Date(earliestStart).getTime()) / 31557600000))
-    : null
+  // Server component: computed once per request/revalidate. Anchored to the data's own
+  // freshness timestamp (or its DB updatedAt) so the render stays pure (react-hooks purity rule).
+  const nowRef = githubData?.lastFetched ?? githubData?.updatedAt ?? earliestStart
+  const yearsInTech =
+    earliestStart && nowRef
+      ? Math.max(
+          1,
+          Math.floor((new Date(nowRef).getTime() - new Date(earliestStart).getTime()) / 31557600000)
+        )
+      : null
 
   const cert = education.docs[0] ?? null
 

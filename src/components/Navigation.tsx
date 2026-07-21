@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 /**
  * Navigation Links
@@ -59,7 +60,7 @@ export function Navigation() {
           className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-6"
         >
           {/* Logo + wordmark */}
-          <a
+          <Link
             href="/"
             className="flex min-h-[44px] items-center gap-2.5 rounded font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           >
@@ -67,28 +68,28 @@ export function Navigation() {
             <span>
               ben ralton<span className="text-teal">.dev</span>
             </span>
-          </a>
+          </Link>
 
           <ul role="list" className="flex items-center gap-1" aria-label="Site sections">
             {navLinks.map((link) => (
               <li key={link.href} className="hidden desk:block">
-                <a
+                <Link
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className="rounded-md px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-panel-2 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <a
+              <Link
                 href="/#contact"
                 onClick={(e) => handleNavClick(e, '/#contact')}
                 className="hover:bg-teal/10 ml-2 inline-flex min-h-[44px] items-center rounded-md border border-teal-deep px-3.5 font-mono text-xs text-teal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
               >
                 get in touch →
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
