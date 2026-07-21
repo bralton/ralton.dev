@@ -15,23 +15,23 @@ export async function Footer() {
     <footer
       id="footer"
       aria-label="Site footer"
-      className="border-t border-zinc-800 bg-background px-4 py-8 md:px-6 lg:px-8"
+      className="border-t border-border-soft bg-background px-6 py-6"
     >
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 md:flex-row md:justify-between">
-        <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
-          <p className="text-sm text-text-secondary">
-            &copy; {currentYear} B.RALTON · Development &amp; Operations
-            <span className="mx-2 hidden md:inline">|</span>
-          </p>
+      <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-4 desk:flex-row desk:justify-between">
+        <p className="font-mono text-xs text-text-tertiary">
+          © {currentYear} ben ralton — built with next + payload ·{' '}
           <Link
             href="/privacy"
-            className="hover:text-text-primary rounded text-sm text-text-secondary focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            className="rounded hover:text-text-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           >
-            Privacy Policy
+            privacy
           </Link>
-        </div>
+        </p>
 
-        <SocialLinks />
+        <div className="flex items-center gap-6">
+          <SocialLinks />
+          <span className="font-mono text-xs text-text-tertiary">uptime: excellent</span>
+        </div>
       </div>
     </footer>
   )

@@ -16,7 +16,7 @@ export default function HomePage() {
     <>
       <PersonStructuredData />
       <Navigation />
-      <main id="main-content" className="pt-24">
+      <main id="main-content">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
