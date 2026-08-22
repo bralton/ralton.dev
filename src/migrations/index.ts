@@ -4,6 +4,7 @@ import * as migration_20260309_095049_add_contact_submissions from './20260309_0
 import * as migration_20260309_120634_add_social_links from './20260309_120634_add_social_links'
 import * as migration_20260311_212816 from './20260311_212816'
 import * as migration_20260822_100000_project_links_privacy from './20260822_100000_project_links_privacy'
+import * as migration_20260822_110000_project_privacy_markdown from './20260822_110000_project_privacy_markdown'
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260822_100000_project_links_privacy.up,
     down: migration_20260822_100000_project_links_privacy.down,
     name: '20260822_100000_project_links_privacy',
+  },
+  {
+    up: migration_20260822_110000_project_privacy_markdown.up,
+    down: migration_20260822_110000_project_privacy_markdown.down,
+    name: '20260822_110000_project_privacy_markdown',
   },
 ]

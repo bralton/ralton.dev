@@ -466,7 +466,11 @@ export interface Project {
       }[]
     | null;
   /**
-   * Optional privacy policy for this project (e.g. a mobile app). When set, it is published at /projects/<slug>/privacy and linked from the card.
+   * Optional privacy policy in Markdown (e.g. for a mobile app). On save it is converted into the rich text field below and published at /projects/<slug>/privacy. Leave empty to edit the rich text directly.
+   */
+  privacyPolicyMarkdown?: string | null;
+  /**
+   * Rendered privacy policy. Generated from the Markdown field above when that is filled in; otherwise edit here directly.
    */
   privacyPolicy?: {
     root: {
@@ -810,6 +814,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  privacyPolicyMarkdown?: T;
   privacyPolicy?: T;
   privacyPolicyUpdatedAt?: T;
   image?: T;

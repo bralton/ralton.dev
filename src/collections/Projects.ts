@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import { convertMarkdownToLexical, editorConfigFactory } from '@payloadcms/richtext-lexical'
 import { revalidateProjectAfterChange, revalidateProjectAfterDelete } from '@/lib/payloadHooks'
 import { createSlugHook } from '@/lib/slugify'
 
@@ -13,6 +14,22 @@ export const PROJECT_LINK_TYPES = [
 
 export type ProjectLinkType = (typeof PROJECT_LINK_TYPES)[number]['value']
 
+/**
+ * If a markdown privacy policy is provided, convert it to Lexical and store it
+ * in `privacyPolicy` so the frontend keeps a single rendering path.
+ * Markdown is the source of truth whenever it is non-empty.
+ */
+const syncPrivacyPolicyFromMarkdown: CollectionBeforeChangeHook = async ({ data, req }) => {
+  const markdown = data?.privacyPolicyMarkdown?.trim()
+  if (!markdown) return data
+
+  const editorConfig = await editorConfigFactory.default({ config: req.payload.config })
+  return {
+    ...data,
+    privacyPolicy: convertMarkdownToLexical({ editorConfig, markdown }),
+  }
+}
+
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
@@ -26,6 +43,7 @@ export const Projects: CollectionConfig = {
   },
   defaultSort: '-createdAt',
   hooks: {
+    beforeChange: [syncPrivacyPolicyFromMarkdown],
     afterChange: [revalidateProjectAfterChange],
     afterDelete: [revalidateProjectAfterDelete],
   },
@@ -113,11 +131,20 @@ export const Projects: CollectionConfig = {
       ],
     },
     {
+      name: 'privacyPolicyMarkdown',
+      type: 'textarea',
+      admin: {
+        description:
+          'Optional privacy policy in Markdown (e.g. for a mobile app). On save it is converted into the rich text field below and published at /projects/<slug>/privacy. Leave empty to edit the rich text directly.',
+        rows: 20,
+      },
+    },
+    {
       name: 'privacyPolicy',
       type: 'richText',
       admin: {
         description:
-          'Optional privacy policy for this project (e.g. a mobile app). When set, it is published at /projects/<slug>/privacy and linked from the card.',
+          'Rendered privacy policy. Generated from the Markdown field above when that is filled in; otherwise edit here directly.',
       },
     },
     {
@@ -125,7 +152,7 @@ export const Projects: CollectionConfig = {
       type: 'date',
       admin: {
         description: 'Shown as "Last updated" on the privacy policy page',
-        condition: (data) => Boolean(data?.privacyPolicy),
+        condition: (data) => Boolean(data?.privacyPolicy || data?.privacyPolicyMarkdown),
         date: { pickerAppearance: 'dayOnly' },
       },
     },

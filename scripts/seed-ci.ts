@@ -225,7 +225,7 @@ async function seed() {
     description: string
     techStack: string[]
     links?: { type: 'github' | 'live' | 'appStore' | 'googlePlay' | 'other'; url: string }[]
-    privacyPolicy?: string
+    privacyPolicyMarkdown?: string
     privacyPolicyUpdatedAt?: string
     isVisible: boolean
   }> = [
@@ -297,8 +297,18 @@ async function seed() {
           url: 'https://play.google.com/store/apps/details?id=dev.example.puzzle',
         },
       ],
-      privacyPolicy:
-        'Puzzle Quest Mobile does not collect personal data. Anonymous crash reports are sent to the platform vendor. Contact me via the homepage form with any questions.',
+      privacyPolicyMarkdown: [
+        '## Data Collection',
+        '',
+        'Puzzle Quest Mobile does **not** collect personal data.',
+        '',
+        '- Anonymous crash reports are sent to the platform vendor',
+        '- No accounts, no tracking, no ads',
+        '',
+        '## Contact',
+        '',
+        'Use the contact form on the homepage with any questions.',
+      ].join('\n'),
       privacyPolicyUpdatedAt: '2026-08-01T00:00:00.000Z',
       isVisible: true,
     },
@@ -318,7 +328,7 @@ async function seed() {
             .replace(/(^-|-$)/g, ''),
         techStack: project.techStack.map((tech) => ({ technology: tech })),
         links: project.links,
-        privacyPolicy: project.privacyPolicy ? richText(project.privacyPolicy) : undefined,
+        privacyPolicyMarkdown: project.privacyPolicyMarkdown,
         privacyPolicyUpdatedAt: project.privacyPolicyUpdatedAt,
         isVisible: project.isVisible,
       },
