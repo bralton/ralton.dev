@@ -406,13 +406,14 @@ export interface Tag {
   createdAt: string;
 }
 /**
- * Portfolio projects displayed on your site
+ * Portfolio projects displayed on your site. Drag rows in this list to change the order they appear on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
   id: number;
+  _order?: string | null;
   /**
    * Project name or title
    */
@@ -797,6 +798,7 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   slug?: T;
   description?: T;

@@ -10,7 +10,7 @@ export async function ProjectsSection() {
     where: {
       isVisible: { equals: true },
     },
-    sort: '-createdAt',
+    sort: '_order', // Admin drag-and-drop order (orderable: true); unordered docs sort last
     depth: 1, // Populate image relationship
   })
 

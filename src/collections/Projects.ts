@@ -35,13 +35,15 @@ export const Projects: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'techStack', 'isVisible'],
-    description: 'Portfolio projects displayed on your site',
+    description:
+      'Portfolio projects displayed on your site. Drag rows in this list to change the order they appear on the site.',
     livePreview: {
       url: () =>
         `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
     },
   },
-  defaultSort: '-createdAt',
+  // Drag-and-drop ordering in the admin list view; sets defaultSort to '_order'.
+  orderable: true,
   hooks: {
     beforeChange: [syncPrivacyPolicyFromMarkdown],
     afterChange: [revalidateProjectAfterChange],
