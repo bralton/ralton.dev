@@ -418,6 +418,10 @@ export interface Project {
    */
   title: string;
   /**
+   * URL-friendly identifier (auto-generated from title). Used for sub-pages.
+   */
+  slug: string;
+  /**
    * Detailed description of the project and your role
    */
   description: {
@@ -448,13 +452,41 @@ export interface Project {
       }[]
     | null;
   /**
-   * GitHub repository URL (optional)
+   * External links shown on the project card (GitHub, live site, app stores, etc.)
    */
-  repoUrl?: string | null;
+  links?:
+    | {
+        type: 'github' | 'live' | 'appStore' | 'googlePlay' | 'other';
+        url: string;
+        /**
+         * Custom link text (only used for "Other"; defaults to the type label)
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Live demo or deployed site URL (optional)
+   * Optional privacy policy for this project (e.g. a mobile app). When set, it is published at /projects/<slug>/privacy and linked from the card.
    */
-  liveUrl?: string | null;
+  privacyPolicy?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Shown as "Last updated" on the privacy policy page
+   */
+  privacyPolicyUpdatedAt?: string | null;
   /**
    * Project screenshot or thumbnail (16:9 aspect ratio recommended)
    */
@@ -762,6 +794,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
   description?: T;
   techStack?:
     | T
@@ -769,8 +802,16 @@ export interface ProjectsSelect<T extends boolean = true> {
         technology?: T;
         id?: T;
       };
-  repoUrl?: T;
-  liveUrl?: T;
+  links?:
+    | T
+    | {
+        type?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  privacyPolicy?: T;
+  privacyPolicyUpdatedAt?: T;
   image?: T;
   isVisible?: T;
   updatedAt?: T;

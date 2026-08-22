@@ -28,6 +28,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { slug: true, updatedAt: true },
   })
 
+  // Visible projects with a published privacy policy
+  const projectsWithPolicy = await payload.find({
+    collection: 'projects',
+    where: {
+      isVisible: { equals: true },
+      privacyPolicy: { exists: true },
+    },
+    limit: 1000,
+    select: { slug: true, updatedAt: true },
+  })
+
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -74,5 +85,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...postPages, ...categoryPages, ...tagPages]
+  // Project privacy policy pages
+  const projectPrivacyPages: MetadataRoute.Sitemap = projectsWithPolicy.docs.map((project) => ({
+    url: `${siteUrl}/projects/${project.slug}/privacy`,
+    lastModified: new Date(project.updatedAt),
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
+  }))
+
+  return [...staticPages, ...postPages, ...categoryPages, ...tagPages, ...projectPrivacyPages]
 }

@@ -17,7 +17,7 @@ import type {
   CollectionAfterDeleteHook,
   GlobalAfterChangeHook,
 } from 'payload'
-import { revalidateHomepage, revalidateBlog } from './revalidate'
+import { revalidateHomepage, revalidateBlog, revalidateProject } from './revalidate'
 
 /**
  * Collection afterChange hook that revalidates the homepage.
@@ -61,5 +61,22 @@ export const revalidateBlogAfterChange: CollectionAfterChangeHook = async ({ doc
  */
 export const revalidateBlogAfterDelete: CollectionAfterDeleteHook = async ({ doc }) => {
   await revalidateBlog(doc.slug)
+  return doc
+}
+
+/**
+ * Collection afterChange hook for Projects: revalidates the homepage and the
+ * project's privacy policy sub-page.
+ */
+export const revalidateProjectAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
+  await revalidateProject(doc.slug)
+  return doc
+}
+
+/**
+ * Collection afterDelete hook for Projects.
+ */
+export const revalidateProjectAfterDelete: CollectionAfterDeleteHook = async ({ doc }) => {
+  await revalidateProject(doc.slug)
   return doc
 }

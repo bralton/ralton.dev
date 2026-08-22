@@ -75,3 +75,27 @@ export async function revalidateBlog(slug?: string): Promise<void> {
     console.error('[Revalidate] Failed to revalidate blog:', error)
   }
 }
+
+/**
+ * Revalidate project-related caches.
+ *
+ * Projects render on the homepage, and each project may expose a privacy
+ * policy sub-page at /projects/[slug]/privacy.
+ *
+ * @param slug - Optional project slug for targeted sub-page revalidation
+ */
+export async function revalidateProject(slug?: string): Promise<void> {
+  if (process.env.CI) {
+    return
+  }
+
+  try {
+    revalidatePath('/')
+    if (slug) {
+      revalidatePath(`/projects/${slug}/privacy`)
+    }
+    console.log('[Revalidate] Project cache invalidated', slug ? `(project: ${slug})` : '')
+  } catch (error) {
+    console.error('[Revalidate] Failed to revalidate project:', error)
+  }
+}

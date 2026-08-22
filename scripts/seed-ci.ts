@@ -219,14 +219,25 @@ async function seed() {
   console.log(`[Seed] ${educationEntries.length} Education entries seeded`)
 
   // Seed Projects (6 total - varied tech stacks, 1 hidden)
-  const projects = [
+  const projects: Array<{
+    title: string
+    slug?: string
+    description: string
+    techStack: string[]
+    links?: { type: 'github' | 'live' | 'appStore' | 'googlePlay' | 'other'; url: string }[]
+    privacyPolicy?: string
+    privacyPolicyUpdatedAt?: string
+    isVisible: boolean
+  }> = [
     {
       title: 'E-Commerce Platform',
       description:
         'A full-featured e-commerce platform with real-time inventory management, Stripe payments, and admin dashboard. Handles 10k+ daily transactions.',
       techStack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Stripe', 'Redis'],
-      repoUrl: 'https://github.com/testuser/ecommerce-platform',
-      liveUrl: 'https://shop.example.com',
+      links: [
+        { type: 'github', url: 'https://github.com/testuser/ecommerce-platform' },
+        { type: 'live', url: 'https://shop.example.com' },
+      ],
       isVisible: true,
     },
     {
@@ -234,8 +245,10 @@ async function seed() {
       description:
         'A collaborative task management application with real-time updates, drag-and-drop Kanban boards, and team workspaces.',
       techStack: ['React', 'Node.js', 'Socket.io', 'MongoDB'],
-      repoUrl: 'https://github.com/testuser/task-manager',
-      liveUrl: 'https://tasks.example.com',
+      links: [
+        { type: 'github', url: 'https://github.com/testuser/task-manager' },
+        { type: 'live', url: 'https://tasks.example.com' },
+      ],
       isVisible: true,
     },
     {
@@ -243,8 +256,10 @@ async function seed() {
       description:
         'This portfolio website built with Next.js and Payload CMS. Features a blog with syntax highlighting, RSS feed, and dark mode.',
       techStack: ['Next.js', 'Payload CMS', 'TypeScript', 'Tailwind CSS'],
-      repoUrl: 'https://github.com/testuser/portfolio',
-      liveUrl: 'https://example.com',
+      links: [
+        { type: 'github', url: 'https://github.com/testuser/portfolio' },
+        { type: 'live', url: 'https://example.com' },
+      ],
       isVisible: true,
     },
     {
@@ -252,7 +267,7 @@ async function seed() {
       description:
         'A weather dashboard with 7-day forecasts, interactive maps, and location-based alerts. Integrates with multiple weather APIs.',
       techStack: ['React', 'TypeScript', 'OpenWeather API', 'Mapbox'],
-      repoUrl: 'https://github.com/testuser/weather-app',
+      links: [{ type: 'github', url: 'https://github.com/testuser/weather-app' }],
       isVisible: true,
     },
     {
@@ -260,7 +275,7 @@ async function seed() {
       description:
         'A command-line tool that automates common development tasks like project scaffolding, code generation, and deployment.',
       techStack: ['Node.js', 'TypeScript', 'Commander.js'],
-      repoUrl: 'https://github.com/testuser/dev-cli',
+      links: [{ type: 'github', url: 'https://github.com/testuser/dev-cli' }],
       isVisible: true,
     },
     {
@@ -268,6 +283,24 @@ async function seed() {
       description: 'An older project that is no longer maintained.',
       techStack: ['jQuery', 'PHP'],
       isVisible: false, // Hidden - tests visibility toggle
+    },
+    {
+      title: 'Puzzle Quest Mobile',
+      slug: 'puzzle-quest-mobile',
+      description:
+        'A casual puzzle game for iOS and Android with daily challenges and offline play. No account required.',
+      techStack: ['React Native', 'TypeScript', 'Expo'],
+      links: [
+        { type: 'appStore', url: 'https://apps.apple.com/app/id000000000' },
+        {
+          type: 'googlePlay',
+          url: 'https://play.google.com/store/apps/details?id=dev.example.puzzle',
+        },
+      ],
+      privacyPolicy:
+        'Puzzle Quest Mobile does not collect personal data. Anonymous crash reports are sent to the platform vendor. Contact me via the homepage form with any questions.',
+      privacyPolicyUpdatedAt: '2026-08-01T00:00:00.000Z',
+      isVisible: true,
     },
   ]
 
@@ -277,9 +310,16 @@ async function seed() {
       data: {
         title: project.title,
         description: richText(project.description),
+        slug:
+          project.slug ??
+          project.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, ''),
         techStack: project.techStack.map((tech) => ({ technology: tech })),
-        repoUrl: project.repoUrl,
-        liveUrl: project.liveUrl,
+        links: project.links,
+        privacyPolicy: project.privacyPolicy ? richText(project.privacyPolicy) : undefined,
+        privacyPolicyUpdatedAt: project.privacyPolicyUpdatedAt,
         isVisible: project.isVisible,
       },
     })

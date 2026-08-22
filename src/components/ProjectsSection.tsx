@@ -28,8 +28,8 @@ export async function ProjectsSection() {
             title={project.title}
             description={project.description}
             techStack={project.techStack || []}
-            repoUrl={project.repoUrl}
-            liveUrl={project.liveUrl}
+            links={project.links ?? []}
+            privacyPolicyHref={project.privacyPolicy ? `/projects/${project.slug}/privacy` : null}
             image={project.image}
             index={index}
           />

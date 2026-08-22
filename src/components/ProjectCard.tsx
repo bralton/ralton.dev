@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Project, Media } from '@/payload-types'
 import { StatusBadge } from './StatusBadge'
@@ -10,11 +11,34 @@ interface ProjectCardProps {
   title: string
   description: Project['description']
   techStack: { technology: string }[]
-  repoUrl?: string | null
-  liveUrl?: string | null
+  links: ProjectLink[]
+  /** Internal path to this project's privacy policy page, when one is published. */
+  privacyPolicyHref?: string | null
   image?: Media | number | null
   index: number
 }
+
+export type ProjectLink = NonNullable<Project['links']>[number]
+
+/** Display text and accessible description for each link type. */
+const LINK_LABELS: Record<ProjectLink['type'], { text: string; aria: string }> = {
+  github: { text: 'github', aria: 'source code on GitHub' },
+  live: { text: 'live', aria: 'live site' },
+  appStore: { text: 'app store', aria: 'on the App Store' },
+  googlePlay: { text: 'google play', aria: 'on Google Play' },
+  other: { text: 'link', aria: 'link' },
+}
+
+function linkLabel(link: ProjectLink): { text: string; aria: string } {
+  const base = LINK_LABELS[link.type] ?? LINK_LABELS.other
+  if (link.type === 'other' && link.label) {
+    return { text: link.label.toLowerCase(), aria: link.label }
+  }
+  return base
+}
+
+const linkClassName =
+  'rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel'
 
 /** Derive display title + status from title conventions - Projects has no status field (NFR-R6). */
 function parseStatus(title: string): { displayTitle: string; status: 'active' | 'archived' } {
@@ -47,8 +71,8 @@ export function ProjectCard({
   title,
   description,
   techStack,
-  repoUrl,
-  liveUrl,
+  links,
+  privacyPolicyHref,
   image,
   index,
 }: ProjectCardProps) {
@@ -104,28 +128,30 @@ export function ProjectCard({
               ))}
             </ul>
           )}
-          <div className="flex shrink-0 gap-3">
-            {repoUrl && (
-              <a
-                href={repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${displayTitle} source code on GitHub`}
-                className="rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
+          <div className="flex shrink-0 flex-wrap justify-end gap-3">
+            {links.map((link) => {
+              const { text, aria } = linkLabel(link)
+              return (
+                <a
+                  key={link.id ?? `${link.type}-${link.url}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View ${displayTitle} ${aria}`}
+                  className={linkClassName}
+                >
+                  {text} ↗
+                </a>
+              )
+            })}
+            {privacyPolicyHref && (
+              <Link
+                href={privacyPolicyHref}
+                aria-label={`Read the ${displayTitle} privacy policy`}
+                className={linkClassName}
               >
-                github ↗
-              </a>
-            )}
-            {liveUrl && (
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${displayTitle} live site`}
-                className="rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
-              >
-                live ↗
-              </a>
+                privacy →
+              </Link>
             )}
           </div>
         </div>
