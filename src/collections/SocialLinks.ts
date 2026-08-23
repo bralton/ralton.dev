@@ -23,6 +23,7 @@ export const SocialLinks: CollectionConfig = {
         { label: 'LinkedIn', value: 'linkedin' },
         { label: 'Twitter/X', value: 'twitter' },
         { label: 'Email', value: 'email' },
+        { label: 'Buy Me a Coffee', value: 'coffee' },
       ],
       admin: {
         description: 'Social media platform',

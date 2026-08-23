@@ -6,6 +6,7 @@ const platformIcons: Record<string, React.FC<{ className?: string }>> = {
   linkedin: LinkedInIcon,
   twitter: TwitterIcon,
   email: EmailIcon,
+  coffee: CoffeeIcon,
 }
 
 const platformLabels: Record<string, string> = {
@@ -13,6 +14,7 @@ const platformLabels: Record<string, string> = {
   linkedin: 'LinkedIn profile',
   twitter: 'Twitter profile',
   email: 'Send email',
+  coffee: 'Buy Me a Coffee',
 }
 
 export async function SocialLinks() {
@@ -121,6 +123,27 @@ function EmailIcon({ className }: { className?: string }) {
     >
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
       <polyline points="22,6 12,13 2,6" />
+    </svg>
+  )
+}
+
+function CoffeeIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M10 2v2" />
+      <path d="M14 2v2" />
+      <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
+      <path d="M6 2v2" />
     </svg>
   )
 }

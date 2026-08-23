@@ -568,7 +568,7 @@ export interface SocialLink {
   /**
    * Social media platform
    */
-  platform: 'github' | 'linkedin' | 'twitter' | 'email';
+  platform: 'github' | 'linkedin' | 'twitter' | 'email' | 'coffee';
   /**
    * Full URL to profile (or mailto: for email)
    */
