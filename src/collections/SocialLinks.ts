@@ -1,7 +1,15 @@
 import type { CollectionConfig } from 'payload'
+import {
+  revalidateSocialLinksAfterChange,
+  revalidateSocialLinksAfterDelete,
+} from '@/lib/payloadHooks'
 
 export const SocialLinks: CollectionConfig = {
   slug: 'social-links',
+  hooks: {
+    afterChange: [revalidateSocialLinksAfterChange],
+    afterDelete: [revalidateSocialLinksAfterDelete],
+  },
   admin: {
     useAsTitle: 'platform',
     description: 'Social media profile links',

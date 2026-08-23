@@ -17,7 +17,12 @@ import type {
   CollectionAfterDeleteHook,
   GlobalAfterChangeHook,
 } from 'payload'
-import { revalidateHomepage, revalidateBlog, revalidateProject } from './revalidate'
+import {
+  revalidateHomepage,
+  revalidateBlog,
+  revalidateProject,
+  revalidateSocialLinks,
+} from './revalidate'
 
 /**
  * Collection afterChange hook that revalidates the homepage.
@@ -61,6 +66,23 @@ export const revalidateBlogAfterChange: CollectionAfterChangeHook = async ({ doc
  */
 export const revalidateBlogAfterDelete: CollectionAfterDeleteHook = async ({ doc }) => {
   await revalidateBlog(doc.slug)
+  return doc
+}
+
+/**
+ * Collection afterChange hook for SocialLinks: revalidates every page that
+ * renders the footer (homepage, blog, privacy pages).
+ */
+export const revalidateSocialLinksAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
+  await revalidateSocialLinks()
+  return doc
+}
+
+/**
+ * Collection afterDelete hook for SocialLinks.
+ */
+export const revalidateSocialLinksAfterDelete: CollectionAfterDeleteHook = async ({ doc }) => {
+  await revalidateSocialLinks()
   return doc
 }
 

@@ -77,6 +77,29 @@ export async function revalidateBlog(slug?: string): Promise<void> {
 }
 
 /**
+ * Revalidate every page that renders the footer's social links:
+ * homepage, blog pages, and privacy policy pages.
+ */
+export async function revalidateSocialLinks(): Promise<void> {
+  if (process.env.CI) {
+    return
+  }
+
+  try {
+    revalidatePath('/')
+    revalidatePath('/blog')
+    revalidatePath('/blog/[slug]', 'page')
+    revalidatePath('/blog/category/[slug]', 'page')
+    revalidatePath('/blog/tag/[slug]', 'page')
+    revalidatePath('/privacy')
+    revalidatePath('/projects/[slug]/privacy', 'page')
+    console.log('[Revalidate] Social links caches invalidated')
+  } catch (error) {
+    console.error('[Revalidate] Failed to revalidate social links:', error)
+  }
+}
+
+/**
  * Revalidate project-related caches.
  *
  * Projects render on the homepage, and each project may expose a privacy
