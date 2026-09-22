@@ -114,6 +114,7 @@ export async function revalidateProject(slug?: string): Promise<void> {
 
   try {
     revalidatePath('/')
+    revalidatePath('/projects')
     if (slug) {
       revalidatePath(`/projects/${slug}/privacy`)
     }

@@ -16,6 +16,8 @@ interface ProjectCardProps {
   privacyPolicyHref?: string | null
   image?: Media | number | null
   index: number
+  /** Heading level for the title - h3 under a section h2 (default), h2 directly under a page h1 */
+  headingLevel?: 'h2' | 'h3'
 }
 
 export type ProjectLink = NonNullable<Project['links']>[number]
@@ -75,6 +77,7 @@ export function ProjectCard({
   privacyPolicyHref,
   image,
   index,
+  headingLevel: Heading = 'h3',
 }: ProjectCardProps) {
   const detailsRef = useRef<HTMLDetailsElement>(null)
   const { displayTitle, status } = parseStatus(title)
@@ -108,9 +111,9 @@ export function ProjectCard({
       </div>
 
       <div className="p-5 desk:px-6">
-        <h3 className="mb-2 text-[17px] font-bold tracking-tight text-foreground">
+        <Heading className="mb-2 text-[17px] font-bold tracking-tight text-foreground">
           {displayTitle} <StatusBadge status={status} />
-        </h3>
+        </Heading>
         {summary && <p className="mb-3.5 text-sm text-text-secondary">{summary}</p>}
 
         <div className="flex items-center justify-between gap-4">
