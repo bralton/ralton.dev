@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Project, Media } from '@/payload-types'
 import { StatusBadge } from './StatusBadge'
+import { parseProjectStatus } from '@/lib/projectStatus'
 
 interface ProjectCardProps {
   title: string
@@ -42,15 +43,6 @@ function linkLabel(link: ProjectLink): { text: string; aria: string } {
 const linkClassName =
   'rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel'
 
-/** Derive display title + status from title conventions - Projects has no status field (NFR-R6). */
-function parseStatus(title: string): { displayTitle: string; status: 'active' | 'archived' } {
-  const match = title.match(/\s*[-–—]?\s*\((abandoned|archived|deprecated)\)\s*/i)
-  if (match) {
-    return { displayTitle: title.replace(match[0], ' ').trim(), status: 'archived' }
-  }
-  return { displayTitle: title, status: 'active' }
-}
-
 /** Plain text of the first non-empty Lexical paragraph, for the card's one-line summary. */
 function extractSummary(description: Project['description']): string {
   const children = (description?.root?.children ?? []) as Array<{
@@ -80,7 +72,7 @@ export function ProjectCard({
   headingLevel: Heading = 'h3',
 }: ProjectCardProps) {
   const detailsRef = useRef<HTMLDetailsElement>(null)
-  const { displayTitle, status } = parseStatus(title)
+  const { displayTitle, status } = parseProjectStatus(title)
   const summary = extractSummary(description)
 
   const handleCardClick = (e: React.MouseEvent) => {

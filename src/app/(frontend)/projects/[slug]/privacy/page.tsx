@@ -15,6 +15,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { LegalPageLayout } from '@/components/LegalPageLayout'
 import { RichText } from '@/lib/lexicalSerializer'
+import { parseProjectStatus } from '@/lib/projectStatus'
 import type { Project } from '@/payload-types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ralton.dev'
@@ -33,7 +34,7 @@ function formatDate(dateString: string): string {
 
 /** Strip the "(archived)"-style status suffix used in project titles. */
 function displayTitle(title: string): string {
-  return title.replace(/\s*[-–—]?\s*\((abandoned|archived|deprecated)\)\s*/i, ' ').trim()
+  return parseProjectStatus(title).displayTitle
 }
 
 async function getProjectWithPolicy(slug: string): Promise<Project | null> {

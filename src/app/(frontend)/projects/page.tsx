@@ -9,6 +9,8 @@ import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ProjectCard } from '@/components/ProjectCard'
+import { parseProjectStatus } from '@/lib/projectStatus'
+import type { Project } from '@/payload-types'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 
@@ -59,6 +61,8 @@ export default async function ProjectsPage() {
   })
 
   const count = projects.docs.length
+  const live = projects.docs.filter((p) => parseProjectStatus(p.title).status === 'active')
+  const archived = projects.docs.filter((p) => parseProjectStatus(p.title).status === 'archived')
 
   return (
     <>
@@ -89,33 +93,51 @@ export default async function ProjectsPage() {
                 </p>
               </div>
             ) : (
-              <ul
-                role="list"
-                aria-label="All projects"
-                className="grid grid-cols-1 gap-5 desk:grid-cols-2"
-              >
-                {projects.docs.map((project, index) => (
-                  <li key={project.id}>
-                    <ProjectCard
-                      title={project.title}
-                      description={project.description}
-                      techStack={project.techStack || []}
-                      links={project.links ?? []}
-                      privacyPolicyHref={
-                        project.privacyPolicy ? `/projects/${project.slug}/privacy` : null
-                      }
-                      image={project.image}
-                      index={index}
-                      headingLevel="h2"
-                    />
-                  </li>
-                ))}
-              </ul>
+              <>
+                <ProjectGrid projects={live} label="Live projects" />
+
+                {archived.length > 0 && (
+                  <details className="group/archive mt-10 border-t border-border-soft">
+                    <summary className="cursor-pointer list-none rounded pt-4 font-mono text-[13px] text-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden">
+                      <span aria-hidden="true" className="text-text-tertiary">
+                        <span className="group-open/archive:hidden">+ </span>
+                        <span className="hidden group-open/archive:inline">− </span>
+                      </span>
+                      archived ({archived.length})
+                    </summary>
+                    <div className="mt-5">
+                      <ProjectGrid projects={archived} label="Archived projects" />
+                    </div>
+                  </details>
+                )}
+              </>
             )}
           </div>
         </section>
       </main>
       <Footer />
     </>
+  )
+}
+
+function ProjectGrid({ projects, label }: { projects: Project[]; label: string }) {
+  if (projects.length === 0) return null
+  return (
+    <ul role="list" aria-label={label} className="grid grid-cols-1 gap-5 desk:grid-cols-2">
+      {projects.map((project, index) => (
+        <li key={project.id}>
+          <ProjectCard
+            title={project.title}
+            description={project.description}
+            techStack={project.techStack || []}
+            links={project.links ?? []}
+            privacyPolicyHref={project.privacyPolicy ? `/projects/${project.slug}/privacy` : null}
+            image={project.image}
+            index={index}
+            headingLevel="h2"
+          />
+        </li>
+      ))}
+    </ul>
   )
 }
