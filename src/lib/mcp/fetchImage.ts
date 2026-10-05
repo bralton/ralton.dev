@@ -14,13 +14,24 @@ const MAX_BYTES = 10 * 1024 * 1024
 const MAX_REDIRECTS = 3
 const TIMEOUT_MS = 15_000
 
-/** SVG is deliberately excluded: next/image will not render it. */
-const EXTENSIONS: Record<string, string> = {
-  'image/png': 'png',
-  'image/jpeg': 'jpg',
-  'image/webp': 'webp',
-  'image/gif': 'gif',
+/**
+ * Identifies a raster image from its leading bytes rather than trusting a
+ * declared type. SVG is deliberately excluded: next/image will not render it.
+ */
+export function sniffImage(data: Buffer): { mimetype: string; extension: string } | null {
+  const hex = data.subarray(0, 12).toString('hex')
+  if (hex.startsWith('89504e470d0a1a0a')) return { mimetype: 'image/png', extension: 'png' }
+  if (hex.startsWith('ffd8ff')) return { mimetype: 'image/jpeg', extension: 'jpg' }
+  if (hex.startsWith('474946383761') || hex.startsWith('474946383961')) {
+    return { mimetype: 'image/gif', extension: 'gif' }
+  }
+  if (hex.startsWith('52494646') && hex.slice(16, 24) === '57454250') {
+    return { mimetype: 'image/webp', extension: 'webp' }
+  }
+  return null
 }
+
+export const UNSUPPORTED_IMAGE = 'That is not a PNG, JPEG, WebP or GIF image.'
 
 const blocked = new BlockList()
 for (const [network, prefix] of [
@@ -95,13 +106,6 @@ export async function fetchImage(source: string): Promise<FetchedImage> {
     }
     if (!response.ok) throw new Error(`The image URL returned HTTP ${response.status}.`)
 
-    const mimetype = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase()
-    const extension = EXTENSIONS[mimetype]
-    if (!extension) {
-      throw new Error(
-        `Unsupported image type "${mimetype || 'unknown'}". Use PNG, JPEG, WebP or GIF.`
-      )
-    }
     if (Number(response.headers.get('content-length') ?? 0) > MAX_BYTES) {
       throw new Error('The image is larger than 10 MB.')
     }
@@ -121,7 +125,11 @@ export async function fetchImage(source: string): Promise<FetchedImage> {
     }
     if (size === 0) throw new Error('The image URL returned no data.')
 
-    return { data: Buffer.concat(chunks), mimetype, extension }
+    const data = Buffer.concat(chunks)
+    const type = sniffImage(data)
+    if (!type) throw new Error(UNSUPPORTED_IMAGE)
+
+    return { data, ...type }
   }
 
   throw new Error('The URL redirected too many times.')

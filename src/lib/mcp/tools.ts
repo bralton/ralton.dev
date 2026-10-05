@@ -21,6 +21,7 @@ import { getPayload, type Payload } from 'payload'
 import config from '@payload-config'
 import { z } from 'zod'
 import { fetchImage } from '@/lib/mcp/fetchImage'
+import { createUploadToken, markdownAlt, MAX_UPLOAD_BYTES } from '@/lib/mcp/imageUpload'
 import { getBaseUrl } from '@/lib/mcp/oauth'
 import { slugify } from '@/lib/slugify'
 import type { Category, Media, Post, Tag } from '@/payload-types'
@@ -93,14 +94,6 @@ function codeLanguage(info: string): string {
 function isCodeBlock(node: LexicalNode): boolean {
   const fields = node.fields as { blockType?: string } | undefined
   return node.type === 'block' && fields?.blockType === 'Code'
-}
-
-/** Alt text made safe to sit inside `![...]`. */
-function markdownAlt(alt: string): string {
-  return alt
-    .replace(/[\[\]]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
 }
 
 /** A markdown image on its own line that points at the media library. */
@@ -536,6 +529,34 @@ export function registerBlogTools(server: McpServer): void {
         })
         console.log(`[MCP] Image uploaded: ${media.filename} (${media.id})`)
         return result(describeImage(media, ctx))
+      })
+  )
+
+  server.registerTool(
+    'create_image_upload',
+    {
+      title: 'Upload image from a local file',
+      description: `Get a one-off upload link for adding a local image file (PNG, JPEG, WebP or GIF, up to 4 MB) to the site's media library. Use this when you can run shell commands and the image is a file, such as a screenshot or an exported diagram; use upload_image when the image is at a public URL. First get the file's SHA-256 (shasum -a 256 <file>); the link only accepts that exact file. Then run the returned curl command with the file path filled in. The link expires after 5 minutes. The upload response contains the image id. ${IMAGE_SYNTAX}`,
+      inputSchema: z.object({
+        alt: z.string().min(1).max(300).describe('Alt text describing the image'),
+        filename: z.string().min(1).max(100).describe('File name without extension'),
+        sha256: z
+          .string()
+          .regex(/^[0-9a-fA-F]{64}$/)
+          .describe('SHA-256 of the file, as 64 hex characters'),
+      }),
+    },
+    ({ alt, filename, sha256 }, ctx) =>
+      attempt('create_image_upload', async () => {
+        const baseUrl = ctx.http?.req ? getBaseUrl(ctx.http.req) : ''
+        const { token, expiresAt } = createUploadToken(alt, slugify(filename) || 'image', sha256)
+        const uploadUrl = `${baseUrl}/api/mcp/upload`
+        return result({
+          uploadUrl,
+          expiresAt: new Date(expiresAt).toISOString(),
+          maxBytes: MAX_UPLOAD_BYTES,
+          command: `curl -sS -X POST '${uploadUrl}' -H 'Authorization: Bearer ${token}' -H 'Content-Type: application/octet-stream' --data-binary @/path/to/image`,
+        })
       })
   )
 }
