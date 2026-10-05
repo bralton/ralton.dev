@@ -122,7 +122,7 @@ development_status:
   9-5-add-blog-post-seo-and-open-graph: done
   9-6-create-rss-feed: done
   9-7-configure-blog-draft-preview: done
-  9-8-mcp-server-blog-drafts: ready-for-dev
+  9-8-mcp-server-blog-drafts: done
   epic-9-retrospective: optional
 
   # Epic 10: Redesigned Homepage Experience (frontend redesign - epics-redesign.md)
