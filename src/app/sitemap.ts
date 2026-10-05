@@ -1,6 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { livePostsWhere } from '@/lib/posts'
+
+// Re-check on a timer so a scheduled post appears once its publish date passes
+export const revalidate = 600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ralton.dev'
@@ -9,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all published posts
   const posts = await payload.find({
     collection: 'posts',
-    where: { status: { equals: 'published' } },
+    where: livePostsWhere(),
     limit: 1000,
     select: { slug: true, updatedAt: true },
   })

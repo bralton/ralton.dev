@@ -3,13 +3,14 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Section } from './Section'
 import { PostCard } from './PostCard'
+import { livePostsWhere } from '@/lib/posts'
 
 export async function LatestPostsSection() {
   const payload = await getPayload({ config })
   const posts = await payload.find({
     collection: 'posts',
     where: {
-      status: { equals: 'published' },
+      ...livePostsWhere(),
     },
     sort: '-publishedAt',
     limit: 3,

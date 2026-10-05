@@ -137,7 +137,8 @@ export const Posts: CollectionConfig = {
       ],
       admin: {
         position: 'sidebar',
-        description: 'Publication status (draft posts are not visible publicly)',
+        description:
+          'Publication status (draft posts are not visible publicly). A published post with a future Published At date stays hidden until then.',
       },
     },
     {
@@ -145,7 +146,8 @@ export const Posts: CollectionConfig = {
       type: 'date',
       admin: {
         position: 'sidebar',
-        description: 'Publication date (auto-set when published)',
+        description:
+          'Publication date (auto-set when published). Set a future date to schedule the post; it goes live within about ten minutes of that time.',
         date: {
           pickerAppearance: 'dayAndTime',
         },

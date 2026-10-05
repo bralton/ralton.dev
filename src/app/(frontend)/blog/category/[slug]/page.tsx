@@ -23,6 +23,10 @@ import { Pagination } from '@/components/Pagination'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import type { Category } from '@/payload-types'
+import { livePostsWhere } from '@/lib/posts'
+
+// Re-check on a timer so a scheduled post appears once its publish date passes
+export const revalidate = 600
 
 const POSTS_PER_PAGE = 10
 
@@ -128,7 +132,7 @@ async function CategoryContent({ params, searchParams }: CategoryPageProps) {
   const posts = await payload.find({
     collection: 'posts',
     where: {
-      status: { equals: 'published' },
+      ...livePostsWhere(),
       categories: { contains: category.id },
     },
     sort: '-publishedAt',

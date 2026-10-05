@@ -15,6 +15,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Post } from '@/payload-types'
+import { livePostsWhere } from '@/lib/posts'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ralton.dev'
 const FEED_LIMIT = 50 // Reasonable limit for RSS feed
@@ -105,7 +106,7 @@ export async function GET() {
     const posts = await payload.find({
       collection: 'posts',
       where: {
-        status: { equals: 'published' },
+        ...livePostsWhere(),
       },
       sort: '-publishedAt',
       limit: FEED_LIMIT,
@@ -117,7 +118,7 @@ export async function GET() {
     return new Response(xml, {
       headers: {
         'Content-Type': 'application/rss+xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=86400',
       },
     })
   } catch (error) {

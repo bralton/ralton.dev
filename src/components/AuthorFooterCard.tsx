@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { PostCard } from './PostCard'
+import { livePostsWhere } from '@/lib/posts'
 
 interface AuthorFooterCardProps {
   currentSlug: string
@@ -16,7 +17,7 @@ export async function AuthorFooterCard({ currentSlug }: AuthorFooterCardProps) {
     payload.find({
       collection: 'posts',
       where: {
-        status: { equals: 'published' },
+        ...livePostsWhere(),
         slug: { not_equals: currentSlug },
       },
       sort: '-publishedAt',

@@ -26,6 +26,10 @@ import { Footer } from '@/components/Footer'
 import { AuthorFooterCard } from '@/components/AuthorFooterCard'
 import { RichText } from '@/lib/lexicalSerializer'
 import type { Post, Category, Tag as TagType, Media } from '@/payload-types'
+import { livePostsWhere } from '@/lib/posts'
+
+// Re-check on a timer so a scheduled post appears once its publish date passes
+export const revalidate = 600
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ralton.dev'
 
@@ -66,7 +70,7 @@ async function getPost(slug: string, isDraftMode: boolean): Promise<Post | null>
     collection: 'posts',
     where: {
       slug: { equals: slug },
-      status: { equals: 'published' },
+      ...livePostsWhere(),
     },
     depth: 2, // Populate categories, tags, featuredImage
     limit: 1,
@@ -84,7 +88,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = await payload.find({
     collection: 'posts',
     where: {
-      status: { equals: 'published' },
+      ...livePostsWhere(),
     },
     limit: 1000,
     select: {
