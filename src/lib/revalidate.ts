@@ -41,6 +41,7 @@ export async function revalidateHomepage(): Promise<void> {
  *
  * When blog content changes (posts, categories, tags), revalidates:
  * - /blog listing page
+ * - Homepage (latest writing section)
  * - Individual post pages via layout revalidation
  * - Category filter pages (/blog/category/[slug])
  * - Tag filter pages (/blog/tag/[slug])
@@ -55,8 +56,9 @@ export async function revalidateBlog(slug?: string): Promise<void> {
   }
 
   try {
-    // Always revalidate the blog listing
+    // Always revalidate the blog listing, and the homepage's latest-writing section
     revalidatePath('/blog')
+    revalidatePath('/')
 
     // If a specific post slug is provided, revalidate that post
     if (slug) {
