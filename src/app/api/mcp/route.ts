@@ -1,5 +1,5 @@
 import { createMcpHandler, withMcpAuth } from 'mcp-handler'
-import { getBaseUrl, MCP_SCOPE, RESOURCE_METADATA_PATH, verifyAccessToken } from '@/lib/mcp/oauth'
+import { MCP_SCOPE, RESOURCE_METADATA_PATH, verifyAccessToken } from '@/lib/mcp/oauth'
 import { registerBlogTools } from '@/lib/mcp/tools'
 
 /**
@@ -34,7 +34,6 @@ const handler = withMcpAuth(
     required: true,
     requiredScopes: [MCP_SCOPE],
     resourceMetadataPath: RESOURCE_METADATA_PATH,
-    resourceUrl: getBaseUrl(),
   }
 )
 

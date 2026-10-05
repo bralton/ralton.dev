@@ -117,7 +117,7 @@ type Parsed = { ok: true; request: AuthorizationRequest } | { ok: false; respons
  * Validates an authorization request. Problems with the client or redirect
  * URI are shown to the user; anything else is reported back to the client.
  */
-function parseAuthorizationRequest(get: (name: string) => string): Parsed {
+function parseAuthorizationRequest(resourceUrl: string, get: (name: string) => string): Parsed {
   const request: AuthorizationRequest = {
     clientId: get('client_id'),
     redirectUri: get('redirect_uri'),
@@ -155,7 +155,7 @@ function parseAuthorizationRequest(get: (name: string) => string): Parsed {
   ) {
     return reject('invalid_request', 'An S256 PKCE code_challenge is required')
   }
-  if (request.resource && request.resource !== getResourceUrl()) {
+  if (request.resource && request.resource !== resourceUrl) {
     return reject('invalid_target', 'Unknown resource')
   }
 
@@ -170,7 +170,10 @@ async function getAdminUser(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
-  const parsed = parseAuthorizationRequest((name) => searchParams.get(name) ?? '')
+  const parsed = parseAuthorizationRequest(
+    getResourceUrl(request),
+    (name) => searchParams.get(name) ?? ''
+  )
   if (!parsed.ok) return parsed.response
 
   const user = await getAdminUser(request)
@@ -178,7 +181,7 @@ export async function GET(request: NextRequest) {
     // Sign in to the admin first, then come straight back to this screen
     const returnTo = `/oauth/authorize?${searchParams.toString()}`
     return Response.redirect(
-      `${getBaseUrl()}/admin/login?redirect=${encodeURIComponent(returnTo)}`,
+      `${getBaseUrl(request)}/admin/login?redirect=${encodeURIComponent(returnTo)}`,
       302
     )
   }
@@ -229,12 +232,12 @@ ${hidden}
 export async function POST(request: NextRequest) {
   // Same-origin form posts only
   const origin = request.headers.get('origin')
-  if (origin && origin !== new URL(getBaseUrl()).origin) {
+  if (origin && origin !== getBaseUrl(request)) {
     return errorPage('This request did not come from the consent screen.')
   }
 
   const form = await request.formData()
-  const parsed = parseAuthorizationRequest((name) => {
+  const parsed = parseAuthorizationRequest(getResourceUrl(request), (name) => {
     const value = form.get(name)
     return typeof value === 'string' ? value : ''
   })

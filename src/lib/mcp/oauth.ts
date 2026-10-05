@@ -16,6 +16,7 @@
  */
 
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'crypto'
+import { getPublicOrigin } from 'mcp-handler'
 import { getPayload, type Payload } from 'payload'
 import config from '@payload-config'
 
@@ -33,19 +34,24 @@ const HOSTED_REDIRECT_URIS = [
 const LOOPBACK_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 const LOOPBACK_PATH = '/callback'
 
-export function getBaseUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '')
+/**
+ * The origin the request was made to (respecting proxy headers). Everything
+ * OAuth advertises is built from it, so the issuer and resource always match
+ * the host Claude is actually talking to.
+ */
+export function getBaseUrl(request: Request): string {
+  return getPublicOrigin(request)
 }
 
 /** The MCP endpoint URL - must match what the user enters in Claude exactly. */
-export function getResourceUrl(): string {
-  return `${getBaseUrl()}/api/mcp`
+export function getResourceUrl(request: Request): string {
+  return `${getBaseUrl(request)}/api/mcp`
 }
 
 export const RESOURCE_METADATA_PATH = '/.well-known/oauth-protected-resource/api/mcp'
 
-export function getAuthorizationServerMetadata() {
-  const base = getBaseUrl()
+export function getAuthorizationServerMetadata(request: Request) {
+  const base = getBaseUrl(request)
   return {
     issuer: base,
     authorization_endpoint: `${base}/oauth/authorize`,

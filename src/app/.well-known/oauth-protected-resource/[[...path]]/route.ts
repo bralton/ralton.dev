@@ -6,10 +6,10 @@ import { getBaseUrl, getResourceUrl, MCP_SCOPE } from '@/lib/mcp/oauth'
  * Served at both the bare well-known path and the path-suffixed form
  * (/.well-known/oauth-protected-resource/api/mcp) that clients try first.
  */
-export function GET() {
+export function GET(request: Request) {
   const metadata = generateProtectedResourceMetadata({
-    authServerUrls: [getBaseUrl()],
-    resourceUrl: getResourceUrl(),
+    authServerUrls: [getBaseUrl(request)],
+    resourceUrl: getResourceUrl(request),
     additionalMetadata: {
       scopes_supported: [MCP_SCOPE],
       bearer_methods_supported: ['header'],

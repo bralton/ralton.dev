@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   if (!clientId) return oauthError('invalid_request', 'client_id is required')
 
   const resource = field('resource')
-  if (resource && resource !== getResourceUrl()) {
+  if (resource && resource !== getResourceUrl(request)) {
     return oauthError('invalid_target', 'Unknown resource')
   }
 

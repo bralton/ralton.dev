@@ -6,8 +6,8 @@ import { getAuthorizationServerMetadata } from '@/lib/mcp/oauth'
  * Tells Claude where to send the owner to approve a connection and where to
  * exchange codes for tokens.
  */
-export function GET() {
-  return Response.json(getAuthorizationServerMetadata(), {
+export function GET(request: Request) {
+  return Response.json(getAuthorizationServerMetadata(request), {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'max-age=3600',

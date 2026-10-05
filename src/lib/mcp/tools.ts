@@ -6,7 +6,7 @@
  * tool accepts a status. Publishing always happens in the admin panel.
  */
 
-import type { McpServer } from '@modelcontextprotocol/server'
+import type { McpServer, ServerContext } from '@modelcontextprotocol/server'
 import {
   convertLexicalToMarkdown,
   convertMarkdownToLexical,
@@ -221,7 +221,8 @@ function termNames(terms: Post['categories'] | Post['tags']): string[] {
     .map((term) => term.name)
 }
 
-function summarize(post: Post) {
+function summarize(post: Post, ctx: ServerContext) {
+  const baseUrl = ctx.http?.req ? getBaseUrl(ctx.http.req) : ''
   return {
     id: post.id,
     title: post.title,
@@ -229,7 +230,7 @@ function summarize(post: Post) {
     status: post.status,
     publishedAt: post.publishedAt ?? null,
     updatedAt: post.updatedAt,
-    adminUrl: `${getBaseUrl()}/admin/collections/posts/${post.id}`,
+    adminUrl: `${baseUrl}/admin/collections/posts/${post.id}`,
   }
 }
 
@@ -247,7 +248,7 @@ export function registerBlogTools(server: McpServer): void {
       }),
       annotations: { readOnlyHint: true },
     },
-    ({ status, limit }) =>
+    ({ status, limit }, ctx) =>
       attempt('list_posts', async () => {
         const payload = await getPayload({ config })
         const posts = await payload.find({
@@ -257,7 +258,10 @@ export function registerBlogTools(server: McpServer): void {
           limit,
           depth: 0,
         })
-        return result({ total: posts.totalDocs, posts: posts.docs.map(summarize) })
+        return result({
+          total: posts.totalDocs,
+          posts: posts.docs.map((post) => summarize(post, ctx)),
+        })
       })
   )
 
@@ -273,7 +277,7 @@ export function registerBlogTools(server: McpServer): void {
       }),
       annotations: { readOnlyHint: true },
     },
-    ({ id, slug }) =>
+    ({ id, slug }, ctx) =>
       attempt('get_post', async () => {
         if (id === undefined && !slug) return failure('Provide either id or slug.')
 
@@ -288,7 +292,7 @@ export function registerBlogTools(server: McpServer): void {
         if (!post) return failure('Post not found.')
 
         return result({
-          ...summarize(post),
+          ...summarize(post, ctx),
           excerpt: post.excerpt ?? null,
           categories: termNames(post.categories),
           tags: termNames(post.tags),
@@ -316,7 +320,7 @@ export function registerBlogTools(server: McpServer): void {
         tags: termList.optional().describe('Tag names; missing ones are created'),
       }),
     },
-    ({ title, content, excerpt, slug, categories, tags }) =>
+    ({ title, content, excerpt, slug, categories, tags }, ctx) =>
       attempt('create_draft_post', async () => {
         const payload = await getPayload({ config })
         const post = await payload.create({
@@ -333,7 +337,7 @@ export function registerBlogTools(server: McpServer): void {
           },
         })
         console.log(`[MCP] Draft created: ${post.slug} (${post.id})`)
-        return result(summarize(post))
+        return result(summarize(post, ctx))
       })
   )
 
@@ -353,7 +357,7 @@ export function registerBlogTools(server: McpServer): void {
       }),
       annotations: { idempotentHint: true },
     },
-    ({ id, title, content, excerpt, categories, tags }) =>
+    ({ id, title, content, excerpt, categories, tags }, ctx) =>
       attempt('update_draft', async () => {
         const payload = await getPayload({ config })
         const { docs } = await payload.find({
@@ -384,7 +388,7 @@ export function registerBlogTools(server: McpServer): void {
           },
         })
         console.log(`[MCP] Draft updated: ${post.slug} (${post.id})`)
-        return result(summarize(post))
+        return result(summarize(post, ctx))
       })
   )
 }
