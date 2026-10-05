@@ -295,10 +295,15 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
         return <Fragment key={index} />
       }
       // A portrait image at full column width is taller than the screen, so
-      // keep it narrow and centred
+      // keep it narrow and centred. Inline style, not a utility class: Tailwind
+      // does not scan src/lib, so a class used only here is never generated.
       const isPortrait = (media.height ?? 0) > (media.width ?? 0)
       return (
-        <figure key={index} className={isPortrait ? 'mx-auto my-6 max-w-sm' : 'my-6'}>
+        <figure
+          key={index}
+          className="my-6"
+          style={isPortrait ? { maxWidth: 384, marginInline: 'auto' } : undefined}
+        >
           <Image
             src={media.url}
             alt={media.alt || 'Blog image'}
