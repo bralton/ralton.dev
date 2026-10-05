@@ -4,6 +4,10 @@
  * Lets Claude draft blog posts in Payload. Every write is draft-only: posts
  * are created with status `draft`, published posts cannot be edited, and no
  * tool accepts a status. Publishing always happens in the admin panel.
+ *
+ * Images live in the media library. In markdown they are written as
+ * `![alt](media:<id>)` on a line of their own, which round-trips to the
+ * editor's upload node.
  */
 
 import type { McpServer, ServerContext } from '@modelcontextprotocol/server'
@@ -16,9 +20,10 @@ import { randomBytes } from 'crypto'
 import { getPayload, type Payload } from 'payload'
 import config from '@payload-config'
 import { z } from 'zod'
+import { fetchImage } from '@/lib/mcp/fetchImage'
 import { getBaseUrl } from '@/lib/mcp/oauth'
 import { slugify } from '@/lib/slugify'
-import type { Category, Post, Tag } from '@/payload-types'
+import type { Category, Media, Post, Tag } from '@/payload-types'
 
 function result(data: unknown) {
   return { content: [{ type: 'text' as const, text: JSON.stringify(data, null, 2) }] }
@@ -90,6 +95,47 @@ function isCodeBlock(node: LexicalNode): boolean {
   return node.type === 'block' && fields?.blockType === 'Code'
 }
 
+/** Alt text made safe to sit inside `![...]`. */
+function markdownAlt(alt: string): string {
+  return alt
+    .replace(/[\[\]]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/** A markdown image on its own line that points at the media library. */
+const MEDIA_IMAGE = /^\s*!\[[^\]]*\]\(media:(\d+)\)\s*$/
+
+function imageNode(mediaId: number): LexicalNode {
+  return {
+    type: 'upload',
+    version: 3,
+    format: '',
+    id: randomBytes(12).toString('hex'),
+    fields: null,
+    relationTo: 'media',
+    value: mediaId,
+  }
+}
+
+/** Fails with a clear message if the markdown references images that don't exist. */
+async function assertImagesExist(payload: Payload, ids: number[]): Promise<void> {
+  if (ids.length === 0) return
+  const { docs } = await payload.find({
+    collection: 'media',
+    where: { id: { in: ids } },
+    limit: ids.length,
+    depth: 0,
+  })
+  const found = new Set(docs.map((doc) => doc.id))
+  const missing = ids.filter((id) => !found.has(id))
+  if (missing.length) {
+    throw new Error(
+      `No image with id ${missing.join(', ')} in the media library. Use list_images to see what is available.`
+    )
+  }
+}
+
 function rootOf(children: LexicalNode[]): Post['content'] {
   return {
     root: { type: 'root', children, direction: null, format: '', indent: 0, version: 1 },
@@ -100,12 +146,13 @@ function rootOf(children: LexicalNode[]): Post['content'] {
  * Converts markdown to the Posts editor's Lexical format.
  *
  * Fenced code is split out and turned into the editor's Code block (the one
- * the site renders with Shiki); everything between fences goes through
- * Payload's markdown converter.
+ * the site renders with Shiki), `![alt](media:<id>)` lines become image nodes,
+ * and everything in between goes through Payload's markdown converter.
  */
 async function markdownToLexical(payload: Payload, markdown: string): Promise<Post['content']> {
   const editorConfig = await editorConfigFactory.default({ config: payload.config })
   const children: LexicalNode[] = []
+  const imageIds: number[] = []
   let prose: string[] = []
 
   const flushProse = () => {
@@ -134,9 +181,15 @@ async function markdownToLexical(payload: Payload, markdown: string): Promise<Po
     }
 
     const opening = /^ {0,3}(`{3,}|~{3,})\s*([^\s`]*)[^`]*$/.exec(line)
+    const image = MEDIA_IMAGE.exec(line)
     if (opening) {
       flushProse()
       fence = { marker: opening[1], language: opening[2].toLowerCase(), lines: [] }
+    } else if (image) {
+      flushProse()
+      const mediaId = Number(image[1])
+      imageIds.push(mediaId)
+      children.push(imageNode(mediaId))
     } else {
       prose.push(line)
     }
@@ -144,6 +197,7 @@ async function markdownToLexical(payload: Payload, markdown: string): Promise<Po
   // An unclosed fence runs to the end of the document
   if (fence) children.push(codeBlock(fence.language, fence.lines.join('\n')))
   flushProse()
+  await assertImagesExist(payload, [...new Set(imageIds)])
 
   return rootOf(children)
 }
@@ -163,7 +217,7 @@ function codeBlock(language: string, code: string): LexicalNode {
   }
 }
 
-/** The reverse of markdownToLexical: Code blocks come back as fenced code. */
+/** The reverse of markdownToLexical: Code blocks and images come back as markdown. */
 async function lexicalToMarkdown(payload: Payload, content: Post['content']): Promise<string> {
   const editorConfig = await editorConfigFactory.default({ config: payload.config })
   const parts: string[] = []
@@ -177,13 +231,19 @@ async function lexicalToMarkdown(payload: Payload, content: Post['content']): Pr
   }
 
   for (const node of content.root.children) {
-    if (!isCodeBlock(node)) {
+    if (isCodeBlock(node)) {
+      flushProse()
+      const { language, code } = node.fields as { language?: string; code?: string }
+      parts.push(`\`\`\`${language ?? ''}\n${code ?? ''}\n\`\`\``)
+    } else if (node.type === 'upload' && node.relationTo === 'media') {
+      flushProse()
+      const media = node.value as Media | number
+      const id = typeof media === 'object' ? media.id : media
+      const alt = typeof media === 'object' ? markdownAlt(media.alt) : ''
+      parts.push(`![${alt}](media:${id})`)
+    } else {
       prose.push(node)
-      continue
     }
-    flushProse()
-    const { language, code } = node.fields as { language?: string; code?: string }
-    parts.push(`\`\`\`${language ?? ''}\n${code ?? ''}\n\`\`\``)
   }
   flushProse()
 
@@ -234,7 +294,23 @@ function summarize(post: Post, ctx: ServerContext) {
   }
 }
 
+function describeImage(media: Media, ctx: ServerContext) {
+  const baseUrl = ctx.http?.req ? getBaseUrl(ctx.http.req) : ''
+  return {
+    id: media.id,
+    alt: media.alt,
+    filename: media.filename ?? null,
+    width: media.width ?? null,
+    height: media.height ?? null,
+    url: media.url ? new URL(media.url, baseUrl || 'http://localhost').toString() : null,
+    markdown: `![${markdownAlt(media.alt)}](media:${media.id})`,
+  }
+}
+
 const termList = z.array(z.string().min(1).max(100)).max(20)
+const imageId = z.number().int().positive()
+const IMAGE_SYNTAX =
+  'To place an image, put `![alt](media:<id>)` on a line of its own, using an id from list_images or upload_image.'
 
 export function registerBlogTools(server: McpServer): void {
   server.registerTool(
@@ -270,7 +346,7 @@ export function registerBlogTools(server: McpServer): void {
     {
       title: 'Get blog post',
       description:
-        'Fetch one blog post by ID or slug, with its content as markdown, excerpt, categories and tags.',
+        'Fetch one blog post by ID or slug, with its content as markdown, excerpt, featured image, categories and tags. Images in the content appear as `![alt](media:<id>)`.',
       inputSchema: z.object({
         id: z.number().int().optional().describe('Post ID'),
         slug: z.string().optional().describe('Post slug (used when no ID is given)'),
@@ -294,6 +370,10 @@ export function registerBlogTools(server: McpServer): void {
         return result({
           ...summarize(post, ctx),
           excerpt: post.excerpt ?? null,
+          featuredImage:
+            post.featuredImage && typeof post.featuredImage === 'object'
+              ? describeImage(post.featuredImage, ctx)
+              : null,
           categories: termNames(post.categories),
           tags: termNames(post.tags),
           content: await lexicalToMarkdown(payload, post.content),
@@ -305,8 +385,7 @@ export function registerBlogTools(server: McpServer): void {
     'create_draft_post',
     {
       title: 'Create draft blog post',
-      description:
-        'Create a new blog post as a draft. It is never published by this tool: the site owner reviews and publishes it in the admin panel. Content is markdown (headings, lists, links, bold/italic, fenced code blocks). Do not repeat the title as a heading in the content.',
+      description: `Create a new blog post as a draft. It is never published by this tool: the site owner reviews and publishes it in the admin panel. Content is markdown (headings, lists, links, bold/italic, fenced code blocks). ${IMAGE_SYNTAX} Do not repeat the title as a heading in the content.`,
       inputSchema: z.object({
         title: z.string().min(1).max(200),
         content: z.string().min(1).describe('Post body in markdown'),
@@ -316,11 +395,14 @@ export function registerBlogTools(server: McpServer): void {
           .max(200)
           .optional()
           .describe('URL slug; generated from the title if omitted'),
+        featuredImage: imageId
+          .optional()
+          .describe('Media id for the featured image shown on cards and when shared'),
         categories: termList.optional().describe('Category names; missing ones are created'),
         tags: termList.optional().describe('Tag names; missing ones are created'),
       }),
     },
-    ({ title, content, excerpt, slug, categories, tags }, ctx) =>
+    ({ title, content, excerpt, slug, featuredImage, categories, tags }, ctx) =>
       attempt('create_draft_post', async () => {
         const payload = await getPayload({ config })
         const post = await payload.create({
@@ -331,6 +413,7 @@ export function registerBlogTools(server: McpServer): void {
             slug: slug ? slugify(slug) : slugify(title),
             content: await markdownToLexical(payload, content),
             excerpt,
+            featuredImage,
             status: 'draft',
             categories: categories ? await resolveTerms(payload, 'categories', categories) : [],
             tags: tags ? await resolveTerms(payload, 'tags', tags) : [],
@@ -345,19 +428,19 @@ export function registerBlogTools(server: McpServer): void {
     'update_draft',
     {
       title: 'Update draft blog post',
-      description:
-        'Update an existing draft. Only the fields provided are changed; content, categories and tags replace the current values. Published posts cannot be edited, and this tool cannot publish.',
+      description: `Update an existing draft. Only the fields provided are changed; content, categories and tags replace the current values. Call get_post first and edit its markdown, so images and code blocks already in the post are kept. ${IMAGE_SYNTAX} Published posts cannot be edited, and this tool cannot publish.`,
       inputSchema: z.object({
         id: z.number().int().describe('ID of the draft to update'),
         title: z.string().min(1).max(200).optional(),
         content: z.string().min(1).optional().describe('New post body in markdown'),
         excerpt: z.string().max(500).optional(),
+        featuredImage: imageId.optional().describe('Media id for the featured image'),
         categories: termList.optional().describe('Category names; missing ones are created'),
         tags: termList.optional().describe('Tag names; missing ones are created'),
       }),
       annotations: { idempotentHint: true },
     },
-    ({ id, title, content, excerpt, categories, tags }, ctx) =>
+    ({ id, title, content, excerpt, featuredImage, categories, tags }, ctx) =>
       attempt('update_draft', async () => {
         const payload = await getPayload({ config })
         const { docs } = await payload.find({
@@ -380,6 +463,7 @@ export function registerBlogTools(server: McpServer): void {
             ...(title !== undefined && { title }),
             ...(content !== undefined && { content: await markdownToLexical(payload, content) }),
             ...(excerpt !== undefined && { excerpt }),
+            ...(featuredImage !== undefined && { featuredImage }),
             ...(categories && {
               categories: await resolveTerms(payload, 'categories', categories),
             }),
@@ -389,6 +473,69 @@ export function registerBlogTools(server: McpServer): void {
         })
         console.log(`[MCP] Draft updated: ${post.slug} (${post.id})`)
         return result(summarize(post, ctx))
+      })
+  )
+
+  server.registerTool(
+    'list_images',
+    {
+      title: 'List images',
+      description: `List images in the site's media library, newest first, including ones uploaded by hand in the admin panel. ${IMAGE_SYNTAX}`,
+      inputSchema: z.object({
+        limit: z.number().int().min(1).max(50).default(20),
+      }),
+      annotations: { readOnlyHint: true },
+    },
+    ({ limit }, ctx) =>
+      attempt('list_images', async () => {
+        const payload = await getPayload({ config })
+        const media = await payload.find({
+          collection: 'media',
+          where: { mimeType: { like: 'image/' } },
+          sort: '-createdAt',
+          limit,
+          depth: 0,
+        })
+        return result({
+          total: media.totalDocs,
+          images: media.docs.map((doc) => describeImage(doc, ctx)),
+        })
+      })
+  )
+
+  server.registerTool(
+    'upload_image',
+    {
+      title: 'Upload image from URL',
+      description: `Download an image from a public https URL into the site's media library (PNG, JPEG, WebP or GIF, up to 10 MB). Returns its id. ${IMAGE_SYNTAX} It can also be passed as featuredImage.`,
+      inputSchema: z.object({
+        url: z.string().url().describe('Public https URL of the image'),
+        alt: z.string().min(1).max(300).describe('Alt text describing the image'),
+        filename: z
+          .string()
+          .max(100)
+          .optional()
+          .describe('File name without extension; taken from the URL if omitted'),
+      }),
+    },
+    ({ url, alt, filename }, ctx) =>
+      attempt('upload_image', async () => {
+        const image = await fetchImage(url)
+        const fromUrl =
+          new URL(url).pathname
+            .split('/')
+            .pop()
+            ?.replace(/\.[^.]*$/, '') ?? ''
+        const name = `${slugify(filename || fromUrl) || 'image'}.${image.extension}`
+
+        const payload = await getPayload({ config })
+        const media = await payload.create({
+          collection: 'media',
+          data: { alt },
+          file: { data: image.data, mimetype: image.mimetype, name, size: image.data.length },
+        })
+        console.log(`[MCP] Image uploaded: ${media.filename} (${media.id})`)
+        return result(describeImage(media, ctx))
       })
   )
 }
