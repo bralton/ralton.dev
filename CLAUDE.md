@@ -24,13 +24,16 @@ src/
 │   ├── api/
 │   │   ├── contact/         # Contact form endpoint
 │   │   ├── cron/            # github/, cleanup-contacts/
+│   │   ├── mcp/             # Blog MCP server (draft posts from Claude)
 │   │   ├── preview/         # Draft preview mode
 │   │   └── exit-preview/
+│   ├── oauth/               # authorize/ + token/ for the MCP server
+│   ├── .well-known/         # OAuth discovery metadata for the MCP server
 │   ├── globals.css          # Tailwind base + CSS variables
 │   └── sitemap.ts           # Dynamic sitemap generation
 ├── components/              # React components
 │   └── ui/                  # shadcn/ui primitives
-├── collections/             # Payload CMS collections (11)
+├── collections/             # Payload CMS collections (12)
 ├── lib/                     # Utilities (github, discord, email, logger, etc.)
 │   └── validations/         # Zod schemas
 ├── hooks/                   # React hooks
@@ -105,7 +108,8 @@ See `.env.example` for the full list. Key variables:
 ## Key Patterns
 
 - **Payload globals** (singletons): Hero, About, GitHubData
-- **Payload collections**: Projects, Skills, Experiences, Education, ContactSubmissions, SocialLinks, Media, Users
+- **Payload collections**: Projects, Skills, Experiences, Education, ContactSubmissions, SocialLinks, Media, Users, McpGrants
 - **Revalidation**: On-demand via `payloadHooks.ts` after collection changes
 - **Notifications**: Non-blocking `Promise.allSettled()` for email + Discord
+- **MCP server**: `/api/mcp` lets Claude create and edit blog **drafts** only (`src/lib/mcp/tools.ts`). The site is its own OAuth server (`src/lib/mcp/oauth.ts`); connections are approved at `/oauth/authorize` (admin session + IP allowlist) and stored in McpGrants, where deleting one revokes it.
 - **Security**: CSP headers, X-Frame-Options DENY, brute-force protection on admin (5 attempts / 10-min lockout)

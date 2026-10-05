@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Paths that require IP allowlist protection
-const PROTECTED_PATHS = ['/admin']
+// Paths that require IP allowlist protection.
+// /oauth/authorize is the MCP consent screen, which mints access for whoever
+// approves it. /oauth/token is deliberately not listed: Claude calls it from
+// Anthropic's servers.
+const PROTECTED_PATHS = ['/admin', '/oauth/authorize']
 
 function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`))
@@ -79,5 +82,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/admin'],
+  matcher: ['/admin/:path*', '/admin', '/oauth/authorize'],
 }

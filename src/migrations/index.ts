@@ -7,6 +7,7 @@ import * as migration_20260822_100000_project_links_privacy from './20260822_100
 import * as migration_20260822_110000_project_privacy_markdown from './20260822_110000_project_privacy_markdown'
 import * as migration_20260823_100000_project_orderable from './20260823_100000_project_orderable'
 import * as migration_20260823_120000_social_links_coffee from './20260823_120000_social_links_coffee'
+import * as migration_20261005_100000_mcp_grants from './20261005_100000_mcp_grants'
 
 export const migrations = [
   {
@@ -53,5 +54,10 @@ export const migrations = [
     up: migration_20260823_120000_social_links_coffee.up,
     down: migration_20260823_120000_social_links_coffee.down,
     name: '20260823_120000_social_links_coffee',
+  },
+  {
+    up: migration_20261005_100000_mcp_grants.up,
+    down: migration_20261005_100000_mcp_grants.down,
+    name: '20261005_100000_mcp_grants',
   },
 ]

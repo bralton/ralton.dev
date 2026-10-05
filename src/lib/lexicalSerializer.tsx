@@ -312,8 +312,11 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
       return <hr key={index} className="my-8 border-zinc-800" />
 
     case 'block': {
-      // Handle CodeBlock from Payload's premade blocks
-      if (node.fields?.blockType === 'code' && typeof node.fields.code === 'string') {
+      // Handle CodeBlock from Payload's premade blocks (its block slug is 'Code')
+      if (
+        (node.fields?.blockType === 'Code' || node.fields?.blockType === 'code') &&
+        typeof node.fields.code === 'string'
+      ) {
         const language = (node.fields.language as string) || 'text'
         return <CodeBlock key={index} code={node.fields.code} language={language} />
       }

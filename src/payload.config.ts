@@ -8,6 +8,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { McpGrants } from './collections/McpGrants'
 import { Hero } from './collections/Hero'
 import { About } from './collections/About'
 import { GitHubData } from './collections/GitHubData'
@@ -62,6 +63,7 @@ export default buildConfig({
     ContactSubmissions,
     SocialLinks,
     Tags,
+    McpGrants,
   ],
   globals: [Hero, About, GitHubData],
   editor: lexicalEditor({

@@ -7,6 +7,14 @@
 
 import type { FieldHook } from 'payload'
 
+/** Converts text to a URL-friendly slug (lowercase, hyphen-separated). */
+export function slugify(source: string): string {
+  return source
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
 /**
  * Creates a field hook that generates a URL-friendly slug from a source field.
  * If a slug is already provided, it will be used as-is.
@@ -23,9 +31,6 @@ export function createSlugHook(sourceField: 'title' | 'name'): FieldHook {
     const source = data?.[sourceField] || originalDoc?.[sourceField]
     if (!source) return value
 
-    return source
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '')
+    return slugify(source)
   }
 }

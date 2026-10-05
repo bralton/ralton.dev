@@ -78,6 +78,7 @@ export interface Config {
     'contact-submissions': ContactSubmission;
     'social-links': SocialLink;
     tags: Tag;
+    'mcp-grants': McpGrant;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -96,6 +97,7 @@ export interface Config {
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'social-links': SocialLinksSelect<false> | SocialLinksSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    'mcp-grants': McpGrantsSelect<false> | McpGrantsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -585,6 +587,40 @@ export interface SocialLink {
   createdAt: string;
 }
 /**
+ * Claude clients authorised to create and edit blog drafts. Delete a connection to revoke it.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mcp-grants".
+ */
+export interface McpGrant {
+  id: number;
+  /**
+   * OAuth client that was approved
+   */
+  clientId: string;
+  /**
+   * Where the authorisation code was sent
+   */
+  redirectUri: string;
+  /**
+   * Admin who approved the connection
+   */
+  user?: (number | null) | User;
+  scope?: string | null;
+  codeHash?: string | null;
+  codeChallenge?: string | null;
+  codeExpiresAt?: string | null;
+  accessTokenHash?: string | null;
+  accessTokenExpiresAt?: string | null;
+  refreshTokenHash?: string | null;
+  /**
+   * Connection lapses if unused past this date
+   */
+  refreshTokenExpiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -651,6 +687,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'mcp-grants';
+        value: number | McpGrant;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -867,6 +907,25 @@ export interface SocialLinksSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mcp-grants_select".
+ */
+export interface McpGrantsSelect<T extends boolean = true> {
+  clientId?: T;
+  redirectUri?: T;
+  user?: T;
+  scope?: T;
+  codeHash?: T;
+  codeChallenge?: T;
+  codeExpiresAt?: T;
+  accessTokenHash?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenHash?: T;
+  refreshTokenExpiresAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
