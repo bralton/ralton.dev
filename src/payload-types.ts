@@ -366,11 +366,11 @@ export interface Post {
    */
   featuredImage?: (number | null) | Media;
   /**
-   * Publication status (draft posts are not visible publicly)
+   * Publication status (draft posts are not visible publicly). A published post with a future Published At date stays hidden until then.
    */
   status: 'draft' | 'published';
   /**
-   * Publication date (auto-set when published)
+   * Publication date (auto-set when published). Set a future date to schedule the post; it goes live within about ten minutes of that time.
    */
   publishedAt?: string | null;
   /**
