@@ -9,11 +9,25 @@ import { registerBlogTools } from '@/lib/mcp/tools'
  * access token issued by /oauth/token; without one the response is a 401 that
  * points Claude at the discovery metadata so it can start the sign-in flow.
  */
-const mcpHandler = createMcpHandler(registerBlogTools, {
-  serverInfo: { name: 'ralton-dev-blog', version: '1.0.0' },
-  instructions:
-    'Drafts blog posts for ralton.dev. Everything written here is a draft; the site owner publishes from the admin panel.',
-})
+const mcpHandler = createMcpHandler(
+  (server) => {
+    registerBlogTools(server)
+
+    // This server only has tools, but clients list prompts and resources when
+    // they connect. Under the 2026-07-28 protocol an unimplemented method is an
+    // HTTP 404, which claude.ai reports as "no MCP server found", so answer
+    // those listings with empty results instead.
+    server.server.setRequestHandler('prompts/list', () => ({ prompts: [] }))
+    server.server.setRequestHandler('resources/list', () => ({ resources: [] }))
+    server.server.setRequestHandler('resources/templates/list', () => ({ resourceTemplates: [] }))
+  },
+  {
+    serverInfo: { name: 'ralton-dev-blog', version: '1.0.0' },
+    capabilities: { prompts: {}, resources: {} },
+    instructions:
+      'Drafts blog posts for ralton.dev. Everything written here is a draft; the site owner publishes from the admin panel.',
+  }
+)
 
 const handler = withMcpAuth(
   mcpHandler,
