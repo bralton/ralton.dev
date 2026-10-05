@@ -73,8 +73,7 @@ export const Posts: CollectionConfig = {
     defaultColumns: ['title', 'status', 'publishedAt', 'readingTime'],
     description: 'Blog posts for your site',
     livePreview: {
-      url: ({ data }) =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/blog/${data?.slug || ''}`,
+      url: ({ data }) => `/api/preview?slug=/blog/${data?.slug || ''}`,
     },
   },
   defaultSort: '-publishedAt',

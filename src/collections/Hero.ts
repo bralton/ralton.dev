@@ -6,8 +6,7 @@ export const Hero: GlobalConfig = {
   admin: {
     description: 'Configure your portfolio hero section content - the first thing visitors see.',
     livePreview: {
-      url: () =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+      url: () => `/api/preview?slug=/`,
     },
   },
   hooks: {

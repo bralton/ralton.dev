@@ -8,8 +8,7 @@ export const Skills: CollectionConfig = {
     defaultColumns: ['name', 'category', 'isVisible'],
     description: 'Technical skills displayed on your portfolio, grouped by category',
     livePreview: {
-      url: () =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+      url: () => `/api/preview?slug=/`,
     },
   },
   defaultSort: 'category',

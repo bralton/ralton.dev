@@ -8,8 +8,7 @@ export const Education: CollectionConfig = {
     defaultColumns: ['degree', 'institution', 'startDate', 'isVisible'],
     description: 'Education entries displayed on your portfolio',
     livePreview: {
-      url: () =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?secret=${process.env.PAYLOAD_PREVIEW_SECRET}&slug=/`,
+      url: () => `/api/preview?slug=/`,
     },
   },
   defaultSort: '-startDate',

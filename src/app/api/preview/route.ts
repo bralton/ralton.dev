@@ -6,23 +6,37 @@
  * will look before publishing.
  *
  * Security:
- * - Requires PAYLOAD_PREVIEW_SECRET to prevent unauthorized access
- * - Secret validation before enabling draft mode
+ * - Requires a signed-in Payload admin (the preview pane loads this route in
+ *   the admin's own browser, so the session cookie is present), or
+ *   PAYLOAD_PREVIEW_SECRET for links opened outside the admin panel
+ * - Only redirects to paths on this site
  */
 
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 export async function GET(request: Request): Promise<Response | never> {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug') || '/'
 
-  // Verify secret to prevent unauthorized preview access
+  // Verify the caller before enabling draft mode
   const previewSecret = process.env.PAYLOAD_PREVIEW_SECRET
-  if (!previewSecret || secret !== previewSecret) {
-    console.error('[Preview] Unauthorized access attempt')
-    return new Response('Invalid token', { status: 401 })
+  const hasSecret = Boolean(previewSecret) && secret === previewSecret
+  if (!hasSecret) {
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: request.headers })
+    if (!user) {
+      console.error('[Preview] Unauthorized access attempt')
+      return new Response('Invalid token', { status: 401 })
+    }
+  }
+
+  // Only ever redirect within this site
+  if (!slug.startsWith('/') || slug.startsWith('//') || slug.includes('\\')) {
+    return new Response('Invalid slug', { status: 400 })
   }
 
   // Enable draft mode
