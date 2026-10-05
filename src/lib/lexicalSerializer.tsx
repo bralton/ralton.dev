@@ -294,15 +294,20 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
       if (!media?.url) {
         return <Fragment key={index} />
       }
+      // A portrait image at full column width is taller than the screen, so
+      // keep it narrow and centred
+      const isPortrait = (media.height ?? 0) > (media.width ?? 0)
       return (
-        <figure key={index} className="my-6">
+        <figure key={index} className={isPortrait ? 'mx-auto my-6 max-w-sm' : 'my-6'}>
           <Image
             src={media.url}
             alt={media.alt || 'Blog image'}
             width={media.width || 800}
             height={media.height || 450}
             className="rounded-lg"
-            sizes="(max-width: 768px) 100vw, 800px"
+            sizes={
+              isPortrait ? '(max-width: 768px) 100vw, 384px' : '(max-width: 768px) 100vw, 800px'
+            }
           />
         </figure>
       )
