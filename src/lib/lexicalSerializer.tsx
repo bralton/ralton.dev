@@ -126,6 +126,27 @@ interface SerializedHorizontalRuleNode {
   version: number
 }
 
+interface SerializedTableNode {
+  type: 'table'
+  children: SerializedTableRowNode[]
+  version: number
+}
+
+interface SerializedTableRowNode {
+  type: 'tablerow'
+  children: SerializedTableCellNode[]
+  version: number
+}
+
+interface SerializedTableCellNode {
+  type: 'tablecell'
+  /** 0 none, 1 row header, 2 column header, 3 both (Lexical TableCellHeaderStates) */
+  headerState: number
+  colSpan?: number
+  children: SerializedLexicalNode[]
+  version: number
+}
+
 interface SerializedBlockNode {
   type: 'block'
   fields: {
@@ -151,6 +172,9 @@ type SerializedLexicalNode =
   | SerializedUploadNode
   | SerializedHorizontalRuleNode
   | SerializedBlockNode
+  | SerializedTableNode
+  | SerializedTableRowNode
+  | SerializedTableCellNode
 
 interface LexicalContent {
   root: {
@@ -320,6 +344,59 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
 
     case 'horizontalrule':
       return <hr key={index} className="my-8 border-zinc-800" />
+
+    case 'table': {
+      const [head, ...body] = node.children
+      const isHeaderRow = Boolean(head?.children.every((cell) => cell.headerState & 1))
+      const headRow = isHeaderRow ? await serializeNode(head, 0) : null
+      const bodyRows = await Promise.all(
+        (isHeaderRow ? body : node.children).map((row, i) => serializeNode(row, i))
+      )
+      return (
+        <div key={index} className="my-6 overflow-x-auto">
+          <table className="w-full text-sm">
+            {headRow && <thead>{headRow}</thead>}
+            <tbody>{bodyRows}</tbody>
+          </table>
+        </div>
+      )
+    }
+
+    case 'tablerow': {
+      const cells = await Promise.all(node.children.map((cell, i) => serializeNode(cell, i)))
+      return (
+        <tr key={index} className="border-b border-zinc-800">
+          {cells}
+        </tr>
+      )
+    }
+
+    case 'tablecell': {
+      // Cell children are paragraphs; render their inline content directly so
+      // the cell doesn't inherit paragraph margins
+      const content = await Promise.all(
+        node.children.map(async (child, childIndex) =>
+          child.type === 'paragraph' ? (
+            <Fragment key={childIndex}>{await serializeNodes(child.children)}</Fragment>
+          ) : (
+            serializeNode(child, childIndex)
+          )
+        )
+      )
+      return node.headerState & 1 ? (
+        <th
+          key={index}
+          className="py-2 pr-4 text-left font-semibold text-foreground"
+          colSpan={node.colSpan}
+        >
+          {content}
+        </th>
+      ) : (
+        <td key={index} className="py-2 pr-4 align-top text-text-secondary" colSpan={node.colSpan}>
+          {content}
+        </td>
+      )
+    }
 
     case 'block': {
       // Handle CodeBlock from Payload's premade blocks (its block slug is 'Code')

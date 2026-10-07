@@ -14,7 +14,9 @@ import type { McpServer, ServerContext } from '@modelcontextprotocol/server'
 import {
   convertLexicalToMarkdown,
   convertMarkdownToLexical,
+  defaultEditorFeatures,
   editorConfigFactory,
+  EXPERIMENTAL_TableFeature,
 } from '@payloadcms/richtext-lexical'
 import { randomBytes } from 'crypto'
 import { getPayload, type Payload } from 'payload'
@@ -129,6 +131,18 @@ async function assertImagesExist(payload: Payload, ids: number[]): Promise<void>
   }
 }
 
+/**
+ * Editor config for converting prose: the default features plus tables. The
+ * Code block is handled separately (see markdownToLexical), so the site's full
+ * editor config is not needed here.
+ */
+function proseEditorConfig(payload: Payload) {
+  return editorConfigFactory.fromFeatures({
+    config: payload.config,
+    features: [...defaultEditorFeatures, EXPERIMENTAL_TableFeature()],
+  })
+}
+
 function rootOf(children: LexicalNode[]): Post['content'] {
   return {
     root: { type: 'root', children, direction: null, format: '', indent: 0, version: 1 },
@@ -143,7 +157,7 @@ function rootOf(children: LexicalNode[]): Post['content'] {
  * and everything in between goes through Payload's markdown converter.
  */
 async function markdownToLexical(payload: Payload, markdown: string): Promise<Post['content']> {
-  const editorConfig = await editorConfigFactory.default({ config: payload.config })
+  const editorConfig = await proseEditorConfig(payload)
   const children: LexicalNode[] = []
   const imageIds: number[] = []
   let prose: string[] = []
@@ -212,7 +226,7 @@ function codeBlock(language: string, code: string): LexicalNode {
 
 /** The reverse of markdownToLexical: Code blocks and images come back as markdown. */
 async function lexicalToMarkdown(payload: Payload, content: Post['content']): Promise<string> {
-  const editorConfig = await editorConfigFactory.default({ config: payload.config })
+  const editorConfig = await proseEditorConfig(payload)
   const parts: string[] = []
   let prose: LexicalNode[] = []
 

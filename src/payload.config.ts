@@ -3,6 +3,7 @@ import {
   lexicalEditor,
   BlocksFeature,
   CodeBlock,
+  EXPERIMENTAL_TableFeature,
   FixedToolbarFeature,
 } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -76,6 +77,8 @@ export default buildConfig({
       ...defaultFeatures,
       // Always-visible toolbar; without it formatting only appears on text selection
       FixedToolbarFeature(),
+      // Tables for comparison-style content in posts (also enables markdown tables via MCP)
+      EXPERIMENTAL_TableFeature(),
       BlocksFeature({
         blocks: [CodeBlock()],
       }),
