@@ -373,7 +373,7 @@ export async function RichText({ content, className = '' }: RichTextProps) {
 
   return (
     <div
-      className={`prose prose-zinc prose-invert max-w-none prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
+      className={`prose prose-zinc prose-invert max-w-none prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
     >
       {serializedContent}
     </div>
