@@ -8,6 +8,9 @@
  * Images live in the media library. In markdown they are written as
  * `![alt](media:<id>)` on a line of their own, which round-trips to the
  * editor's upload node.
+ *
+ * The markdown helpers are shared with the project tools (projectTools.ts),
+ * which draft project cards under the same rules.
  */
 
 import type { McpServer, ServerContext } from '@modelcontextprotocol/server'
@@ -28,16 +31,16 @@ import { getBaseUrl } from '@/lib/mcp/oauth'
 import { slugify } from '@/lib/slugify'
 import type { Category, Media, Post, Tag } from '@/payload-types'
 
-function result(data: unknown) {
+export function result(data: unknown) {
   return { content: [{ type: 'text' as const, text: JSON.stringify(data, null, 2) }] }
 }
 
-function failure(message: string) {
+export function failure(message: string) {
   return { content: [{ type: 'text' as const, text: message }], isError: true }
 }
 
 /** Runs a tool body, turning thrown errors (e.g. a duplicate slug) into tool errors. */
-async function attempt(name: string, run: () => Promise<ReturnType<typeof result>>) {
+export async function attempt(name: string, run: () => Promise<ReturnType<typeof result>>) {
   try {
     return await run()
   } catch (error) {
@@ -114,7 +117,7 @@ function imageNode(mediaId: number): LexicalNode {
 }
 
 /** Fails with a clear message if the markdown references images that don't exist. */
-async function assertImagesExist(payload: Payload, ids: number[]): Promise<void> {
+export async function assertImagesExist(payload: Payload, ids: number[]): Promise<void> {
   if (ids.length === 0) return
   const { docs } = await payload.find({
     collection: 'media',
@@ -156,7 +159,10 @@ function rootOf(children: LexicalNode[]): Post['content'] {
  * the site renders with Shiki), `![alt](media:<id>)` lines become image nodes,
  * and everything in between goes through Payload's markdown converter.
  */
-async function markdownToLexical(payload: Payload, markdown: string): Promise<Post['content']> {
+export async function markdownToLexical(
+  payload: Payload,
+  markdown: string
+): Promise<Post['content']> {
   const editorConfig = await proseEditorConfig(payload)
   const children: LexicalNode[] = []
   const imageIds: number[] = []
@@ -225,7 +231,10 @@ function codeBlock(language: string, code: string): LexicalNode {
 }
 
 /** The reverse of markdownToLexical: Code blocks and images come back as markdown. */
-async function lexicalToMarkdown(payload: Payload, content: Post['content']): Promise<string> {
+export async function lexicalToMarkdown(
+  payload: Payload,
+  content: Post['content']
+): Promise<string> {
   const editorConfig = await proseEditorConfig(payload)
   const parts: string[] = []
   let prose: LexicalNode[] = []
@@ -315,8 +324,8 @@ function describeImage(media: Media, ctx: ServerContext) {
 }
 
 const termList = z.array(z.string().min(1).max(100)).max(20)
-const imageId = z.number().int().positive()
-const IMAGE_SYNTAX =
+export const imageId = z.number().int().positive()
+export const IMAGE_SYNTAX =
   'To place an image, put `![alt](media:<id>)` on a line of its own, using an id from list_images or upload_image.'
 
 export function registerBlogTools(server: McpServer): void {

@@ -1,17 +1,20 @@
 import { createMcpHandler, withMcpAuth } from 'mcp-handler'
 import { MCP_SCOPE, RESOURCE_METADATA_PATH, verifyAccessToken } from '@/lib/mcp/oauth'
+import { registerProjectTools } from '@/lib/mcp/projectTools'
 import { registerBlogTools } from '@/lib/mcp/tools'
 
 /**
  * Blog MCP server (Streamable HTTP)
  *
- * Lets Claude create and edit blog post drafts. Every request needs an OAuth
+ * Lets Claude create and edit blog post drafts and hidden project cards.
+ * Every request needs an OAuth
  * access token issued by /oauth/token; without one the response is a 401 that
  * points Claude at the discovery metadata so it can start the sign-in flow.
  */
 const mcpHandler = createMcpHandler(
   (server) => {
     registerBlogTools(server)
+    registerProjectTools(server)
 
     // This server only has tools, but clients list prompts and resources when
     // they connect. Under the 2026-07-28 protocol an unimplemented method is an
@@ -25,7 +28,7 @@ const mcpHandler = createMcpHandler(
     serverInfo: { name: 'ralton-dev-blog', version: '1.0.0' },
     capabilities: { prompts: {}, resources: {} },
     instructions:
-      'Drafts blog posts for ralton.dev. Everything written here is a draft; the site owner publishes from the admin panel.',
+      'Drafts blog posts and project cards for ralton.dev. Everything written here is a draft: posts stay unpublished and projects stay hidden until the site owner publishes them from the admin panel.',
   }
 )
 

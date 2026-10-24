@@ -111,5 +111,5 @@ See `.env.example` for the full list. Key variables:
 - **Payload collections**: Projects, Skills, Experiences, Education, ContactSubmissions, SocialLinks, Media, Users, McpGrants
 - **Revalidation**: On-demand via `payloadHooks.ts` after collection changes
 - **Notifications**: Non-blocking `Promise.allSettled()` for email + Discord
-- **MCP server**: `/api/mcp` lets Claude create and edit blog **drafts** only (`src/lib/mcp/tools.ts`). The site is its own OAuth server (`src/lib/mcp/oauth.ts`); connections are approved at `/oauth/authorize` (admin session + IP allowlist) and stored in McpGrants, where deleting one revokes it.
+- **MCP server**: `/api/mcp` lets Claude create and edit blog **drafts** (`src/lib/mcp/tools.ts`) and **hidden** project cards (`src/lib/mcp/projectTools.ts`, always `isVisible: false`). The site is its own OAuth server (`src/lib/mcp/oauth.ts`); connections are approved at `/oauth/authorize` (admin session + IP allowlist) and stored in McpGrants, where deleting one revokes it.
 - **Security**: CSP headers, X-Frame-Options SAMEORIGIN (the admin live preview frames the site), brute-force protection on admin (5 attempts / 10-min lockout)
