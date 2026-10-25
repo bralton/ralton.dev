@@ -8,6 +8,7 @@ import * as migration_20260822_110000_project_privacy_markdown from './20260822_
 import * as migration_20260823_100000_project_orderable from './20260823_100000_project_orderable'
 import * as migration_20260823_120000_social_links_coffee from './20260823_120000_social_links_coffee'
 import * as migration_20261005_100000_mcp_grants from './20261005_100000_mcp_grants'
+import * as migration_20261025_220121_payload_392_password_reset_throttle from './20261025_220121_payload_392_password_reset_throttle'
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20261005_100000_mcp_grants.up,
     down: migration_20261005_100000_mcp_grants.down,
     name: '20261005_100000_mcp_grants',
+  },
+  {
+    up: migration_20261025_220121_payload_392_password_reset_throttle.up,
+    down: migration_20261025_220121_payload_392_password_reset_throttle.down,
+    name: '20261025_220121_payload_392_password_reset_throttle',
   },
 ]
