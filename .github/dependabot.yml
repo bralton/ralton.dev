@@ -1,22 +1,22 @@
+# Renovate owns update PRs; routine Dependabot version PRs are disabled.
+# Keep GitHub vulnerability alerts enabled. Automatic security PRs are a separate repo setting.
+---
 version: 2
 updates:
-  # npm dependencies
-  - package-ecosystem: 'npm'
+  - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: 'weekly'
-      day: 'monday'
+      interval: weekly
+      day: monday
       time: '09:00'
-      timezone: 'America/New_York'
-    target-branch: 'main'
-    open-pull-requests-limit: 5
+      timezone: America/New_York
+    target-branch: main
+    open-pull-requests-limit: 0
     commit-message:
-      prefix: 'chore(deps)'
+      prefix: chore(deps)
     labels:
-      - 'dependencies'
-      - 'automated'
-    reviewers:
-      - 'bralton'
+      - dependencies
+      - automated
     groups:
       opentelemetry:
         patterns:
@@ -30,19 +30,18 @@ updates:
         exclude-patterns:
           - '@opentelemetry/*'
           - '@vercel/*'
-
-  # GitHub Actions
-  - package-ecosystem: 'github-actions'
+  - package-ecosystem: github-actions
     directory: '/'
     schedule:
-      interval: 'weekly'
-      day: 'monday'
+      interval: weekly
+      day: monday
     commit-message:
-      prefix: 'ci(deps)'
+      prefix: ci(deps)
     labels:
-      - 'ci'
-      - 'automated'
+      - ci
+      - automated
     groups:
       github-actions:
         patterns:
           - '*'
+    open-pull-requests-limit: 0
