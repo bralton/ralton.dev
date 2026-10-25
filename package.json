@@ -87,7 +87,7 @@
       "unrs-resolver"
     ],
     "overrides": {
-      "@esbuild-kit/core-utils>esbuild": "^0.25.12",
+      "@esbuild-kit/core-utils>esbuild": "^0.28.0",
       "@lexical/headless>happy-dom": "^21.0.4",
       "monaco-editor>dompurify": "^3.4.17",
       "postcss-selector-parser": "^7.1.6",
