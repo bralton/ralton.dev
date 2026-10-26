@@ -56,7 +56,11 @@
       "dependencyDashboardApproval": true,
       "automerge": false,
       "addLabels": ["major-update"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "pinDigests": true
     }
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard — personal_website"
+  "dependencyDashboardTitle": "Renovate Dashboard \u2014 personal_website"
 }
