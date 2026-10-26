@@ -41,7 +41,7 @@ const sdk = new NodeSDK({
     [SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]:
       process.env.VERCEL_ENV || process.env.NODE_ENV || 'development',
   }),
-  spanProcessor,
+  spanProcessors: [spanProcessor],
   instrumentations: [
     getNodeAutoInstrumentations({
       // Disable fs instrumentation to reduce noise

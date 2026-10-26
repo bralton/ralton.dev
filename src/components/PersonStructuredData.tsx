@@ -57,6 +57,7 @@ function extractTextFromRichText(richText: unknown): string {
 }
 
 export async function PersonStructuredData() {
+  let personSchema: PersonSchema
   try {
     const payload = await getPayload({ config })
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ralton.dev'
@@ -83,7 +84,7 @@ export async function PersonStructuredData() {
       .map((link) => link.url)
 
     // Build Person schema with required fields
-    const personSchema: PersonSchema = {
+    personSchema = {
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: heroData?.name || 'Ben Ralton',
@@ -119,16 +120,17 @@ export async function PersonStructuredData() {
     // Add image if og-image exists
     personSchema.image = `${siteUrl}/og-image.png`
 
-    return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personSchema),
-        }}
-      />
-    )
   } catch (error) {
     console.error('[PersonStructuredData] Failed to generate structured data:', error)
     return null
   }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(personSchema),
+      }}
+    />
+  )
 }
