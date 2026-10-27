@@ -16,6 +16,12 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   typescript: { ignoreBuildErrors: false },
 
+  // The OpenTelemetry HTTP bundle loads this package at runtime. Include it in
+  // every server function because file tracing misses the bundled require.
+  outputFileTracingIncludes: {
+    '/*': ['./node_modules/forwarded-parse/**/*'],
+  },
+
   // Next 16 streams generateMetadata output into the body on dynamic pages,
   // which Lighthouse and non-JS crawlers miss. Serve blocking (in-head)
   // metadata to Lighthouse in addition to Next's default bot list.

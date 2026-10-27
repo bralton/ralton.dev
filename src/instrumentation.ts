@@ -11,6 +11,11 @@ export async function register() {
   // Only run on the server
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // Initialize OpenTelemetry instrumentation
-    await import('./instrumentation.node')
+    try {
+      await import('./instrumentation.node')
+    } catch (error) {
+      // Telemetry must not stop the application from serving requests.
+      console.error('OpenTelemetry initialization failed:', error)
+    }
   }
 }
