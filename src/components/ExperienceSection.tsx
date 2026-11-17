@@ -70,7 +70,7 @@ export async function ExperienceSection() {
       <div className="grid gap-10 desk:grid-cols-[1.5fr_1fr] desk:gap-12">
         {/* Timeline */}
         <div className="relative pl-6">
-          <span aria-hidden="true" className="absolute bottom-2 left-1 top-2 w-px bg-border" />
+          <span aria-hidden="true" className="absolute top-2 bottom-2 left-1 w-px bg-border" />
           <ol role="list" aria-label="Work experience history">
             {recentRoles.map((role) => (
               <TimelineItem key={role.id} role={role} />
@@ -98,7 +98,7 @@ export async function ExperienceSection() {
         <aside className="space-y-8">
           {education.docs.length > 0 && (
             <div>
-              <h3 className="mb-3.5 font-mono text-[11.5px] uppercase tracking-[0.08em] text-text-tertiary">
+              <h3 className="mb-3.5 font-mono text-[11.5px] tracking-[0.08em] text-text-tertiary uppercase">
                 education &amp; certs
               </h3>
               <ul role="list" aria-label="Education and certifications">
@@ -111,7 +111,7 @@ export async function ExperienceSection() {
                       <p className="text-sm font-semibold text-foreground">{entry.degree}</p>
                       <p className="text-[13px] text-text-tertiary">{entry.institution}</p>
                     </div>
-                    <span className="whitespace-nowrap pt-0.5 font-mono text-[11.5px] text-text-tertiary">
+                    <span className="pt-0.5 font-mono text-[11.5px] whitespace-nowrap text-text-tertiary">
                       {yearOf(entry.startDate)}–
                       {entry.endDate ? yearOf(entry.endDate).slice(2) : 'now'}
                     </span>
@@ -123,7 +123,7 @@ export async function ExperienceSection() {
 
           {skillsByCategory.size > 0 && (
             <div>
-              <h3 className="mb-2 font-mono text-[11.5px] uppercase tracking-[0.08em] text-text-tertiary">
+              <h3 className="mb-2 font-mono text-[11.5px] tracking-[0.08em] text-text-tertiary uppercase">
                 toolbox
               </h3>
               <ul role="list" aria-label="Skills by category">
@@ -150,7 +150,7 @@ function TimelineItem({ role }: { role: Experience }) {
     <li className="relative pb-7 last:pb-0">
       <span
         aria-hidden="true"
-        className={`absolute -left-6 top-1.5 h-[9px] w-[9px] rounded-full border-2 ${
+        className={`absolute top-1.5 -left-6 h-[9px] w-[9px] rounded-full border-2 ${
           isCurrent ? 'border-teal bg-teal-ink' : 'border-text-tertiary bg-background'
         }`}
       />
@@ -158,12 +158,12 @@ function TimelineItem({ role }: { role: Experience }) {
         <h3 className="text-[15.5px] font-bold text-foreground">{role.title}</h3>
         <span className="text-sm font-medium text-teal-dim">{role.company}</span>
       </div>
-      <p className="mb-2 mt-0.5 font-mono text-[11.5px] text-text-tertiary">
+      <p className="mt-0.5 mb-2 font-mono text-[11.5px] text-text-tertiary">
         {formatMonthYear(role.startDate)} —{' '}
         {role.endDate ? formatMonthYear(role.endDate) : 'present'}
       </p>
       {role.description && (
-        <div className="prose prose-invert max-w-[60ch] text-[13.5px] text-text-secondary prose-p:my-1.5">
+        <div className="prose max-w-[60ch] text-[13.5px] text-text-secondary prose-invert prose-p:my-1.5">
           <RichText data={role.description} />
         </div>
       )}

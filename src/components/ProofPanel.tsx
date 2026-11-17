@@ -97,7 +97,7 @@ export async function ProofPanel() {
               href={`https://github.com/${username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="whitespace-nowrap rounded font-mono text-xs text-teal hover:underline focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
+              className="rounded font-mono text-xs whitespace-nowrap text-teal hover:underline focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel focus:outline-hidden"
             >
               view ↗
             </a>
@@ -136,18 +136,18 @@ export async function ProofPanel() {
       <dl className="grid grid-cols-3 gap-3 border-t border-border-soft pt-4">
         {totalContributions !== null && (
           <div>
-            <dd className="text-xl font-bold tabular-nums text-foreground">
+            <dd className="text-xl font-bold text-foreground tabular-nums">
               {totalContributions.toLocaleString()}
             </dd>
-            <dt className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            <dt className="font-mono text-[11px] tracking-wider text-text-tertiary uppercase">
               contributions
             </dt>
           </div>
         )}
         {yearsInTech !== null && (
           <div>
-            <dd className="text-xl font-bold tabular-nums text-foreground">{yearsInTech}+</dd>
-            <dt className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            <dd className="text-xl font-bold text-foreground tabular-nums">{yearsInTech}+</dd>
+            <dt className="font-mono text-[11px] tracking-wider text-text-tertiary uppercase">
               years in tech
             </dt>
           </div>
@@ -155,7 +155,7 @@ export async function ProofPanel() {
         {cert && (
           <div>
             <dd className="truncate text-xl font-bold text-foreground">{cert.institution}</dd>
-            <dt className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            <dt className="font-mono text-[11px] tracking-wider text-text-tertiary uppercase">
               certified
             </dt>
           </div>

@@ -51,7 +51,7 @@ export function BlogPostCard({
     <article className="h-full">
       <Link
         href={`/blog/${slug}`}
-        className="block h-full rounded-lg focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+        className="block h-full rounded-lg focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
       >
         <Card className="flex h-full flex-col overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
           {image?.url && (

@@ -155,7 +155,7 @@ async function CategoryContent({ params, searchParams }: CategoryPageProps) {
         </p>
         <Link
           href="/blog"
-          className="rounded-md bg-teal-700 px-4 py-2 text-white transition-colors hover:bg-teal-800 focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded-md bg-teal-700 px-4 py-2 text-white transition-colors hover:bg-teal-800 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
         >
           View All Posts
         </Link>
@@ -171,7 +171,7 @@ async function CategoryContent({ params, searchParams }: CategoryPageProps) {
         <p className="mb-4 text-text-secondary">This page doesn&apos;t exist.</p>
         <Link
           href={basePath}
-          className="rounded-md bg-teal-700 px-4 py-2 text-white transition-colors hover:bg-teal-800 focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded-md bg-teal-700 px-4 py-2 text-white transition-colors hover:bg-teal-800 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
         >
           Back to {category.name}
         </Link>
@@ -228,7 +228,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
               </h1>
               <Link
                 href="/blog"
-                className="text-teal-400 transition-colors hover:text-teal-300 focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                className="text-teal-400 transition-colors hover:text-teal-300 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
               >
                 View all posts
               </Link>

@@ -283,7 +283,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
             href={url}
             target={newTab ? '_blank' : undefined}
             rel={newTab ? 'noopener noreferrer' : undefined}
-            className="text-teal-400 no-underline hover:underline focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            className="text-teal-400 no-underline hover:underline focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
           >
             {children}
           </a>
@@ -294,7 +294,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
         <Link
           key={index}
           href={url}
-          className="text-teal-400 no-underline hover:underline focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          className="text-teal-400 no-underline hover:underline focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
         >
           {children}
         </Link>
@@ -306,7 +306,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
       return (
         <blockquote
           key={index}
-          className="border-l-4 border-teal-700 pl-4 italic text-text-secondary"
+          className="border-l-4 border-teal-700 pl-4 text-text-secondary italic"
         >
           {children}
         </blockquote>
@@ -450,7 +450,7 @@ export async function RichText({ content, className = '' }: RichTextProps) {
 
   return (
     <div
-      className={`prose prose-zinc prose-invert max-w-none prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
+      className={`prose max-w-none prose-zinc prose-invert prose-headings:text-foreground prose-p:text-text-secondary prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-zinc-800 prose-code:px-1 prose-code:text-teal-400 prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-900 ${className}`}
     >
       {serializedContent}
     </div>

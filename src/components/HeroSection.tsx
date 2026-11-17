@@ -15,7 +15,7 @@ export async function HeroSection() {
   const chips = (about?.highlights ?? []).slice(0, 6)
 
   return (
-    <section id="hero" aria-label="Introduction" className="px-6 pb-10 pt-12 desk:pt-16">
+    <section id="hero" aria-label="Introduction" className="px-6 pt-12 pb-10 desk:pt-16">
       <div className="mx-auto grid max-w-[1120px] items-center gap-10 desk:grid-cols-[1.15fr_1fr] desk:gap-14">
         <div>
           {photo?.url && (

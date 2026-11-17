@@ -197,19 +197,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <a
               href={`/api/exit-preview?slug=${encodeURIComponent(`/blog/${post.slug}`)}`}
               aria-label="Exit draft preview mode and return to published view"
-              className="ml-4 rounded underline hover:no-underline focus:outline-hidden focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-amber-600"
+              className="ml-4 rounded underline hover:no-underline focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-amber-600 focus:outline-hidden"
             >
               Exit Preview
             </a>
           </div>
         )}
 
-        <article className="px-6 pb-16 pt-12 desk:pt-16">
+        <article className="px-6 pt-12 pb-16 desk:pt-16">
           <div className="mx-auto max-w-[800px]">
             {/* Back link */}
             <Link
               href="/blog"
-              className="mb-8 inline-flex items-center gap-1.5 rounded font-mono text-xs text-teal transition-colors hover:underline focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              className="mb-8 inline-flex items-center gap-1.5 rounded font-mono text-xs text-teal transition-colors hover:underline focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
             >
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
               all posts
@@ -224,7 +224,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <li key={category.id}>
                       <Link
                         href={`/blog/category/${category.slug}`}
-                        className="rounded focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                        className="rounded focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
                       >
                         <Badge
                           variant="outline"
@@ -260,7 +260,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
                 <a
                   href="/api/rss"
-                  className="flex items-center gap-1.5 rounded transition-colors hover:text-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                  className="flex items-center gap-1.5 rounded transition-colors hover:text-teal-700 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
                   title="Subscribe via RSS"
                 >
                   <Rss className="h-4 w-4" aria-hidden="true" />
@@ -295,7 +295,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <li key={tag.id}>
                       <Link
                         href={`/blog/tag/${tag.slug}`}
-                        className="rounded focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+                        className="rounded focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
                       >
                         <Badge
                           variant="outline"

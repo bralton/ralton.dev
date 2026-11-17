@@ -38,10 +38,10 @@ export default function NotFound() {
         <Navigation />
         <main
           id="main-content"
-          className="flex flex-1 flex-col justify-center px-6 pb-24 pt-16 desk:pt-24"
+          className="flex flex-1 flex-col justify-center px-6 pt-16 pb-24 desk:pt-24"
         >
           <div className="mx-auto w-full max-w-[640px]">
-            <p className="mb-4 break-all font-mono text-[13px] text-teal">
+            <p className="mb-4 font-mono text-[13px] break-all text-teal">
               <span aria-hidden="true" className="text-text-tertiary">
                 ${' '}
               </span>
@@ -71,7 +71,7 @@ export default function NotFound() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background ${
+                  className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden ${
                     link.primary
                       ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
                       : 'border border-border bg-transparent text-text-secondary hover:border-text-tertiary hover:text-foreground'

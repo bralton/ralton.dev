@@ -14,7 +14,7 @@ interface SectionProps {
 export function Section({ id, label, meta, children }: SectionProps) {
   const headingId = `${id}-heading`
   return (
-    <section id={id} aria-labelledby={headingId} className="px-6 pb-4 pt-16 desk:pt-24">
+    <section id={id} aria-labelledby={headingId} className="px-6 pt-16 pb-4 desk:pt-24">
       <div className="mx-auto max-w-[1120px]">
         <SectionHeader label={label} meta={meta} headingId={headingId} />
         {children}

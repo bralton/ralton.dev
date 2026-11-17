@@ -27,7 +27,7 @@ export async function LatestPostsSection() {
       meta={
         <Link
           href="/blog"
-          className="rounded text-teal hover:underline focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded text-teal hover:underline focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
         >
           all posts →
         </Link>

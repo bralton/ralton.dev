@@ -159,7 +159,7 @@ export function ProjectCard({
             </span>
             full write-up
           </summary>
-          <div className="prose prose-invert mt-2.5 max-w-none text-sm text-text-secondary prose-p:my-2.5">
+          <div className="prose mt-2.5 max-w-none text-sm text-text-secondary prose-invert prose-p:my-2.5">
             <RichText data={description} />
           </div>
         </details>

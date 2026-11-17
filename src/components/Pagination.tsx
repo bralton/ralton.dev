@@ -30,7 +30,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
       {hasPreviousPage ? (
         <Link
           href={previousUrl}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-panel px-4 py-2 text-sm text-foreground transition-colors hover:border-teal-deep hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="flex items-center gap-1.5 rounded-md border border-border bg-panel px-4 py-2 text-sm text-foreground transition-colors hover:border-teal-deep hover:text-teal focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
           aria-label="Go to previous page"
         >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
@@ -40,7 +40,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
         <button
           type="button"
           disabled
-          className="bg-panel/50 flex cursor-not-allowed items-center gap-1.5 rounded-md border border-border-soft px-4 py-2 text-sm text-text-tertiary"
+          className="flex cursor-not-allowed items-center gap-1.5 rounded-md border border-border-soft bg-panel/50 px-4 py-2 text-sm text-text-tertiary"
           aria-label="Go to previous page"
         >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
@@ -57,7 +57,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
       {hasNextPage ? (
         <Link
           href={nextUrl}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-panel px-4 py-2 text-sm text-foreground transition-colors hover:border-teal-deep hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="flex items-center gap-1.5 rounded-md border border-border bg-panel px-4 py-2 text-sm text-foreground transition-colors hover:border-teal-deep hover:text-teal focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
           aria-label="Go to next page"
         >
           <span>Next</span>
@@ -67,7 +67,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
         <button
           type="button"
           disabled
-          className="bg-panel/50 flex cursor-not-allowed items-center gap-1.5 rounded-md border border-border-soft px-4 py-2 text-sm text-text-tertiary"
+          className="flex cursor-not-allowed items-center gap-1.5 rounded-md border border-border-soft bg-panel/50 px-4 py-2 text-sm text-text-tertiary"
           aria-label="Go to next page"
         >
           <span>Next</span>

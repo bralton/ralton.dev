@@ -48,12 +48,12 @@ export function Navigation() {
       {/* Skip to Content Link - only visible on keyboard focus */}
       <a
         href="#main-content"
-        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-60 focus-visible:rounded-md focus-visible:bg-primary focus-visible:px-4 focus-visible:py-2 focus-visible:text-primary-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-4 focus-visible:left-4 focus-visible:z-60 focus-visible:rounded-md focus-visible:bg-primary focus-visible:px-4 focus-visible:py-2 focus-visible:text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
       >
         Skip to content
       </a>
 
-      <header className="sticky left-0 right-0 top-0 z-50 border-b border-border-soft bg-background/85 backdrop-blur-md">
+      <header className="sticky top-0 right-0 left-0 z-50 border-b border-border-soft bg-background/85 backdrop-blur-md">
         <nav
           role="navigation"
           aria-label="Main navigation"
@@ -62,7 +62,7 @@ export function Navigation() {
           {/* Logo + wordmark */}
           <Link
             href="/"
-            className="flex min-h-[44px] items-center gap-2.5 rounded font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-80 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            className="flex min-h-[44px] items-center gap-2.5 rounded font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-80 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
           >
             <Image src="/icon.png" alt="" width={160} height={160} className="h-8 w-8" priority />
             <span>
@@ -76,7 +76,7 @@ export function Navigation() {
                 <Link
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="rounded-md px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-panel-2 hover:text-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                  className="rounded-md px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-panel-2 hover:text-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
                 >
                   {link.label}
                 </Link>
@@ -86,7 +86,7 @@ export function Navigation() {
               <Link
                 href="/#contact"
                 onClick={(e) => handleNavClick(e, '/#contact')}
-                className="hover:bg-teal/10 ml-2 inline-flex min-h-[44px] items-center rounded-md border border-teal-deep px-3.5 font-mono text-xs text-teal transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                className="ml-2 inline-flex min-h-[44px] items-center rounded-md border border-teal-deep px-3.5 font-mono text-xs text-teal transition-colors hover:bg-teal/10 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
               >
                 get in touch →
               </Link>

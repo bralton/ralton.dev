@@ -89,7 +89,7 @@ async function BlogContent({ searchParams }: BlogPageProps) {
         <p className="font-mono text-sm text-text-tertiary">this page doesn&apos;t exist</p>
         <Link
           href="/blog"
-          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
         >
           Back to all posts
         </Link>
@@ -125,10 +125,10 @@ export default async function BlogPage(props: BlogPageProps) {
     <>
       <Navigation />
       <main id="main-content" className="pb-16">
-        <section aria-labelledby="blog-heading" className="px-6 pb-4 pt-12 desk:pt-16">
+        <section aria-labelledby="blog-heading" className="px-6 pt-12 pb-4 desk:pt-16">
           <div className="mx-auto max-w-[1120px]">
             <div className="mb-7 flex items-baseline gap-4">
-              <h1 id="blog-heading" className="whitespace-nowrap font-mono text-[13px] text-teal">
+              <h1 id="blog-heading" className="font-mono text-[13px] whitespace-nowrap text-teal">
                 <span aria-hidden="true" className="text-text-tertiary">
                   ~/
                 </span>
@@ -138,7 +138,7 @@ export default async function BlogPage(props: BlogPageProps) {
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
               <a
                 href="/api/rss"
-                className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:outline-hidden"
                 title="Subscribe via RSS"
               >
                 <Rss className="h-4 w-4" aria-hidden="true" />

@@ -54,7 +54,7 @@ export async function CodeBlock({ code, language }: CodeBlockProps) {
     <div className="group relative my-6">
       {/* Language label badge */}
       <div
-        className="absolute right-3 top-3 z-10 rounded bg-zinc-700/80 px-2 py-0.5 text-xs font-medium text-zinc-300"
+        className="absolute top-3 right-3 z-10 rounded bg-zinc-700/80 px-2 py-0.5 text-xs font-medium text-zinc-300"
         aria-hidden="true"
       >
         {displayLanguage}

@@ -68,12 +68,12 @@ export default async function ProjectsPage() {
     <>
       <Navigation />
       <main id="main-content" className="pb-16">
-        <section aria-labelledby="projects-heading" className="px-6 pb-4 pt-12 desk:pt-16">
+        <section aria-labelledby="projects-heading" className="px-6 pt-12 pb-4 desk:pt-16">
           <div className="mx-auto max-w-[1120px]">
             <div className="mb-7 flex items-baseline gap-4">
               <h1
                 id="projects-heading"
-                className="whitespace-nowrap font-mono text-[13px] text-teal"
+                className="font-mono text-[13px] whitespace-nowrap text-teal"
               >
                 <span aria-hidden="true" className="text-text-tertiary">
                   ~/
@@ -81,7 +81,7 @@ export default async function ProjectsPage() {
                 projects
               </h1>
               <span aria-hidden="true" className="h-px flex-1 bg-border-soft" />
-              <span className="whitespace-nowrap font-mono text-[11.5px] text-text-tertiary">
+              <span className="font-mono text-[11.5px] whitespace-nowrap text-text-tertiary">
                 {count} shipped · full write-ups on click
               </span>
             </div>

@@ -47,7 +47,7 @@ export async function AuthorFooterCard({ currentSlug }: AuthorFooterCardProps) {
           <p className="truncate text-sm text-text-secondary">
             <Link
               href="/"
-              className="rounded font-semibold text-foreground hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
+              className="rounded font-semibold text-foreground hover:text-teal focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel focus:outline-hidden"
             >
               {hero.name}
             </Link>
@@ -59,7 +59,7 @@ export async function AuthorFooterCard({ currentSlug }: AuthorFooterCardProps) {
       {/* More posts - suppressed when none exist (FR-R15) */}
       {morePosts.docs.length > 0 && (
         <div>
-          <h2 className="mb-4 font-mono text-[11.5px] uppercase tracking-[0.08em] text-text-tertiary">
+          <h2 className="mb-4 font-mono text-[11.5px] tracking-[0.08em] text-text-tertiary uppercase">
             more posts
           </h2>
           <ul
