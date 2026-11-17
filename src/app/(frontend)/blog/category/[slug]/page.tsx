@@ -222,7 +222,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
             <div className="mb-8">
               <h1
                 id="category-heading"
-                className="mb-4 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
+                className="mb-4 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px] lg:leading-9"
               >
                 Posts in: {category.name}
               </h1>

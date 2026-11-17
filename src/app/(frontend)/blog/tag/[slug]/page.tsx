@@ -221,7 +221,7 @@ export default async function TagPage(props: TagPageProps) {
             <div className="mb-8">
               <h1
                 id="tag-heading"
-                className="mb-4 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px]"
+                className="mb-4 text-2xl font-semibold text-foreground md:text-3xl lg:text-[32px] lg:leading-9"
               >
                 Posts tagged: #{tag.name}
               </h1>
