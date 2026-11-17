@@ -16,8 +16,8 @@ importers:
   .:
     dependencies:
       '@axiomhq/winston':
-        specifier: ^1.8.0
-        version: 1.8.0
+        specifier: ^2.0.0
+        version: 2.0.0
       '@hookform/resolvers':
         specifier: ^7.0.0
         version: 7.0.6(ajv@8.18.0)(react-hook-form@7.92.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)
@@ -192,12 +192,12 @@ packages:
     resolution: {integrity: sha512-60vepv88RwcJtSHrD6MjIL6Ta3SOYbgfnkHb+ppAVK+o9mXprRtulx7VlRl3lN3bbvysAfCS7WMVfhUYemB0IQ==}
     engines: {node: '>= 16'}
 
-  '@axiomhq/js@1.8.0':
-    resolution: {integrity: sha512-VRkqV9XH+pkj8d9eRdw8TuWvXdCkVDMtDOz2rix5UAg7x5SlOeWhUz9fwc0ZgySosMSMA7WP7X0fFX8N/jBHtQ==}
+  '@axiomhq/js@2.0.0':
+    resolution: {integrity: sha512-mhDH0KLFkDko9ytoltgmch2gOiwE6kY6VWhCmTux9lzL9hmjTej68JeQKwq9GGqOY7xwDsya88bNiTnp/zc8+Q==}
     engines: {node: '>=20'}
 
-  '@axiomhq/winston@1.8.0':
-    resolution: {integrity: sha512-AGpIRa2TZbP3bLPFQrRQUuHrD4HCp3VALD2V1HZRHCapd9cQfYTV1XPYNcT+dZOmj/AGIWJGjVtTjFlV9aOWFg==}
+  '@axiomhq/winston@2.0.0':
+    resolution: {integrity: sha512-PT2/iC4goWKI8yuGJn5AotN157mJNq++5d3UfaMHR41pPkI31OBsZ6MXnQqZi36BR8taRIzsmdR1E5exNyNhIg==}
     engines: {node: '>=20'}
 
   '@babel/code-frame@7.29.7':
@@ -5398,13 +5398,13 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.3.2
 
-  '@axiomhq/js@1.8.0':
+  '@axiomhq/js@2.0.0':
     dependencies:
       fetch-retry: 6.0.0
 
-  '@axiomhq/winston@1.8.0':
+  '@axiomhq/winston@2.0.0':
     dependencies:
-      '@axiomhq/js': 1.8.0
+      '@axiomhq/js': 2.0.0
       winston-transport: 4.9.0
 
   '@babel/code-frame@7.29.7':
