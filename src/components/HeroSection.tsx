@@ -60,7 +60,7 @@ export async function HeroSection() {
               {hero.ctaButtons.map((button, index) => (
                 <Button
                   key={button.id ?? index}
-                  variant={button.variant === 'primary' ? 'default' : 'outline-solid'}
+                  variant={button.variant === 'primary' ? 'default' : 'outline'}
                   asChild
                   className={`min-h-[44px] min-w-[44px] font-semibold ${
                     button.variant === 'primary'
