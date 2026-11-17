@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+/* Scan src only, as the v3 content globs did (not the docs and agent folders at the repo root). */
+@import 'tailwindcss' source('../');
 
 @plugin '@tailwindcss/typography';
 
