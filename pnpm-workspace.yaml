@@ -1,7 +1,19 @@
 packages:
   - '.'
 
-ignoredBuiltDependencies:
-  - esbuild
-  - sharp
-  - unrs-resolver
+# Build scripts dependencies may run. pnpm 12 reads only allowBuilds (it ignores the
+# "pnpm" field in package.json and the older onlyBuiltDependencies/ignoredBuiltDependencies),
+# and pnpm 10.26+ reads it too. protobufjs is denied explicitly: its postinstall is a
+# version-scheme warning, and pnpm 12 fails the install on any build left unlisted.
+allowBuilds:
+  esbuild: true
+  protobufjs: false
+  sharp: true
+  unrs-resolver: true
+
+overrides:
+  '@esbuild-kit/core-utils>esbuild': ^0.28.0
+  '@lexical/headless>happy-dom': ^21.0.4
+  monaco-editor>dompurify: ^3.4.17
+  postcss-selector-parser: ^7.1.6
+  eslint-plugin-react-hooks: 7.1.1
