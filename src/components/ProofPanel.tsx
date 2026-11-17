@@ -97,7 +97,7 @@ export async function ProofPanel() {
               href={`https://github.com/${username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="whitespace-nowrap rounded font-mono text-xs text-teal hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
+              className="whitespace-nowrap rounded font-mono text-xs text-teal hover:underline focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
             >
               view ↗
             </a>

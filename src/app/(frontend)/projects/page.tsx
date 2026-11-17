@@ -98,7 +98,7 @@ export default async function ProjectsPage() {
 
                 {archived.length > 0 && (
                   <details className="group/archive mt-10 border-t border-border-soft">
-                    <summary className="cursor-pointer list-none rounded pt-4 font-mono text-[13px] text-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden">
+                    <summary className="cursor-pointer list-none rounded pt-4 font-mono text-[13px] text-teal focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden">
                       <span aria-hidden="true" className="text-text-tertiary">
                         <span className="group-open/archive:hidden">+ </span>
                         <span className="hidden group-open/archive:inline">− </span>

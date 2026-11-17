@@ -62,7 +62,7 @@ export async function CodeBlock({ code, language }: CodeBlockProps) {
 
       {/* Code block container with accessible label and min-height for CLS prevention */}
       <div
-        className="min-h-[3rem] overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-900 [&_pre]:overflow-x-auto [&_pre]:p-4 [&_pre]:text-sm [&_pre]:leading-relaxed"
+        className="min-h-12 overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-900 [&_pre]:overflow-x-auto [&_pre]:p-4 [&_pre]:text-sm [&_pre]:leading-relaxed"
         aria-label={`${displayLanguage} code block`}
         role="region"
         dangerouslySetInnerHTML={{ __html: highlightedHtml }}

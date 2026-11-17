@@ -47,7 +47,7 @@ export async function AuthorFooterCard({ currentSlug }: AuthorFooterCardProps) {
           <p className="truncate text-sm text-text-secondary">
             <Link
               href="/"
-              className="rounded font-semibold text-foreground hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
+              className="rounded font-semibold text-foreground hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel"
             >
               {hero.name}
             </Link>

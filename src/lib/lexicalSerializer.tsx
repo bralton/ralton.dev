@@ -283,7 +283,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
             href={url}
             target={newTab ? '_blank' : undefined}
             rel={newTab ? 'noopener noreferrer' : undefined}
-            className="text-teal-400 no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            className="text-teal-400 no-underline hover:underline focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
           >
             {children}
           </a>
@@ -294,7 +294,7 @@ async function serializeNode(node: SerializedLexicalNode, index: number): Promis
         <Link
           key={index}
           href={url}
-          className="text-teal-400 no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+          className="text-teal-400 no-underline hover:underline focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
         >
           {children}
         </Link>

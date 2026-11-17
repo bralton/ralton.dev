@@ -89,7 +89,7 @@ async function BlogContent({ searchParams }: BlogPageProps) {
         <p className="font-mono text-sm text-text-tertiary">this page doesn&apos;t exist</p>
         <Link
           href="/blog"
-          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
         >
           Back to all posts
         </Link>
@@ -138,7 +138,7 @@ export default async function BlogPage(props: BlogPageProps) {
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- RSS feed is a route handler, not a page */}
               <a
                 href="/api/rss"
-                className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                className="flex items-center gap-1.5 rounded font-mono text-[11.5px] text-text-tertiary transition-colors hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 title="Subscribe via RSS"
               >
                 <Rss className="h-4 w-4" aria-hidden="true" />

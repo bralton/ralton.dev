@@ -28,7 +28,7 @@ export async function ProjectsSection() {
     total > projects.docs.length ? (
       <Link
         href="/projects"
-        className="rounded text-teal hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+        className="rounded text-teal hover:underline focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
       >
         all {total} projects →
       </Link>

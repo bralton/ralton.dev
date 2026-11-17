@@ -22,7 +22,7 @@ export async function Footer() {
           © {currentYear} ben ralton — built with next + payload ·{' '}
           <Link
             href="/privacy"
-            className="rounded hover:text-text-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            className="rounded hover:text-text-secondary focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           >
             privacy
           </Link>

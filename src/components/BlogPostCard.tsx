@@ -51,7 +51,7 @@ export function BlogPostCard({
     <article className="h-full">
       <Link
         href={`/blog/${slug}`}
-        className="block h-full rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+        className="block h-full rounded-lg focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
       >
         <Card className="flex h-full flex-col overflow-hidden border-zinc-800 bg-zinc-900 transition-colors hover:border-teal-700">
           {image?.url && (
@@ -71,7 +71,7 @@ export function BlogPostCard({
             <h2 className="line-clamp-2 text-xl font-semibold text-foreground">{title}</h2>
           </CardHeader>
 
-          <CardContent className="flex flex-grow flex-col space-y-3">
+          <CardContent className="flex grow flex-col space-y-3">
             {/* Date and Reading Time */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-text-secondary">
               {publishedAt && (

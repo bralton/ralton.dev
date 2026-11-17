@@ -71,7 +71,7 @@ export default function NotFound() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background ${
+                  className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background ${
                     link.primary
                       ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
                       : 'border border-border bg-transparent text-text-secondary hover:border-text-tertiary hover:text-foreground'

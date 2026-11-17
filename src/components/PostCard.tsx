@@ -31,7 +31,7 @@ export function PostCard({
   return (
     <Link
       href={`/blog/${slug}`}
-      className="flex h-full flex-col gap-2 rounded-panel border border-border bg-panel p-5 transition-colors hover:border-teal-deep focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background desk:px-6"
+      className="flex h-full flex-col gap-2 rounded-panel border border-border bg-panel p-5 transition-colors hover:border-teal-deep focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background desk:px-6"
     >
       {publishedAt && (
         <time dateTime={publishedAt} className="font-mono text-[11.5px] text-text-tertiary">

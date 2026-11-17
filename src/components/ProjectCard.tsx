@@ -41,7 +41,7 @@ function linkLabel(link: ProjectLink): { text: string; aria: string } {
 }
 
 const linkClassName =
-  'rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel'
+  'rounded font-mono text-xs text-text-secondary transition-colors hover:text-teal focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-panel'
 
 /** Plain text of the first non-empty Lexical paragraph, for the card's one-line summary. */
 function extractSummary(description: Project['description']): string {
@@ -152,7 +152,7 @@ export function ProjectCard({
         </div>
 
         <details ref={detailsRef} className="group/write mt-3.5 border-t border-border-soft">
-          <summary className="cursor-pointer list-none rounded pt-3 font-mono text-xs text-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel [&::-webkit-details-marker]:hidden">
+          <summary className="cursor-pointer list-none rounded pt-3 font-mono text-xs text-teal focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel [&::-webkit-details-marker]:hidden">
             <span aria-hidden="true" className="text-text-tertiary">
               <span className="group-open/write:hidden">+ </span>
               <span className="hidden group-open/write:inline">− </span>

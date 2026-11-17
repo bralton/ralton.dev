@@ -112,7 +112,7 @@ export default async function ProjectPrivacyPage({ params }: ProjectPrivacyPageP
           This policy applies to the{' '}
           <Link
             href="/#projects"
-            className="rounded text-teal underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
+            className="rounded text-teal underline-offset-4 hover:underline focus:outline-hidden focus:ring-2 focus:ring-teal-700 focus:ring-offset-2 focus:ring-offset-background"
           >
             {name}
           </Link>{' '}
