@@ -37,6 +37,13 @@
         "docker"
       ],
       "pinDigests": true
+    },
+    {
+      "description": "Hold graphql below 17: Payload 3.x declares graphql ^16.8.1 and its GraphQL endpoint breaks on 17 for queries with variables. Remove once a Payload release declares support for graphql 17.",
+      "matchPackageNames": [
+        "graphql"
+      ],
+      "allowedVersions": "<17.0.0"
     }
   ]
 }
