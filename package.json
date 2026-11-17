@@ -46,7 +46,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cross-env": "^10.0.0",
-    "dotenv": "^16.6.1",
+    "dotenv": "^18.0.0",
     "forwarded-parse": "2.2.0",
     "graphql": "^16.14.2",
     "lucide-react": "^0.577.0",
