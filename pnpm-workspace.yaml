@@ -17,3 +17,15 @@ overrides:
   monaco-editor>dompurify: ^3.4.17
   postcss-selector-parser: ^7.1.6
   eslint-plugin-react-hooks: 7.1.1
+
+# GHSA-fc5q-39xc-vjpf (picomatch ReDoS, high) covers every picomatch release (<= 4.0.7) and
+# has no fixed version (advisory widened 2026-11-17). Here picomatch is in the production
+# tree, but only under build-time and CLI code: sass's watcher (chokidar, under next and
+# @payloadcms/next), json-schema-to-typescript's CLI (payload generate:types), and an unused
+# dependency of @payloadcms/plugin-cloud-storage; the dev tooling (eslint-config-next,
+# typescript-eslint) matches the repo's own globs. No server chunk of the built app contains
+# or loads it, so no request input reaches a glob pattern. Remove this once a fixed
+# picomatch is released.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-fc5q-39xc-vjpf
